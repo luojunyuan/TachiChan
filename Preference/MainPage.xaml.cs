@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using TinyIpc.Messaging;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,16 +32,27 @@ namespace Preference;
 /// </summary>
 public sealed partial class MainPage : Page
 {
+    public static MainPage Current { get; private set; }
+
     public MainPage()
     {
         InitializeComponent();
+        Current = this;
+    }
+
+    public async Task SetTextAsync(string text)
+    {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                 Tips.Text = text;
+            });
     }
 
     private readonly ObservableCollection<ProcessDataModel> _processes = new();
 
     private void InjectButtonOnClick(object sender, RoutedEventArgs e)
     {
-        FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+         _ = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
     }
 
     private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
@@ -57,16 +70,9 @@ public sealed partial class MainPage : Page
         InjectButton.IsEnabled = true;
     }
 
-    private TinyMessageBus _ipcReceived;
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        _ipcReceived = new TinyMessageBus("PreferenceChannel");
-        _ipcReceived.MessageReceived += (_, e) =>
-        {
-            Tips.Text = Encoding.UTF8.GetString((byte[])e.Message);
-        };
-        //await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync("-channel");
     }
 }
 

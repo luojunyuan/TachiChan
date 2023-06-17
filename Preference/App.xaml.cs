@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -95,6 +97,46 @@ namespace Preference
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: アプリケーションの状態を保存してバックグラウンドの動作があれば停止します
             deferral.Complete();
+        }
+
+
+
+        private AppServiceConnection _appServiceConnection;
+        private BackgroundTaskDeferral _appServiceDeferral;
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            if (args.TaskInstance.TriggerDetails is AppServiceTriggerDetails appService)
+            {
+                _appServiceDeferral = args.TaskInstance.GetDeferral();
+                args.TaskInstance.Canceled += TaskInstance_Canceled;
+                _appServiceConnection = appService.AppServiceConnection;
+                _appServiceConnection.RequestReceived += AppServiceConnection_RequestReceived;
+                _appServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+            }
+        }
+
+        private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            _appServiceDeferral?.Complete();
+        }
+
+        private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            var d = args.GetDeferral();
+
+            var message = args.Request.Message;
+            var input = message["response"] as string;
+
+            await MainPage.Current?.SetTextAsync(input);
+            d.Complete();
+        }
+
+        private void TaskInstance_Canceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            _appServiceDeferral?.Complete();
         }
     }
 }
