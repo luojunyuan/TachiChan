@@ -5,7 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
+using TinyIpc.Messaging;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -31,14 +33,13 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
-
     }
 
     private readonly ObservableCollection<ProcessDataModel> _processes = new();
 
     private void InjectButtonOnClick(object sender, RoutedEventArgs e)
     {
-
+        FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
     }
 
     private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
@@ -54,6 +55,18 @@ public sealed partial class MainPage : Page
     private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         InjectButton.IsEnabled = true;
+    }
+
+    private TinyMessageBus _ipcReceived;
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        _ipcReceived = new TinyMessageBus("PreferenceChannel");
+        _ipcReceived.MessageReceived += (_, e) =>
+        {
+            Tips.Text = Encoding.UTF8.GetString((byte[])e.Message);
+        };
+        //await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync("-channel");
     }
 }
 
