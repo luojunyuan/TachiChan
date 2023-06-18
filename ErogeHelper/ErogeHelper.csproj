@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="WindowsShortcutFactory" Version="1.1.0" />
-    <PackageReference Include="SplashScreenGdipAot" Version="1.0.3" />
+    <PackageReference Include="SplashScreenGdipAot" Version="1.0.4" />
     <!--  Splash screen  -->
     <EmbeddedResource Include="assets\klee.png" />
   </ItemGroup>
