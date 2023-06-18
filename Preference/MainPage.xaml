@@ -5,9 +5,10 @@
     xmlns:local="using:Preference"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded">
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <StackPanel Margin="20 10">
         <TextBlock x:Name="Tips" Text="Tips" FontSize="18" TextWrapping="Wrap" />
@@ -35,7 +36,7 @@
 
             <Button x:Name="InjectButton"
                 Width="240" Content="InjectButton"
-                Click="InjectButtonOnClick" IsEnabled="True"
+                Click="InjectButtonOnClick" IsEnabled="False"
                 Style="{StaticResource AccentButtonStyle}" />
         </StackPanel>
     </StackPanel>

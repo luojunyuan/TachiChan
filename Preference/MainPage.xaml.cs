@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.System.Diagnostics;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -32,52 +34,52 @@ namespace Preference;
 /// </summary>
 public sealed partial class MainPage : Page
 {
-    public static MainPage Current { get; private set; }
-
     public MainPage()
     {
         InitializeComponent();
-        Current = this;
-    }
-
-    public async Task SetTextAsync(string text)
-    {
+        ProcessComboBox.ItemsSource = ProcessItems;
+        var appView = ApplicationView.GetForCurrentView();
+        appView.Title = "Preference";
+        App.ProcessUpdated += async (_, list) =>
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                 Tips.Text = text;
-            });
+                  {
+                      ProcessItems.Clear();
+                      ProcessItems.AddRange(list);
+                  });
     }
 
-    private readonly ObservableCollection<ProcessDataModel> _processes = new();
+    public ObservableCollection<ProcessDataModel> ProcessItems { get; } = new();
 
-    private void InjectButtonOnClick(object sender, RoutedEventArgs e)
+    private async void InjectButtonOnClick(object sender, RoutedEventArgs e)
     {
-         _ = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
+        var selected = (ProcessDataModel)ProcessComboBox.SelectedItem;
+
+        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync(selected.FullPath);
+
+        InjectButton.IsEnabled = false;
     }
 
-    private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
-    {
-        _processes.Add(new ProcessDataModel()
-        {
-            Title = "aaa",
-            Describe = "sdf"
-        });
-        //await Task.Run(RefreshProcesses).ConfigureAwait(false);
-    }
+    private async void ProcessComboBoxOnDropDownOpened(object sender, object e) => 
+        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
 
-    private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        InjectButton.IsEnabled = true;
-    }
-
-
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
-    {
-    }
+    private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) => InjectButton.IsEnabled = true;
 }
 
 public class ProcessDataModel
 {
-    public string Title { get; set; }
-    public string Describe { get; set; }
+    public int ProcessId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Describe { get; set; } = string.Empty;    
+    public string FullPath { get; set; } = string.Empty;
+}
+
+public static class ObservableCollectionExtensions
+{
+    public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
+    {
+        foreach (var item in items)
+        {
+            collection.Add(item);
+        }
+    }
 }

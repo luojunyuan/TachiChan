@@ -42,6 +42,9 @@
       </uap:VisualElements>
 
 		<Extensions>
+			<uap:Extension Category="windows.appService">
+				<uap:AppService Name="CommunicationService" />
+			</uap:Extension>
 			<desktop:Extension Category="windows.fullTrustProcess" Executable="ErogeHelper\ErogeHelper.exe" />
 		</Extensions>
     </Application>
