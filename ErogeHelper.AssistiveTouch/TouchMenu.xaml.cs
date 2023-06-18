@@ -11,8 +11,8 @@ namespace ErogeHelper.AssistiveTouch
         public static TimeSpan MenuTransistDuration { get; } = TimeSpan.FromMilliseconds(200);
 
         private readonly ITouchMenuPage _menuMainPage = new MainPage();
-        private readonly ITouchMenuPage _menuDevicePage = new DevicePage();
         private readonly ITouchMenuPage _menuGamePage = new GamePage();
+        private readonly ITouchMenuPage _menuDevicePage = new DevicePage();
         private readonly ITouchMenuPage _menuFunctionPage = new FunctionPage();
         private readonly ITouchMenuPage _menuWinMovePage = new WinMovePage();
         // also add visibility status in Move Logic
@@ -92,7 +92,7 @@ namespace ErogeHelper.AssistiveTouch
             //mainWindow.Deactivated += (_, _) => { if (isOpen == true) _closeMenuInternal(); };
             PreviewMouseLeftButtonUp += (_, e) => { if (e.OriginalSource is TouchMenu && !TouchMenuItem.ClickLocked) _closeMenuInternal(); };
 
-            // Mene opend
+            // Menu opened
             MovementStoryboard.Completed += (_, _) =>
             {
                 if (MovementStoryboard.AutoReverse == false)
