@@ -10,7 +10,7 @@
   <Identity
     Name="c877b211-13d3-4de6-ba73-4f4718a9e7d3"
     Publisher="CN=kimika"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>ErogeHelperPackage</DisplayName>
