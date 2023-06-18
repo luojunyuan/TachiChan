@@ -63,9 +63,6 @@ sealed partial class App : Application
 
             // フレームを現在のウィンドウに配置します
             Window.Current.Content = rootFrame;
-
-            ApplicationView.PreferredLaunchViewSize = new Size(400, 300);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
         }
 
         if (e.PrelaunchActivated == false)
