@@ -43,7 +43,9 @@ if (args.Length == 0)
 #endif
     return;
 }
-var gamePath = args[0];
+// args[0] /InvokerPRAID
+var index = Array.FindIndex<string>(args, i => i == "-p" || i == "--path");
+var gamePath = args[index + 1];
 if (File.Exists(gamePath) && Path.GetExtension(gamePath).Equals(".lnk", StringComparison.OrdinalIgnoreCase))
 {
     gamePath = WinShortcutWrapper(gamePath);
@@ -155,7 +157,7 @@ static void Run(Process game, SplashScreen? splash = null)
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = "ErogeHelper.AssistiveTouch.exe",
+                FileName = "..\\ErogeHelper.AssistiveTouch\\ErogeHelper.AssistiveTouch.exe",
                 Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle,
                 UseShellExecute = false,
             }

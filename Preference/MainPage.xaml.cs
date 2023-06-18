@@ -40,12 +40,19 @@ public sealed partial class MainPage : Page
         ProcessComboBox.ItemsSource = ProcessItems;
         var appView = ApplicationView.GetForCurrentView();
         appView.Title = "Preference";
-        App.ProcessUpdated += async (_, list) =>
+        App.ProcessUpdated += async (_, newItems) =>
+        {
+            var oldItems = ProcessItems.ToList();
+            var disappearItems = ProcessItems.Where(oldItem => !newItems.Contains(oldItem));
+            var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem) && !ProcessItems.Contains(newItem));
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                   {
-                      ProcessItems.Clear();
-                      ProcessItems.AddRange(list);
+                      foreach (var item in disappearItems)
+                          ProcessItems.Remove(item);
+                      foreach (var item in newishItems)
+                          ProcessItems.Add(item);
                   });
+        };
     }
 
     public ObservableCollection<ProcessDataModel> ProcessItems { get; } = new();
@@ -54,7 +61,7 @@ public sealed partial class MainPage : Page
     {
         var selected = (ProcessDataModel)ProcessComboBox.SelectedItem;
 
-        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync(selected.FullPath);
+        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--path \"{selected.FullPath}\"");
 
         InjectButton.IsEnabled = false;
     }
@@ -71,15 +78,16 @@ public class ProcessDataModel
     public string Title { get; set; } = string.Empty;
     public string Describe { get; set; } = string.Empty;    
     public string FullPath { get; set; } = string.Empty;
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+            return false;
+
+        ProcessDataModel other = (ProcessDataModel)obj;
+        return ProcessId == other.ProcessId;
+    }
+
+    public override int GetHashCode() => ProcessId.GetHashCode();
 }
 
-public static class ObservableCollectionExtensions
-{
-    public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
-    {
-        foreach (var item in items)
-        {
-            collection.Add(item);
-        }
-    }
-}
