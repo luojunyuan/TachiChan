@@ -8,6 +8,10 @@
     <UseWPF>true</UseWPF>
     <Platforms>ARM64;x64;x86</Platforms>
 	  <PublishReadyToRun>true</PublishReadyToRun>
+	  <ApplicationManifest>..\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="WindowsInput" Version="6.4.0" />
+  </ItemGroup>
 </Project>

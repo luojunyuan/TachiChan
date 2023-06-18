@@ -5,16 +5,17 @@ VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "EerogeHelperPackage", "EerogeHelperPackage\EerogeHelperPackage.wapproj", "{E243A685-40A4-4A41-A5F4-2DC1A70E3C61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeHelper", "ErogeHelper\ErogeHelper.csproj", "{087F861D-9608-4AD3-A4D9-25E451727B97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErogeHelper", "ErogeHelper\ErogeHelper.csproj", "{087F861D-9608-4AD3-A4D9-25E451727B97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{3B530AD6-8436-4E1D-84D4-0FE69ACD3EFB}"
 	ProjectSection(SolutionItems) = preProject
+		app.manifest = app.manifest
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preference", "Preference\Preference.csproj", "{DF58EAB8-F16E-4119-9DE5-2BF0CC408140}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeHelper.AssistiveTouch", "ErogeHelper.AssistiveTouch\ErogeHelper.AssistiveTouch.csproj", "{2BFDB2C5-EEEA-4EBB-92AA-0660EECDF6CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErogeHelper.AssistiveTouch", "ErogeHelper.AssistiveTouch\ErogeHelper.AssistiveTouch.csproj", "{2BFDB2C5-EEEA-4EBB-92AA-0660EECDF6CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

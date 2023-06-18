@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ErogeHelper.AssistiveTouch"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Grid>
-
+        <local:TouchButton x:Name="Touch" />
+        <local:TouchMenu x:Name="Menu" />
     </Grid>
 </Window>
