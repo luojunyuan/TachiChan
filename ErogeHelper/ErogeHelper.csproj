@@ -5,13 +5,16 @@
     <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <PublishReadyToRun>true</PublishReadyToRun>
-	  <PublishTrimmed>true</PublishTrimmed>
-	  <PublishAot>false</PublishAot>
-	  <InvariantGlobalization>true</InvariantGlobalization>
     <Platforms>ARM64;x64;x86</Platforms>
 	  <ApplicationManifest>..\app.manifest</ApplicationManifest>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<PublishTrimmed>true</PublishTrimmed>
+		<PublishAot>false</PublishAot>
+		<InvariantGlobalization>false</InvariantGlobalization>
+	</PropertyGroup>
 	
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
