@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -30,33 +31,43 @@ public sealed partial class MainPage : Page
         var appView = ApplicationView.GetForCurrentView();
         var resourceLoader = ResourceLoader.GetForCurrentView();
         appView.Title = resourceLoader.GetString("ProcessSelector");
+        var semaphore = new SemaphoreSlim(1);
+
         App.ProcessUpdated += async (_, newItems) =>
         {
-            var oldItems = ProcessItems.ToList().AsReadOnly();
-            var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
-            var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                  {
-                      foreach (var item in disappearItems)
-                          ProcessItems.Remove(item);
+            await semaphore.WaitAsync(); // Acquire the semaphore
+            try
+            {
+                var oldItems = ProcessItems.ToList().AsReadOnly();
+                var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
+                var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    foreach (var item in disappearItems)
+                        ProcessItems.Remove(item);
 
-                      if (disappearItems.Count != 0 || newishItems.Count == 0)
-                      {
-                          foreach (var item in newishItems)
-                              ProcessItems.Add(item);
-                      }
-                      else
-                      {
-                          // HACK: ComboBox UI won't refresh when there comes new items
-                          var moto = ProcessItems.ToList().AsReadOnly();
-                          ProcessItems.Clear();
-                          await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                          {
-                              foreach (var item in moto.Concat(newishItems))
-                                  ProcessItems.Add(item);
-                          });
-                      }
-                  });
+                    if (disappearItems.Count != 0 || newishItems.Count == 0)
+                    {
+                        foreach (var item in newishItems)
+                            ProcessItems.Add(item);
+                    }
+                    else
+                    {
+                        // HACK: ComboBox UI won't refresh when there comes new items
+                        var moto = ProcessItems.ToList().AsReadOnly();
+                        ProcessItems.Clear();
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            foreach (var item in moto.Concat(newishItems))
+                                ProcessItems.Add(item);
+                        });
+                    }
+                });
+            }
+            finally
+            {
+                semaphore.Release();
+            }
         };
     }
 

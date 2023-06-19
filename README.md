@@ -18,3 +18,6 @@ never think back to netfx
 现在需要在ErogeHelper主程序上，对winrt和native进行一个取舍
 如果选择native，appserve根本无法启用，除非“另寻出路”
 选择winrt，目前可行的解决方法，尝试r2r编译
+
+Embedded C#/WinRT Support
+https://github.com/microsoft/CsWinRT/blob/master/docs/embedded.md

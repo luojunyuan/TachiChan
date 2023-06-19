@@ -1,8 +1,5 @@
 ﻿using ErogeHelper.AssistiveTouch.Core;
 using ErogeHelper.AssistiveTouch.Helper;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -71,6 +68,8 @@ namespace ErogeHelper.AssistiveTouch.Menu
                 }
             };
         }
+
+        #region Batterty Info
 
         private Border? _batteryInfo;
         private System.Timers.Timer? _batteryMonitor;
@@ -146,7 +145,7 @@ namespace ErogeHelper.AssistiveTouch.Menu
                 var info = BatteryInfo.GetBatteryInformation();
 
                 var newRate = info.DischargeRate;
-                
+
                 // countRateAlteration
                 countRateAlteration = (info.DischargeRate == lastDischargeRate) switch
                 {
@@ -177,13 +176,13 @@ namespace ErogeHelper.AssistiveTouch.Menu
 
                 // duration2
                 var durationPredict = (displayCapacity - percent7) / -averageRate * 3600.0;
-                
+
                 var aa = $"{Math.Round(-info.DischargeRate / 1000.0, 2)} W ({countRateAlteration}s)";
                 var bb = (info.CurrentCapacity / (double)info.FullChargeCapacity).ToString("P0");
                 var cc = $"{displayCapacity:f1}mWh, {duration / 60}m{duration % 60}s";
                 var dd = $"{Math.Round(-averageRate / 1000.0, 2)} W (average)";
                 var ee = $"{totalSeconds / 60}:{totalSeconds % 60}-{(int)durationPredict / 60}:{(int)durationPredict % 60} (predict)";
-                
+
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     a.Text = aa;
@@ -218,15 +217,36 @@ namespace ErogeHelper.AssistiveTouch.Menu
             stackPanel.Children.Add(remain);
             stackPanel.Children.Add(averageDischargeRate);
             stackPanel.Children.Add(predict);
-            return new Border()
+            var border = new Border()
             {
                 Background = new SolidColorBrush() { Color = Colors.Black, Opacity = 0.6 },
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Width = double.NaN,
                 Height = 160,
-                Child = stackPanel
+                Child = stackPanel,
+                CornerRadius = new(8),
             };
+            //var binding = new Binding("Width")
+            //{   // MaxWidth to MainWindow.Width
+            //    Source = Application.Current.MainWindow,
+            //    Converter = new HalfWidthConverter()
+            //};
+            //BindingOperations.SetBinding(border, MaxWidthProperty, binding);
+            return border;
         }
+        //public class HalfWidthConverter : IValueConverter
+        //{
+        //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        //    {
+        //        if (value is double width)
+        //            return width / 2;
+
+        //        return value;
+        //    }
+
+        //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        //}
+        #endregion Battery Info
     }
 }

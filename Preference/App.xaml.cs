@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
@@ -21,6 +22,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
 namespace Preference;
 
@@ -35,6 +37,9 @@ sealed partial class App : Application
     /// </summary>
     public App()
     {
+        UnhandledException += OnUnhandledException;
+        TaskScheduler.UnobservedTaskException += OnUnobservedException;
+
         this.InitializeComponent();
         this.Suspending += OnSuspending;
     }
@@ -143,5 +148,25 @@ sealed partial class App : Application
         ProcessUpdated?.Invoke(this, processList);
 
         d.Complete();
+    }
+
+    private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        // Occurs when an exception is not handled on the UI thread.
+        ;
+
+        // if you want to suppress and handle it manually, 
+        // otherwise app shuts down.
+        e.Handled = true;
+    }
+
+    private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+    {
+        // Occurs when an exception is not handled on a background thread.
+        // ie. A task is fired and forgotten Task.Run(() => {...})
+        ;
+
+        // suppress and handle it manually.
+        e.SetObserved();
     }
 }
