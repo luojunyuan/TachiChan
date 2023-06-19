@@ -1,11 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Text.Json.Serialization;
 
 namespace ErogeHelper;
 
 internal class FilterProcessService
 {
+    private const string UwpAppsTag = "WindowsApps"; // much more easier
     private const string WindowsPath = @"C:\Windows\";
     private const int MaxTitleLength = 80;
 
@@ -17,18 +20,23 @@ internal class FilterProcessService
                 var fileName = RetrieveFilename(p);
 
                 return fileName is not null &&
+                    !fileName.Contains(UwpAppsTag) &&
                     !fileName.Contains(WindowsPath) &&
                     !fileName.Contains(WindowsPath.ToUpper()) &&
                     p.Id != Environment.ProcessId;
             })
-            .Select(p =>
+            .Select(p => (p.Id, p.MainModule!.FileName, p.MainWindowTitle, p.MainModule!.FileVersionInfo.FileDescription ?? string.Empty))
+            .Select(x =>
             {
-                var cjkCount = p.MainWindowTitle.Count(c => IsCJKCharacter(c));
-                var fileName = p.MainModule?.FileName!;
-                var describe = p.MainModule?.FileVersionInfo.FileDescription ?? string.Empty;
-                var title = p.MainWindowTitle.Length + cjkCount > MaxTitleLength && describe != string.Empty ?
-                    describe : p.MainWindowTitle;
-                return new ProcessDataModel(p.Id, describe, title, fileName);
+                var (id, fileName, windowTitle, fileDescription) = x;
+                var cjkCount = windowTitle.Count(c => IsCJKCharacter(c));
+                var title = windowTitle.Length + cjkCount > MaxTitleLength && fileDescription != string.Empty ?
+                    windowTitle : windowTitle;
+                using var stream = new MemoryStream();
+                if (Icon.ExtractAssociatedIcon(fileName) is Icon iconValid)
+                    iconValid.ToBitmap().Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    
+                return new ProcessDataModel(id, fileDescription, title, fileName, stream.ToArray());
             });
 
     private static string? RetrieveFilename(Process p)
@@ -60,7 +68,7 @@ internal class FilterProcessService
 }
 
 
-public record ProcessDataModel(int ProcessId, string Describe, string Title, string FullPath);
+public record ProcessDataModel(int ProcessId, string Describe, string Title, string FullPath, byte[] IconBytes);
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(IEnumerable<ProcessDataModel>))]

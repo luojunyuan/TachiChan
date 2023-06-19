@@ -1,31 +1,18 @@
 ﻿#nullable enable
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Pipes;
 using System.Linq;
-using System.Resources;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.System;
-using Windows.System.Diagnostics;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Imaging;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
 
@@ -84,10 +71,10 @@ public sealed partial class MainPage : Page
         InjectButton.IsEnabled = false;
     }
 
-    private async void ProcessComboBoxOnDropDownOpened(object sender, object e) => 
+    private async void ProcessComboBoxOnDropDownOpened(object sender, object e) =>
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
 
-    private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) => 
+    private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
         InjectButton.IsEnabled = ProcessComboBox.SelectedItem is not null;
 }
 
@@ -95,8 +82,38 @@ public class ProcessDataModel
 {
     public int ProcessId { get; set; }
     public string Title { get; set; } = string.Empty;
-    public string Describe { get; set; } = string.Empty;    
+    public string Describe { get; set; } = string.Empty;
     public string FullPath { get; set; } = string.Empty;
+
+    public byte[] IconBytes
+    {
+        set => Icon = ImageFromBytes(value).Result;
+    }
+
+    [JsonIgnore]
+    public BitmapImage? Icon { get; set; }
+
+    public static Task<BitmapImage> ImageFromBytes(byte[] bytes)
+    {
+        var tcs = new TaskCompletionSource<BitmapImage>();
+
+        _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        {
+            var image = new BitmapImage();
+            using var stream = new InMemoryRandomAccessStream();
+            var dataWriter = new DataWriter(stream.GetOutputStreamAt(0));
+            dataWriter.WriteBytes(bytes);
+            dataWriter.StoreAsync().Completed += async (sender, e) =>
+            {
+                dataWriter.DetachStream();
+                stream.Seek(0);
+                await image.SetSourceAsync(stream);
+                tcs.SetResult(image);
+            };
+        });
+
+        return tcs.Task;
+    }
 
     public override bool Equals(object obj)
     {

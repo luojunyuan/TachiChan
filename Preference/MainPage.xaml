@@ -22,6 +22,7 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Width="210" Orientation="Horizontal">
+                                <Image Source="{Binding Icon}" Width="30" />
                                 <TextBlock
                                     MaxWidth="180"
                                     Margin="10 0 0 0" VerticalAlignment="Center"

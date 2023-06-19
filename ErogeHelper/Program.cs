@@ -163,9 +163,8 @@ static void Run(Process game, SplashScreen? splash = null)
                 .AddText("ErogeHelper is running as admin")
                 .Show(t =>
                 {
-                    var tag = "eh";
-                    t.Tag = tag;
-                    t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove(tag);
+                    t.Tag = "eh";
+                    t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
                     // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
                 }); 
         }
