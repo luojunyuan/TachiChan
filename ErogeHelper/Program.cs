@@ -1,12 +1,16 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ErogeHelper;
+using Microsoft.Toolkit.Uwp.Notifications;
 using SplashScreenGdip;
 using System.Diagnostics;
 using System.IO.Pipes;
+using System.Security.Principal;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 
 if (args.Contains("-channel"))
 {
@@ -152,7 +156,19 @@ static void Run(Process game, SplashScreen? splash = null)
             break;
         }
 
-        //if (Toast.IsAdmin) _ = Task.Run(() => Toast.Send("ErogeHelper is running as admin", 5));
+        // TODO: net8 Environment.IsPrivilegedProcess
+        if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+        {
+            new ToastContentBuilder()
+                .AddText("ErogeHelper is running as admin")
+                .Show(t =>
+                {
+                    var tag = "eh";
+                    t.Tag = tag;
+                    t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove(tag);
+                    // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
+                }); 
+        }
         var touch = new Process()
         {
             StartInfo = new ProcessStartInfo
