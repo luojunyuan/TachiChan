@@ -33,15 +33,14 @@ public sealed partial class MainPage : Page
         appView.Title = resourceLoader.GetString("ProcessSelector");
         var semaphore = new SemaphoreSlim(1);
 
-        App.ProcessUpdated += async (_, newItems) =>
+        App.ProcessUpdated += (_, newItems) =>
         {
-            await semaphore.WaitAsync(); // Acquire the semaphore
-            try
+            lock(newItems)
             {
                 var oldItems = ProcessItems.ToList().AsReadOnly();
                 var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
                 var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     foreach (var item in disappearItems)
                         ProcessItems.Remove(item);
@@ -62,11 +61,7 @@ public sealed partial class MainPage : Page
                                 ProcessItems.Add(item);
                         });
                     }
-                });
-            }
-            finally
-            {
-                semaphore.Release();
+                }).AsTask().GetAwaiter().GetResult();
             }
         };
     }
