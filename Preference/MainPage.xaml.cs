@@ -6,11 +6,13 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Resources;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -39,16 +41,25 @@ public sealed partial class MainPage : Page
         InitializeComponent();
         ProcessComboBox.ItemsSource = ProcessItems;
         var appView = ApplicationView.GetForCurrentView();
-        appView.Title = "Preference";
+        var resourceLoader = ResourceLoader.GetForCurrentView();
+        appView.Title = resourceLoader.GetString("ProcessSelector");
         App.ProcessUpdated += async (_, newItems) =>
         {
-            var oldItems = ProcessItems.ToList();
-            var disappearItems = ProcessItems.Where(oldItem => !newItems.Contains(oldItem));
-            var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem) && !ProcessItems.Contains(newItem));
+            var oldItems = ProcessItems.ToList().AsReadOnly();
+            var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
+            var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                   {
                       foreach (var item in disappearItems)
                           ProcessItems.Remove(item);
+                      // HACK: ComboBox UI only refreshes when adding items after doing something to the ItemSource. (Clear, Remove)
+                      if (disappearItems.Count == 0 && newishItems.Count != 0)
+                      {
+                          var tmp = ProcessItems.ToList().AsReadOnly();
+                          ProcessItems.Clear();
+                          foreach (var item in tmp)
+                              ProcessItems.Add(item);
+                      }
                       foreach (var item in newishItems)
                           ProcessItems.Add(item);
                   });
@@ -69,7 +80,8 @@ public sealed partial class MainPage : Page
     private async void ProcessComboBoxOnDropDownOpened(object sender, object e) => 
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
 
-    private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) => InjectButton.IsEnabled = true;
+    private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) => 
+        InjectButton.IsEnabled = ProcessComboBox.SelectedItem is not null;
 }
 
 public class ProcessDataModel

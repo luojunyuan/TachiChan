@@ -43,17 +43,13 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
 
-		<Extensions>
+		<!--<Extensions>
 			<uap:Extension Category="windows.appService">
 				<uap:AppService Name="CommunicationService" />
 			</uap:Extension>
-			<!--<desktop:Extension Category="windows.fullTrustProcess" Executable="Assets\ErogeHelper.exe" />-->
-		</Extensions>
+			<desktop:Extension Category="windows.fullTrustProcess" Executable="Assets\ErogeHelper.exe" />
+		</Extensions>-->
     </Application>
   </Applications>
 
-  <Capabilities>
-    <rescap:Capability Name="appDiagnostics" />
-	<rescap:Capability Name="runFullTrust" />
-  </Capabilities>
 </Package>

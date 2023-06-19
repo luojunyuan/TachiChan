@@ -38,9 +38,9 @@ internal class FilterProcessService
         {
             fileName = p.MainModule?.FileName;
         }
-        catch (Win32Exception ex) when (ex.NativeErrorCode == 5) // Access is denied.
+        catch (Win32Exception ex) when (ex.NativeErrorCode == 5)
         {
-            // need elevated permissions
+            // "Access is denied." need for elevating permissions
             Debug.WriteLine($"{p.MainWindowTitle} {ex.Message}");
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 299)

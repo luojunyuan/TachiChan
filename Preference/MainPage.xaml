@@ -11,8 +11,7 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <StackPanel Margin="20 10">
-        <TextBlock x:Name="Tips" Text="Tips" FontSize="18" TextWrapping="Wrap" />
-        <TextBlock x:Name="Label" Text="Label" Margin="0 20 0 0" FontSize="22" />
+        <TextBlock x:Uid="SelectProcess" Margin="0 20 0 0" />
 
         <StackPanel Margin="0 20 0 0" Spacing="10">
             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -34,8 +33,7 @@
                 </ComboBox>
             </StackPanel>
 
-            <Button x:Name="InjectButton"
-                Width="240" Content="InjectButton"
+            <Button x:Uid="ButtonInject" x:Name="InjectButton"
                 Click="InjectButtonOnClick" IsEnabled="False"
                 Style="{StaticResource AccentButtonStyle}" />
         </StackPanel>

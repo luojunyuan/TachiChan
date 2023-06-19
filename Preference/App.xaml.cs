@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,6 +75,10 @@ sealed partial class App : Application
                 // 作成します
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
+
+            ApplicationView.PreferredLaunchViewSize = new Size(500, 320);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
             // 現在のウィンドウがアクティブであることを確認します
             Window.Current.Activate();
         }
