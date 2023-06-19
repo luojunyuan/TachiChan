@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.UI.Notifications;
 
 if (args.Contains("-channel"))
 {
@@ -166,7 +165,7 @@ static void Run(Process game, SplashScreen? splash = null)
                     t.Tag = "eh";
                     t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
                     // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
-                }); 
+                });
         }
         var touch = new Process()
         {
