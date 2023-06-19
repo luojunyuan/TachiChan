@@ -28,7 +28,7 @@ public partial class TouchButton
     private const double ButtonSpace = 2;
 
     // The diameter of button use for mouse releasing
-    public const double TouchSize = 75; //  60, 100
+    public const double TouchSize = 80; // used 60, 100, 75
     private double _distance;
     private double _halfDistance;
     private double _oneThirdDistance;
