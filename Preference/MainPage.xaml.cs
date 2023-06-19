@@ -48,20 +48,27 @@ public sealed partial class MainPage : Page
             var oldItems = ProcessItems.ToList().AsReadOnly();
             var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
             var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                   {
                       foreach (var item in disappearItems)
                           ProcessItems.Remove(item);
-                      // HACK: ComboBox UI only refreshes when adding items after doing something to the ItemSource. (Clear, Remove)
-                      if (disappearItems.Count == 0 && newishItems.Count != 0)
+
+                      if (disappearItems.Count != 0 || newishItems.Count == 0)
                       {
-                          var tmp = ProcessItems.ToList().AsReadOnly();
-                          ProcessItems.Clear();
-                          foreach (var item in tmp)
+                          foreach (var item in newishItems)
                               ProcessItems.Add(item);
                       }
-                      foreach (var item in newishItems)
-                          ProcessItems.Add(item);
+                      else
+                      {
+                          // HACK: ComboBox UI won't refresh when there comes new items
+                          var moto = ProcessItems.ToList().AsReadOnly();
+                          ProcessItems.Clear();
+                          await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                          {
+                              foreach (var item in moto.Concat(newishItems))
+                                  ProcessItems.Add(item);
+                          });
+                      }
                   });
         };
     }
