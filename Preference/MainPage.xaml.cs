@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,40 +32,47 @@ public sealed partial class MainPage : Page
         var appView = ApplicationView.GetForCurrentView();
         var resourceLoader = ResourceLoader.GetForCurrentView();
         appView.Title = resourceLoader.GetString("ProcessSelector");
-        var semaphore = new SemaphoreSlim(1);
 
-        App.ProcessUpdated += (_, newItems) =>
+        App.ProcessUpdated += async (_, newItems) =>
         {
-            lock(newItems)
+            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    ProcessItems.Clear();
+            //    foreach (var item in newItems)
+            //        ProcessItems.Add(item);
+            //});
+            //return;
+            // めちゃくちゃ
+            var oldItems = ProcessItems.ToList().AsReadOnly();
+            var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
+            var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var oldItems = ProcessItems.ToList().AsReadOnly();
-                var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
-                var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    foreach (var item in disappearItems)
-                        ProcessItems.Remove(item);
+                foreach (var item in disappearItems)
+                    ProcessItems.Remove(item);
 
-                    if (disappearItems.Count != 0 || newishItems.Count == 0)
+                if (disappearItems.Count != 0 || newishItems.Count == 0)
+                {
+                    foreach (var item in newishItems)
+                        ProcessItems.SafeAdd(item);
+                }
+                else
+                {
+                    // HACK: ComboBox UI won't refresh when there comes new items
+                    var moto = ProcessItems.ToList().AsReadOnly();
+                    ProcessItems.Clear();
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        foreach (var item in newishItems)
-                            ProcessItems.Add(item);
-                    }
-                    else
-                    {
-                        // HACK: ComboBox UI won't refresh when there comes new items
-                        var moto = ProcessItems.ToList().AsReadOnly();
-                        ProcessItems.Clear();
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                        {
-                            foreach (var item in moto.Concat(newishItems))
-                                ProcessItems.Add(item);
-                        });
-                    }
-                }).AsTask().GetAwaiter().GetResult();
-            }
+                        foreach (var item in moto.Concat(newishItems))
+                            ProcessItems.SafeAdd(item);
+                    });
+                }
+                // the real end
+            });
+            ServiceCount--;
         };
     }
+
 
     public ObservableCollection<ProcessDataModel> ProcessItems { get; } = new();
 
@@ -77,11 +85,27 @@ public sealed partial class MainPage : Page
         InjectButton.IsEnabled = false;
     }
 
-    private async void ProcessComboBoxOnDropDownOpened(object sender, object e) =>
+    private static int ServiceCount = 0;
+    private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
+    {
+        if (ServiceCount > 3)
+            return;
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
+        ServiceCount++;
+    }
 
     private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
         InjectButton.IsEnabled = ProcessComboBox.SelectedItem is not null;
+}
+
+public static class Ext
+{
+    // As possible as atmosphere operation
+    public static void SafeAdd(this ObservableCollection<ProcessDataModel> group, ProcessDataModel item)
+    {
+        if (!group.Contains(item))
+            group.Add(item);
+    }
 }
 
 public class ProcessDataModel

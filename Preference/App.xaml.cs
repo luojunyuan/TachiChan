@@ -154,7 +154,10 @@ sealed partial class App : Application
     {
         // Occurs when an exception is not handled on the UI thread.
         ;
-
+        // TODO:
+        // Thread name ApplicationView ASTA
+        // e.Exception.Message -> Value does not fall within the expected range.
+        // https://edi.wang/post/2016/1/3/windows-10-uwp-exception
         // if you want to suppress and handle it manually, 
         // otherwise app shuts down.
         e.Handled = true;
