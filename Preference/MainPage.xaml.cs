@@ -35,14 +35,6 @@ public sealed partial class MainPage : Page
 
         App.ProcessUpdated += async (_, newItems) =>
         {
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    ProcessItems.Clear();
-            //    foreach (var item in newItems)
-            //        ProcessItems.Add(item);
-            //});
-            //return;
-            // めちゃくちゃ
             var oldItems = ProcessItems.ToList().AsReadOnly();
             var disappearItems = oldItems.Where(oldItem => !newItems.Contains(oldItem)).ToList().AsReadOnly();
             var newishItems = newItems.Where(newItem => !oldItems.Contains(newItem)).ToList().AsReadOnly();
