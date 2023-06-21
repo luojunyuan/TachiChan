@@ -15,9 +15,14 @@ Debug -> x64 -> Package -> "Run"
 
 never think back to netfx
 
-现在需要在ErogeHelper主程序上，对winrt和native进行一个取舍
-如果选择native，appserve根本无法启用，除非“另寻出路”
-选择winrt，目前可行的解决方法，尝试r2r编译
-
-Embedded C#/WinRT Support
-https://github.com/microsoft/CsWinRT/blob/master/docs/embedded.md
+Issue with Windows.ApplicationModel.AppService
+https://github.com/microsoft/CsWinRT/issues/1172
+可行性验证, 目前使用AppServer, Notification
+1. PureCSWinRT
+无法凑齐AppService编译所需引用，无法生成enum，见上述issue
+2. C++/WinRT component
+不用native正常运行，自建类型会报type convert COMException
+不会写c++/WinRT，AppService一个毫毛都写不出来
+backup
+C++ project from regFree_WinRT
+CSharp net8 reference CSWinRT, VCRTruntime, tag...
