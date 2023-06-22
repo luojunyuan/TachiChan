@@ -6,27 +6,13 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Security.Principal;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 
 if (args.Contains("-channel"))
 {
-    var connection = new AppServiceConnection
-    {
-        AppServiceName = "CommunicationService",
-        PackageFamilyName = Package.Current.Id.FamilyName
-    };
-    await connection.OpenAsync();
-
     var result = FilterProcessService.Filter();
     var jsonString = JsonSerializer.Serialize(result, typeof(IEnumerable<ProcessDataModel>), SourceGenerationContext.Default);
-    var valueSet = new ValueSet
-    {
-        { "result", jsonString }
-    };
-    await connection.SendMessageAsync(valueSet);
+    WinRTLibrary.Class1.Send(jsonString);
+
     return;
 }
 
@@ -158,14 +144,14 @@ static void Run(Process game, SplashScreen? splash = null)
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
         {
-            new ToastContentBuilder()
-                .AddText("ErogeHelper is running as admin")
-                .Show(t =>
-                {
-                    t.Tag = "eh";
-                    t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
-                    // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
-                });
+            //new ToastContentBuilder()
+            //    .AddText("ErogeHelper is running as admin")
+            //    .Show(t =>
+            //    {
+            //        t.Tag = "eh";
+            //        t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
+            //        // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
+            //    });
         }
         var touch = new Process()
         {

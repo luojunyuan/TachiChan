@@ -159,7 +159,6 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\ErogeHelper.AssistiveTouch\ErogeHelper.AssistiveTouch.csproj" />
     <ProjectReference Include="..\ErogeHelper\ErogeHelper.csproj" />
     <ProjectReference Include="..\Preference\Preference.csproj" />
   </ItemGroup>
