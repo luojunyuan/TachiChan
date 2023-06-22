@@ -2,7 +2,7 @@
 
 namespace WinRTLibrary
 {
-    public static class Class1
+    public static class Wrapper
     {
         public static void Send(string message) 
         {

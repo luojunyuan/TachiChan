@@ -47,12 +47,6 @@
 			</uap:Extension>
 			<desktop:Extension Category="windows.fullTrustProcess" Executable="ErogeHelper\ErogeHelper.exe" />
 
-			<Extension Category="windows.activatableClass.inProcessServer">
-				<InProcessServer>
-					<Path>ErogeHelper\WinRTComponent.dll</Path>
-					<ActivatableClass ActivatableClassId="WinRTComponent.Class" ThreadingModel="both" />
-				</InProcessServer>
-			</Extension>
 		</Extensions>
     </Application>
   </Applications>

@@ -7,9 +7,10 @@
     <Nullable>enable</Nullable>
     <Platforms>ARM64;x64;x86</Platforms>
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
+	  <CsWinRTEmbedded>true</CsWinRTEmbedded>
 	  <CsWinRTWindowsMetadata>10.0.22621.0</CsWinRTWindowsMetadata>
+	  <CsWinRTIncludes>WinRTComponent</CsWinRTIncludes>
 	  <!--<SimulateCsWinRTNugetReference>true</SimulateCsWinRTNugetReference>-->
-	  <!--<CsWinRTEmbedded>true</CsWinRTEmbedded>-->
 	  <!--<CsWinRTGenerateProjection>false</CsWinRTGenerateProjection>-->
   </PropertyGroup>
 
@@ -36,7 +37,8 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\WinRTLibrary\WinRTLibrary.csproj" />
+    <ProjectReference Include="..\WinRTComponent\WinRTComponent.vcxproj" />
+    <!--<ProjectReference Include="..\WinRTLibrary\WinRTLibrary.csproj" />-->
   </ItemGroup>
 
 </Project>

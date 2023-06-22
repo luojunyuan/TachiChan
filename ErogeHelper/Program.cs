@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ErogeHelper;
-using Microsoft.Toolkit.Uwp.Notifications;
 using SplashScreenGdip;
 using System.Diagnostics;
 using System.IO.Pipes;
@@ -11,7 +10,8 @@ if (args.Contains("-channel"))
 {
     var result = FilterProcessService.Filter();
     var jsonString = JsonSerializer.Serialize(result, typeof(IEnumerable<ProcessDataModel>), SourceGenerationContext.Default);
-    WinRTLibrary.Class1.Send(jsonString);
+    // WinRTLibrary.Wrapper.Send(jsonString);
+    new WinRTComponent.Class().AFunction(jsonString);
 
     return;
 }
