@@ -1,4 +1,4 @@
-﻿ErogeHelper                   net7-WinRT    net8 native                  net8 WinRT native
+ErogeHelper                   net7-WinRT    net8 native                  net8 WinRT native
 ErogeHelper.AssistiveTouch    net7          net8 R2R wpf                 net8 WinRT R2R wpf
 Preference                    uwp           uwp                          uwp (min 1809 17763)
 ErogeHelper.TextWindow                      net8 native winforms
