@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <Platforms>ARM64;x64;x86</Platforms>
+    <ApplicationManifest>..\app.manifest</ApplicationManifest>
+	  <SelfContained>false</SelfContained>
+	  <PublishReadyToRun>false</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WindowsInput" Version="6.4.0" />
+  </ItemGroup>
+</Project>

@@ -15,6 +15,9 @@ Debug -> x64 -> Package -> "Run"
 
 never think back to netfx
 
+ストア版ですから、Erogeの単語を想定しないほうがいいかも
+
+---
 Issue with Windows.ApplicationModel.AppService
 https://github.com/microsoft/CsWinRT/issues/1172
 可行性验证, 目前使用AppServer, Notification
@@ -26,3 +29,4 @@ https://github.com/microsoft/CsWinRT/issues/1172
 backup
 C++ project from regFree_WinRT
 CSharp net8 reference CSWinRT, VCRTruntime, tag...
+---

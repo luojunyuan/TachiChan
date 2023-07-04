@@ -1,0 +1,58 @@
+﻿<Page
+    x:Class="TouchChan.AssistiveTouch.Menu.DevicePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:help="clr-namespace:TouchChan.AssistiveTouch.Helper"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="300" d:Visibility="Visible"
+    Visibility="Collapsed">
+
+    <Grid x:Name="GridPanel">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <help:TouchMenuItem x:Name="VolumeDown"
+            Grid.Row="0" Grid.Column="0"
+            Click="VolumeDownOnClickEvent" Symbol="Volume1"
+            Text="{DynamicResource AssistiveTouch_VolumeDecrease}" />
+
+        <help:TouchMenuItem
+            Grid.Row="0" Grid.Column="1"
+            Click="VolumeUpOnClickEvent" Symbol="Volume"
+            Text="{DynamicResource AssistiveTouch_VolumeIncrease}" />
+
+        <help:TouchMenuItem x:Name="ScreenShot"
+            Grid.Row="0" Grid.Column="2"
+            Click="ScreenShotOnClickEvent" Symbol="Picture"
+            Text="{DynamicResource AssistiveTouch_Screenshot}" />
+
+        <help:TouchMenuItem x:Name="TaskView"
+            Grid.Row="1" Grid.Column="0"
+            Click="TaskViewOnClickEvent" Symbol="TaskView"
+            Text="{DynamicResource AssistiveTouch_TaskView}" />
+
+        <help:TouchMenuItem x:Name="Back"
+            Grid.Row="1" Grid.Column="1"
+            Click="BackOnClickEvent" Symbol="Back" Text=" " />
+
+        <help:TouchMenuItem x:Name="DockRight"
+            Grid.Row="1" Grid.Column="2"
+            Click="ActionCenterOnClickEvent" Symbol="DockRight"
+            Text="{DynamicResource AssistiveTouch_ActionCenter}" />
+
+        <help:TouchMenuItem x:Name="VirtualTouchpad"
+            Grid.Row="2" Grid.Column="0"
+            Click="VirtualTouchpadOnClickEvent" Symbol="Touchpad"
+            Text="{DynamicResource AssistiveTouch_VirtualTouchpad}" />
+    </Grid>
+</Page>
