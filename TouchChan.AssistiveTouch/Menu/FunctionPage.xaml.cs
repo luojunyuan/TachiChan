@@ -178,7 +178,7 @@ namespace TouchChan.AssistiveTouch.Menu
                 var durationPredict = (displayCapacity - percent7) / -averageRate * 3600.0;
 
                 var aa = $"{Math.Round(-info.DischargeRate / 1000.0, 2)} W ({countRateAlteration}s)";
-                var bb = (info.CurrentCapacity / (double)info.FullChargeCapacity).ToString("P0");
+                var bb = (info.CurrentCapacity / (double)info.FullChargeCapacity).ToString("P0") + " (real-time)";
                 var cc = $"{displayCapacity:f1}mWh, {duration / 60}m{duration % 60}s";
                 var dd = $"{Math.Round(-averageRate / 1000.0, 2)} W (average)";
                 var ee = $"{totalSeconds / 60}:{totalSeconds % 60}-{(int)durationPredict / 60}:{(int)durationPredict % 60} (predict)";
