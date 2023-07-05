@@ -29,4 +29,5 @@ https://github.com/microsoft/CsWinRT/issues/1172
 backup
 C++ project from regFree_WinRT
 CSharp net8 reference CSWinRT, VCRTruntime, tag...
+3. 尝试 c++winrt exe, 从uwp启动两个win32程序
 ---
