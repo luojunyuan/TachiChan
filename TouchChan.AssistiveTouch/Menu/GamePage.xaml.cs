@@ -140,8 +140,8 @@ namespace TouchChan.AssistiveTouch.Menu
         private static bool InitIsAtelierKaguya()
         {
             User32.GetWindowThreadProcessId(App.GameWindowHandle, out var pid);
-            var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule.FileName);
-            return File.Exists(Path.Combine(dir, "message.dat"));
+            var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName);
+            return dir is not null && File.Exists(Path.Combine(dir, "message.dat"));
         }
 
         private const int UIMinimumResponseTime = 50;
