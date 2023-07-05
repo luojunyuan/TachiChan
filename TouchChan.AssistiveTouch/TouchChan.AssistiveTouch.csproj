@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.17763.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -10,10 +10,14 @@
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
 	  <SelfContained>false</SelfContained>
 	  <PublishReadyToRun>true</PublishReadyToRun>
-          <TieredCompilation>false</TieredCompilation>
+      <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WindowsInput" Version="6.4.0" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="WindowsInput" Version="6.4.1" />
   </ItemGroup>
 </Project>
