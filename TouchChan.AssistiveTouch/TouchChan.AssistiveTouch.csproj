@@ -9,7 +9,8 @@
     <Platforms>ARM64;x64;x86</Platforms>
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
 	  <SelfContained>false</SelfContained>
-	  <PublishReadyToRun>false</PublishReadyToRun>
+	  <PublishReadyToRun>true</PublishReadyToRun>
+          <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
 
   <ItemGroup>
