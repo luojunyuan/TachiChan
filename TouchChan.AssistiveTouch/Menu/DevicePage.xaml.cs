@@ -1,9 +1,11 @@
-﻿using TouchChan.AssistiveTouch.Helper;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using TouchChan.AssistiveTouch.Helper;
 using WindowsInput.Events;
 
 namespace TouchChan.AssistiveTouch.Menu
@@ -16,7 +18,19 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             InitializeComponent();
             InitializeAnimation();
+
+            var pid = Process.GetProcessesByName("TuneBlade").FirstOrDefault()?.Id ?? -1;
+            if (pid != -1) // TuneBlade exist
+            {
+                TuneBladePort = RetrieveTuneBladePort(pid);
+                VolumeDown.Symbol = Symbol.CalculatorSubtract;
+                VolumeUp.Symbol = Symbol.CalculatorAddition;
+                _tuneBladeClient = new HttpClient();
+            }
         }
+
+        // How about if TuneBlade exit, restart etc. Not consider. 
+        private readonly int TuneBladePort;
 
         public void Show(double moveDistance)
         {
@@ -120,15 +134,54 @@ namespace TouchChan.AssistiveTouch.Menu
                 _fadeout.Freeze();
             }
         }
-        private async void VolumeDownOnClickEvent(object sender, EventArgs e) =>
-             await WindowsInput.Simulate.Events()
-                .Click(KeyCode.VolumeDown)
-                .Invoke();
 
-        private async void VolumeUpOnClickEvent(object sender, EventArgs e) =>
-            await WindowsInput.Simulate.Events()
-                .Click(KeyCode.VolumeUp)
-                .Invoke();
+        private HttpClient? _tuneBladeClient;
+        private async void VolumeDownOnClickEvent(object sender, EventArgs e)
+        {
+            if (_tuneBladeClient is null)
+            {
+                await WindowsInput.Simulate.Events()
+                    .Click(KeyCode.VolumeDown)
+                    .Invoke();
+            }
+            else
+            {
+                var (volume, id) = await GetMasterDeviceVolumeAsync(_tuneBladeClient, TuneBladePort);
+                var newVolume = volume < 5 ? 0 : volume - 5;
+                await _tuneBladeClient.GetAsync($"http://localhost:{TuneBladePort}/v2/{id}/Volume/{newVolume}");
+            }
+        }
+
+        private static async Task<(int, string)> GetMasterDeviceVolumeAsync(HttpClient client, int port)
+        {
+            var response = await client.GetAsync($"http://localhost:{port}/v2/");
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync(); // may get nothing, or two line two devices 
+            var arr = responseBody.Split(' ');// (id, status, volume, name)
+            var id = arr[0];
+            var status = int.Parse(arr[1]) != 0;
+            var volume = int.Parse(arr[2]);
+            if (status == false)
+                await client.GetAsync($"http://localhost:{port}/v2/{id}/Status/Connect");
+            return (volume, id);
+        }
+
+        private async void VolumeUpOnClickEvent(object sender, EventArgs e)
+        {
+            if (_tuneBladeClient is null)
+            {
+                await WindowsInput.Simulate.Events()
+                    .Click(KeyCode.VolumeUp)
+                    .Invoke();
+            }
+            else
+            {
+                var (volume, id) = await GetMasterDeviceVolumeAsync(_tuneBladeClient, TuneBladePort);
+                var newVolume = volume > 95 ? 100 : volume + 5;
+                await _tuneBladeClient.GetAsync($"http://localhost:{TuneBladePort}/v2/{id}/Volume/{newVolume}");
+            }
+        }
+
         private async void ActionCenterOnClickEvent(object sender, EventArgs e) =>
             await WindowsInput.Simulate.Events()
                 .ClickChord(KeyCode.LWin, KeyCode.A)
@@ -172,5 +225,44 @@ namespace TouchChan.AssistiveTouch.Menu
             await WindowsInput.Simulate.Events()
                 .ClickChord(KeyCode.LWin, KeyCode.D)
                 .Invoke();
+
+        private static int RetrieveTuneBladePort(int pid)
+        {
+            var netstatStartInfo = new ProcessStartInfo
+            {
+                FileName = "netstat",
+                Arguments = "-aon",
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+
+            using var netstatProcess = new Process();
+            netstatProcess.StartInfo = netstatStartInfo;
+            netstatProcess.Start();
+
+            var findstrStartInfo = new ProcessStartInfo
+            {
+                FileName = "findstr",
+                Arguments = $"{pid}",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+
+            using var findstrProcess = new Process();
+            findstrProcess.StartInfo = findstrStartInfo;
+            findstrProcess.Start();
+
+            findstrProcess.StandardInput.Write(netstatProcess.StandardOutput.ReadToEnd());
+            findstrProcess.StandardInput.Close();
+
+            var netstatOutput = findstrProcess.StandardOutput.ReadToEnd();
+
+            findstrProcess.WaitForExit();
+            netstatProcess.WaitForExit();
+
+            var raw = netstatOutput.Split('\n')[1].Split(' ', StringSplitOptions.RemoveEmptyEntries)[1].Split(':')[1];
+            return int.Parse(raw);
+        }
     }
 }

@@ -25,6 +25,8 @@
         DockRight = 0xE90D,
         Repair = 0xE90F,
         Info = 0xE946,
+        CalculatorAddition = 0xE948,
+        CalculatorSubtract = 0xE949,
         Volume1 = 0xE993,
         Cloud = 0xE753,
         DictionaryCloud = 0xEBC3,

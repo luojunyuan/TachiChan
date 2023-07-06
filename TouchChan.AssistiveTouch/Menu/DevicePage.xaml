@@ -26,7 +26,7 @@
             Click="VolumeDownOnClickEvent" Symbol="Volume1"
             Text="{DynamicResource AssistiveTouch_VolumeDecrease}" />
 
-        <help:TouchMenuItem
+        <help:TouchMenuItem x:Name="VolumeUp"
             Grid.Row="0" Grid.Column="1"
             Click="VolumeUpOnClickEvent" Symbol="Volume"
             Text="{DynamicResource AssistiveTouch_VolumeIncrease}" />
