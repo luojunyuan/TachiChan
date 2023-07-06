@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Windows.Devices.Power;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -16,8 +17,8 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            // Online means no battery or charging
-            if (SystemParameters.PowerLineStatus == PowerLineStatus.Online)
+            // TODO: Check the value on AC device, maybe empty?
+            if (Windows.Devices.Power.Battery.AggregateBattery.DeviceId != "AggregateBattery")
                 Battery.Visibility = Visibility.Collapsed;
         }
 
@@ -111,6 +112,7 @@ namespace TouchChan.AssistiveTouch.Menu
             var fromCharging = false;
             timer.Elapsed += (s, evt) =>
             {
+                // Online means no battery or charging
                 if (SystemParameters.PowerLineStatus == PowerLineStatus.Online)
                 {
                     Application.Current.Dispatcher.Invoke(() =>
