@@ -44,7 +44,7 @@
 			<uap:Extension Category="windows.appService">
 				<uap:AppService Name="CommunicationService" />
 			</uap:Extension>
-			<desktop:Extension Category="windows.fullTrustProcess" Executable="TouchChan\TouchChan.exe" />
+			<desktop:Extension Category="windows.fullTrustProcess" Executable="WinRTLauncher\WinRTLauncher.exe" />
 
 		</Extensions>
     </Application>

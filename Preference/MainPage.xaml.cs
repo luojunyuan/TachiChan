@@ -61,7 +61,6 @@ public sealed partial class MainPage : Page
                 }
                 // the real end
             });
-            ServiceCount--;
         };
     }
 
@@ -77,13 +76,9 @@ public sealed partial class MainPage : Page
         InjectButton.IsEnabled = false;
     }
 
-    private static int ServiceCount = 0;
     private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
     {
-        if (ServiceCount > 3)
-            return;
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
-        ServiceCount++;
     }
 
     private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>

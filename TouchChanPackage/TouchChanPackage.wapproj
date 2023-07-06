@@ -159,5 +159,6 @@
     <ProjectReference Include="..\TouchChan.AssistiveTouch\TouchChan.AssistiveTouch.csproj" />
     <ProjectReference Include="..\TouchChan\TouchChan.csproj" />
     <ProjectReference Include="..\Preference\Preference.csproj" />
+    <ProjectReference Include="..\WinRTLauncher\WinRTLauncher.vcxproj" />
   </ItemGroup>
 </Project>
