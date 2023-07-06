@@ -7,27 +7,6 @@ using System.Security.Principal;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-if (args.Contains("-channel"))
-{
-    //var result = FilterProcessService.Filter();
-    //var jsonString = JsonSerializer.Serialize(result, typeof(IEnumerable<ProcessDataModel>), SourceGenerationContext.Default);
-
-    //var connection = new Windows.ApplicationModel.AppService.AppServiceConnection
-    //{
-    //    AppServiceName = "CommunicationService",
-    //    PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName
-    //};
-    //await connection.OpenAsync(); // 順番も大事
-    //var valueSet = new Windows.Foundation.Collections.ValueSet
-    //{
-    //    { "result", jsonString }
-    //};
-    //await connection.SendMessageAsync(valueSet);
-
-    //new WinRTComponent.Class().AFunction(jsonString);
-    return;
-}
-
 if (args.Length == 1 && int.TryParse(args[0], out var pid))
 {
     Run(Process.GetProcessById(pid));
@@ -153,18 +132,6 @@ static void Run(Process game, SplashScreen? splash = null)
             break;
         }
 
-        // TODO: net8 Environment.IsPrivilegedProcess
-        if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
-        {
-            //new ToastContentBuilder()
-            //    .AddText("TouchChan is running as admin")
-            //    .Show(t =>
-            //    {
-            //        t.Tag = "eh";
-            //        t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
-            //        // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
-            //    });
-        }
         var touch = new Process()
         {
             StartInfo = new ProcessStartInfo

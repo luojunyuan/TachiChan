@@ -123,20 +123,20 @@ namespace TouchChan.AssistiveTouch.Menu
         private async void VolumeDownOnClickEvent(object sender, EventArgs e) =>
              await WindowsInput.Simulate.Events()
                 .Click(KeyCode.VolumeDown)
-                .Invoke().ConfigureAwait(false);
+                .Invoke();
 
         private async void VolumeUpOnClickEvent(object sender, EventArgs e) =>
             await WindowsInput.Simulate.Events()
                 .Click(KeyCode.VolumeUp)
-                .Invoke().ConfigureAwait(false);
+                .Invoke();
         private async void ActionCenterOnClickEvent(object sender, EventArgs e) =>
             await WindowsInput.Simulate.Events()
                 .ClickChord(KeyCode.LWin, KeyCode.A)
-                .Invoke().ConfigureAwait(false);
+                .Invoke();
         private async void TaskViewOnClickEvent(object sender, EventArgs e) =>
             await WindowsInput.Simulate.Events()
                 .ClickChord(KeyCode.LWin, KeyCode.Tab)
-                .Invoke().ConfigureAwait(false);
+                .Invoke();
 
         private Rectangle? _screenMask;
         private DoubleAnimation? _fadeout;
@@ -158,7 +158,7 @@ namespace TouchChan.AssistiveTouch.Menu
                 await WindowsInput.Simulate.Events()
                     .Wait(WaitForScreenShot)
                     .ClickChord(KeyCode.LWin, KeyCode.Shift, KeyCode.S)
-                    .Invoke().ConfigureAwait(false);
+                    .Invoke();
             }
         }
 
@@ -171,6 +171,6 @@ namespace TouchChan.AssistiveTouch.Menu
         private async void BackToDesktopOnClickEvent(object sender, EventArgs e) =>
             await WindowsInput.Simulate.Events()
                 .ClickChord(KeyCode.LWin, KeyCode.D)
-                .Invoke().ConfigureAwait(false);
+                .Invoke();
     }
 }

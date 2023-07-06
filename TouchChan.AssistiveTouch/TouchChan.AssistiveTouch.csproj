@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.18362.0</TargetFramework> <!--not 17763 cause Notifications not support-->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -24,6 +24,19 @@
 	</PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" PrivateAssets="All" />
     <PackageReference Include="WindowsInput" Version="6.4.1" />
+    <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
+	<!--  Transitive packages which not the newist -->
+	  <PackageReference Include="Fody" Version="6.8.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <!-- from CommunityToolkit.WinUI.Notifications -->
+	  <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	  <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
+	  <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
+	  <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.Win32.SystemEvents" Version="7.0.0" />
   </ItemGroup>
 </Project>

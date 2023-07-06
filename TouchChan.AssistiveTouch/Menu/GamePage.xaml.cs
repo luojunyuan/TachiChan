@@ -158,7 +158,7 @@ namespace TouchChan.AssistiveTouch.Menu
                         .Wait(UIMinimumResponseTime)
                         .Click(KeyCode.E)
                         .Click(KeyCode.W)
-                        .Invoke().ConfigureAwait(false);
+                        .Invoke();
                 }
                 else
                 {
@@ -174,7 +174,7 @@ namespace TouchChan.AssistiveTouch.Menu
                     .Wait(UIMinimumResponseTime)
                     .Release(KeyCode.Enter)
                     .Release(KeyCode.Alt)
-                    .Invoke().ConfigureAwait(false);
+                    .Invoke();
                 HwndTools.WindowLostFocus(MainWindow.Handle, false);
             }
         }
@@ -197,7 +197,7 @@ namespace TouchChan.AssistiveTouch.Menu
             await WindowsInput.Simulate.Events()
                 .Wait(MenuTransistDuration)
                 .ClickChord(KeyCode.Alt, KeyCode.F4)
-                .Invoke().ConfigureAwait(false);
+                .Invoke();
         }
     }
 }

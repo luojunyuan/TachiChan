@@ -3,6 +3,9 @@ using System.Text;
 
 namespace TouchChan;
 
+// TODO: Use command line to pass arguments
+// 从菜单启动怎么办，大问题，我是真不想用cswinrt依托答辩
+// 从菜单启动也经由WinRTLuancher启动
 public class AppdataRoming
 {
     private static readonly string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

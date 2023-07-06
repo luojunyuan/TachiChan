@@ -5,6 +5,10 @@ using System.IO.Pipes;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using System.Security.Principal;
+using CommunityToolkit.WinUI.Notifications;
+using System.Threading.Tasks;
+using Windows.UI.Notifications;
 
 namespace TouchChan.AssistiveTouch;
 
@@ -21,6 +25,20 @@ public partial class App : Application
         _ = new IpcRenderer(_pipeClient);
 
         GameWindowHandle = int.Parse(e.Args[1]);
+
+
+        // TODO: net8 Environment.IsPrivilegedProcess
+        if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+        { 
+            new ToastContentBuilder()
+                .AddText("TouchChan is running as admin")
+                .Show(t =>
+                {
+                    t.Tag = "eh";
+                    t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
+                    // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
+                });
+        }
 
         Config.Load();
 

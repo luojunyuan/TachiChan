@@ -42,6 +42,10 @@ sealed partial class App : Application
 
         this.InitializeComponent();
         this.Suspending += OnSuspending;
+
+        // 设置 PerMonitorV2 DPI 支持
+        this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+        // 最后，为了确保在应用程序启动时以及 DPI 更改时应用 PerMonitorV2 DPI 设置，打开 Package.appxmanifest 文件，切换到“应用”选项卡，然后勾选“支持高 DPI 模式”。
     }
 
     /// <summary>
