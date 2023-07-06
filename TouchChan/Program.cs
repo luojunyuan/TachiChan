@@ -5,23 +5,24 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Security.Principal;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 if (args.Contains("-channel"))
 {
-    var result = FilterProcessService.Filter();
-    var jsonString = JsonSerializer.Serialize(result, typeof(IEnumerable<ProcessDataModel>), SourceGenerationContext.Default);
+    //var result = FilterProcessService.Filter();
+    //var jsonString = JsonSerializer.Serialize(result, typeof(IEnumerable<ProcessDataModel>), SourceGenerationContext.Default);
 
-    var connection = new Windows.ApplicationModel.AppService.AppServiceConnection
-    {
-        AppServiceName = "CommunicationService",
-        PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName
-    };
-    await connection.OpenAsync(); // 順番も大事
-    var valueSet = new Windows.Foundation.Collections.ValueSet
-    {
-        { "result", jsonString }
-    };
-    await connection.SendMessageAsync(valueSet);
+    //var connection = new Windows.ApplicationModel.AppService.AppServiceConnection
+    //{
+    //    AppServiceName = "CommunicationService",
+    //    PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName
+    //};
+    //await connection.OpenAsync(); // 順番も大事
+    //var valueSet = new Windows.Foundation.Collections.ValueSet
+    //{
+    //    { "result", jsonString }
+    //};
+    //await connection.SendMessageAsync(valueSet);
 
     //new WinRTComponent.Class().AFunction(jsonString);
     return;
