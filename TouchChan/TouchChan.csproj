@@ -16,11 +16,21 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<SelfContained>false</SelfContained>
-		<PublishReadyToRun>false</PublishReadyToRun>
-		<PublishTrimmed>false</PublishTrimmed>
-		<PublishAot>false</PublishAot>
-		<InvariantGlobalization>false</InvariantGlobalization>
+		<!--  PublishAot PublishReadyToRun NETSDK1032  -->
+		<!--<SelfContained>false</SelfContained>-->
+		<!--<PublishReadyToRun>false</PublishReadyToRun>-->
+		<!--<PublishTrimmed>false</PublishTrimmed>-->
+		<PublishAot>true</PublishAot>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)'=='x64'">
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)'=='x86'">
+		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)'=='ARM64'">
+		<RuntimeIdentifier>win-arm64</RuntimeIdentifier>
 	</PropertyGroup>
 	
   <ItemGroup>
