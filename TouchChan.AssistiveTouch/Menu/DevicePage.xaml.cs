@@ -156,7 +156,9 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             var response = await client.GetAsync($"http://localhost:{port}/v2/");
             response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync(); // may get nothing, or two line two devices 
+            // TODO: if there is nothing, take no effect
+            // if there is more than one line, let user select which one to interact
+            string responseBody = await response.Content.ReadAsStringAsync();
             var arr = responseBody.Split(' ');// (id, status, volume, name)
             var id = arr[0];
             var status = int.Parse(arr[1]) != 0;
