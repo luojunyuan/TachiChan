@@ -30,4 +30,9 @@ C++ project from regFree_WinRT
 CSharp net8 reference CSWinRT, VCRTruntime, tag...
 Edit2: 有很多进展，也是必须warpper一个c#winrtLib，但是目前有不明原因的IOException报错
 3. 尝试 c++winrt exe, 从uwp启动两个win32程序
+4. 决定的方向，用c++winrt实现
+    a 通过选择进程启动，pass一个参数 --channel，筛选进程，获取图标bitmap，json发送
+    b 输入 --path 参数，后接游戏路径。在c++winrt中读取TouchChan需要的配置信息。通过命令行传输这些选项。
+      在此启动上一层级的TouchChan程式
+    c ExTip，ShellHandle启动的是这个WinRTLauncher程序
 ---

@@ -7,8 +7,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Security.Principal;
 using CommunityToolkit.WinUI.Notifications;
-using System.Threading.Tasks;
-using Windows.UI.Notifications;
 
 namespace TouchChan.AssistiveTouch;
 
