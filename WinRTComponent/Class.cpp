@@ -21,11 +21,11 @@ namespace winrt::WinRTComponent::implementation
 		connection.AppServiceName(L"CommunicationService");
 		connection.PackageFamilyName(Package::Current().Id().FamilyName());
 
-		connection.OpenAsync();
+		connection.OpenAsync().GetResults();
 
 		winrt::Windows::Foundation::Collections::ValueSet set;
 		set.Insert(L"result", PropertyValue::CreateString(L"High"));
-		connection.SendMessageAsync(set);
+		connection.SendMessageAsync(set).GetResults();
 	}
 
 }
