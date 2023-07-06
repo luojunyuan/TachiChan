@@ -20,7 +20,7 @@
 		<!--<SelfContained>false</SelfContained>-->
 		<!--<PublishReadyToRun>false</PublishReadyToRun>-->
 		<!--<PublishTrimmed>false</PublishTrimmed>-->
-		<PublishAot>true</PublishAot>
+		<PublishAot>false</PublishAot>
 		<InvariantGlobalization>true</InvariantGlobalization>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Platform)'=='x64'">
