@@ -30,12 +30,14 @@ namespace TouchChan.AssistiveTouch.Menu
             var taskviewTransform = AnimationTool.LeftOneBottomOneTransform(moveDistance);
             var dockrightTransform = AnimationTool.RightOneBottomOneTransform(moveDistance);
             var touchpadTransform = AnimationTool.LeftOneBottomTwoTransform(moveDistance);
+            var backToDesktopTransform = AnimationTool.BottomTwoTransform(moveDistance);
             VolumeDown.SetCurrentValue(RenderTransformProperty, volumeDownTransform);
             ScreenShot.SetCurrentValue(RenderTransformProperty, screenshotTransform);
             Back.SetCurrentValue(RenderTransformProperty, backTransform);
             TaskView.SetCurrentValue(RenderTransformProperty, taskviewTransform);
             DockRight.SetCurrentValue(RenderTransformProperty, dockrightTransform);
             VirtualTouchpad.SetCurrentValue(RenderTransformProperty, touchpadTransform);
+            BackToDesktop.SetCurrentValue(RenderTransformProperty, backToDesktopTransform);
 
             _volumeDownMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, volumeDownTransform.X);
             _screenshotMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, screenshotTransform.X);
@@ -46,6 +48,7 @@ namespace TouchChan.AssistiveTouch.Menu
             _dockrightMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, dockrightTransform.Y);
             _touchpadMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, touchpadTransform.X);
             _touchpadMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, touchpadTransform.Y);
+            _backToDesktopMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, backToDesktopTransform.Y);
 
             _transitionInStoryboard.Begin();
         }
@@ -70,6 +73,7 @@ namespace TouchChan.AssistiveTouch.Menu
         private readonly DoubleAnimation _dockrightMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _touchpadMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _touchpadMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _backToDesktopMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
 
         private void InitializeAnimation()
         {
@@ -84,6 +88,7 @@ namespace TouchChan.AssistiveTouch.Menu
             AnimationTool.BindingAnimation(_transitionInStoryboard, _screenshotMoveXAnimation, ScreenShot, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _touchpadMoveXAnimation, VirtualTouchpad, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _touchpadMoveYAnimation, VirtualTouchpad, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _backToDesktopMoveYAnimation, BackToDesktop, AnimationTool.YProperty);
 
             _transitionInStoryboard.Completed += (_, _) =>
             {
@@ -97,6 +102,7 @@ namespace TouchChan.AssistiveTouch.Menu
                     Back.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     DockRight.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     VirtualTouchpad.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    BackToDesktop.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                 }
                 else
                 {
@@ -161,5 +167,10 @@ namespace TouchChan.AssistiveTouch.Menu
             System.Diagnostics.Process.Start("launchwinapp", "ms-virtualtouchpad:");
             ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
         }
+
+        private async void BackToDesktopOnClickEvent(object sender, EventArgs e) =>
+            await WindowsInput.Simulate.Events()
+                .ClickChord(KeyCode.LWin, KeyCode.D)
+                .Invoke().ConfigureAwait(false);
     }
 }

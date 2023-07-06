@@ -54,5 +54,10 @@
             Grid.Row="2" Grid.Column="0"
             Click="VirtualTouchpadOnClickEvent" Symbol="Touchpad"
             Text="{DynamicResource AssistiveTouch_VirtualTouchpad}" />
+
+        <help:TouchMenuItem x:Name="BackToDesktop"
+            Grid.Row="2" Grid.Column="1"
+            Click="BackToDesktopOnClickEvent" Symbol="StaplingLandscapeBottomRight"
+            Text="{DynamicResource AssistiveTouch_BackToDesktop}" />
     </Grid>
 </Page>

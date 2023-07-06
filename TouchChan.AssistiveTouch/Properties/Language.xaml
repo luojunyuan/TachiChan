@@ -21,6 +21,7 @@
     <system:String x:Key="AssistiveTouch_TaskView">タスクビュー</system:String>
     <system:String x:Key="AssistiveTouch_ActionCenter">アクションセンター</system:String>
     <system:String x:Key="AssistiveTouch_VirtualTouchpad">仮想タッチパッド</system:String>
+    <system:String x:Key="AssistiveTouch_BackToDesktop">デスクトップに戻る</system:String>
 
     <system:String x:Key="AssistiveTouch_Battery">バッテリー</system:String>
 </ResourceDictionary>
