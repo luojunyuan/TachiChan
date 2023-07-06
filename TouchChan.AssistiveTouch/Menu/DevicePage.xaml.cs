@@ -135,7 +135,7 @@ namespace TouchChan.AssistiveTouch.Menu
             }
         }
 
-        private HttpClient? _tuneBladeClient;
+        private readonly HttpClient? _tuneBladeClient;
         private async void VolumeDownOnClickEvent(object sender, EventArgs e)
         {
             if (_tuneBladeClient is null)
