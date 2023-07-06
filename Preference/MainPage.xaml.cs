@@ -78,7 +78,7 @@ public sealed partial class MainPage : Page
 
     private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
     {
-        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"-channel");
+        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--channel");
     }
 
     private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
