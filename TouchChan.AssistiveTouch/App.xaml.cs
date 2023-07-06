@@ -20,13 +20,13 @@ public partial class App : Application
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
         _ = new IpcRenderer(_pipeClient);
 
-        GameWindowHandle = int.Parse(e.Args[1]);
+        GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
         Config.Load();
 
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
-        var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName);
-        if (dir is not null && File.Exists(Path.Combine(dir, "RIO.INI"))) // Shinario
+        var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule.FileName);
+        if (File.Exists(Path.Combine(dir, "RIO.INI"))) // Shinario
             return;
 
         DisableWPFTabletSupport();

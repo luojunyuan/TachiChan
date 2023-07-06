@@ -36,9 +36,8 @@
         ArrowDown8 = 0xF0AE,
         ArrowRight8 = 0xF0AF,
         ArrowLeft8 = 0xF0B0,
-        StaplingLandscapeBottomRight = 0xF5A4,
-        VerticalBattery3 = 0xF5F5,
         SettingSolid = 0xF8B0,
+        VerticalBattery3 = 0xF5F5,
         TBD = 0xFFFF
     }
 }

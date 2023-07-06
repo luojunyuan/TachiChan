@@ -62,7 +62,8 @@ namespace TouchChan.AssistiveTouch.Core
 
                 DeviceIoControl(batteryHandle, Win32.IOCTL_BATTERY_QUERY_INFORMATION, queryInfoPointer, queryInfoSize, batteryInfoPointer, batteryInfoSize);
 
-                var updatedBatteryInformation = Marshal.PtrToStructure<Win32.BATTERY_INFORMATION>(batteryInfoPointer);
+                Win32.BATTERY_INFORMATION updatedBatteryInformation =
+                    (Win32.BATTERY_INFORMATION)Marshal.PtrToStructure(batteryInfoPointer, typeof(Win32.BATTERY_INFORMATION));
 
                 Win32.BATTERY_WAIT_STATUS batteryWaitStatus = new Win32.BATTERY_WAIT_STATUS();
                 batteryWaitStatus.BatteryTag = queryInformation.BatteryTag;
@@ -80,7 +81,8 @@ namespace TouchChan.AssistiveTouch.Core
 
                 DeviceIoControl(batteryHandle, Win32.IOCTL_BATTERY_QUERY_STATUS, batteryWaitStatusPointer, waitStatusSize, batteryStatusPointer, batteryStatusSize);
 
-                var updatedStatus = Marshal.PtrToStructure<Win32.BATTERY_STATUS>(batteryStatusPointer);
+                Win32.BATTERY_STATUS updatedStatus =
+                    (Win32.BATTERY_STATUS)Marshal.PtrToStructure(batteryStatusPointer, typeof(Win32.BATTERY_STATUS));
 
                 Win32.SetupDiDestroyDeviceInfoList(deviceHandle);
 
@@ -108,21 +110,22 @@ namespace TouchChan.AssistiveTouch.Core
 
         private static bool DeviceIoControl(IntPtr deviceHandle, uint controlCode, ref uint output)
         {
+            uint bytesReturned;
             uint junkInput = 0;
-            bool retVal = Win32.DeviceIoControl(
-                deviceHandle, controlCode, ref junkInput, 0, ref output, (uint)Marshal.SizeOf(output), out uint bytesReturned, IntPtr.Zero);
+            bool retval = Win32.DeviceIoControl(
+                deviceHandle, controlCode, ref junkInput, 0, ref output, (uint)Marshal.SizeOf(output), out bytesReturned, IntPtr.Zero);
 
-            if (!retVal)
+            if (!retval)
             {
                 int errorCode = Marshal.GetLastWin32Error();
                 if (errorCode != 0)
-                    Marshal.ThrowExceptionForHR(errorCode);
+                    throw Marshal.GetExceptionForHR(errorCode);
                 else
                     throw new Exception(
                         "DeviceIoControl call failed but Win32 didn't catch an error.");
             }
 
-            return retVal;
+            return retval;
         }
 
         private static bool DeviceIoControl(
@@ -136,7 +139,7 @@ namespace TouchChan.AssistiveTouch.Core
             {
                 int errorCode = Marshal.GetLastWin32Error();
                 if (errorCode != 0)
-                    Marshal.ThrowExceptionForHR(errorCode);
+                    throw Marshal.GetExceptionForHR(errorCode);
                 else
                     throw new Exception(
                         "DeviceIoControl call failed but Win32 didn't catch an error.");
@@ -153,7 +156,7 @@ namespace TouchChan.AssistiveTouch.Core
             {
                 int errorCode = Marshal.GetLastWin32Error();
                 if (errorCode != 0)
-                    Marshal.ThrowExceptionForHR(errorCode);
+                    throw Marshal.GetExceptionForHR(errorCode);
                 else
                     throw new Exception("SetupDiGetClassDev call returned a bad handle.");
             }
@@ -174,7 +177,7 @@ namespace TouchChan.AssistiveTouch.Core
                     if (errorCode == 259)
                         throw new Exception("SetupDeviceInfoEnumerateDeviceInterfaces ran out of batteries to enumerate.");
 
-                    Marshal.ThrowExceptionForHR(errorCode);
+                    throw Marshal.GetExceptionForHR(errorCode);
                 }
                 else
                     throw new Exception(
@@ -191,7 +194,7 @@ namespace TouchChan.AssistiveTouch.Core
             {
                 int errorCode = Marshal.GetLastWin32Error();
                 if (errorCode != 0)
-                    Marshal.ThrowExceptionForHR(errorCode);
+                    throw Marshal.GetExceptionForHR(errorCode);
                 else
                     throw new Exception(
                         "SetupDiDestroyDeviceInfoList call failed but Win32 didn't catch an error.");
@@ -219,7 +222,7 @@ namespace TouchChan.AssistiveTouch.Core
             {
                 int errorCode = Marshal.GetLastWin32Error();
                 if (errorCode != 0)
-                    Marshal.ThrowExceptionForHR(errorCode);
+                    throw Marshal.GetExceptionForHR(errorCode);
                 else
                     throw new Exception(
                         "SetupDiGetDeviceInterfaceDetail call failed but Win32 didn't catch an error.");

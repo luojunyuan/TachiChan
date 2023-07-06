@@ -5,6 +5,6 @@ namespace WinRTComponent
     {
         Class();
 
-		void AFunction(String value);
+        void AFunction(String value);
     }
 }

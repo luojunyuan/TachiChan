@@ -8,13 +8,13 @@
   IgnorableNamespaces="uap rescap desktop">
 
   <Identity
-    Name="e4dd2d26-3717-4381-968c-173163561d4c"
-    Publisher="CN=k1mlk"
-    Version="1.0.0.0" />
+    Name="33758k1mlka.ErogeHelper"
+    Publisher="CN=C50FB846-79D7-4A28-9852-ECD147EE5A40"
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>TouchChan</DisplayName>
-    <PublisherDisplayName>k1mlk</PublisherDisplayName>
+    <PublisherDisplayName>k1mlka</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 

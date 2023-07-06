@@ -4,8 +4,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using WindowsInput.Events;
-using Windows.Win32;
-using Windows.Win32.Foundation;
 
 namespace TouchChan.AssistiveTouch
 {
@@ -90,9 +88,9 @@ namespace TouchChan.AssistiveTouch
 
             public string? Read(string key)
             {
-                var retVal = new PWSTR();
-                PInvoke.GetPrivateProfileString(Section, key, string.Empty, retVal, 255, IniPath);
-                return retVal.ToString() == string.Empty ? null : retVal.ToString();
+                var RetVal = new StringBuilder(255);
+                Kernel32.GetPrivateProfileString(Section, key, string.Empty, RetVal, 255, IniPath);
+                return RetVal.ToString() == string.Empty ? null : RetVal.ToString();
             }
 
             public void Write(string key, string value) => Kernel32.WritePrivateProfileString(Section, key, value, IniPath);
