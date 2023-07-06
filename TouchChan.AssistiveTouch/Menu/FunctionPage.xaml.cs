@@ -16,7 +16,8 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            if (SystemParameters.PowerLineStatus == PowerLineStatus.Unknown)
+            // Online means no battery or charging
+            if (SystemParameters.PowerLineStatus == PowerLineStatus.Online)
                 Battery.Visibility = Visibility.Collapsed;
         }
 

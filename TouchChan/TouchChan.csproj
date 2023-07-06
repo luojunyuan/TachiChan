@@ -28,6 +28,7 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Platform)'=='x86'">
 		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+		<PublishAot>false</PublishAot>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Platform)'=='ARM64'">
 		<RuntimeIdentifier>win-arm64</RuntimeIdentifier>
