@@ -73,16 +73,15 @@ public sealed partial class MainPage : Page
 
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--path \"{selected.FullPath}\"");
 
+        selected.Injected = false;
         InjectButton.IsEnabled = false;
     }
 
-    private async void ProcessComboBoxOnDropDownOpened(object sender, object e)
-    {
+    private async void ProcessComboBoxOnDropDownOpened(object sender, object e) =>
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--channel");
-    }
 
     private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
-        InjectButton.IsEnabled = ProcessComboBox.SelectedItem is not null;
+        InjectButton.IsEnabled = ProcessComboBox.SelectedItem is not null && !((ProcessDataModel)ProcessComboBox.SelectedItem).Injected;
 }
 
 public static class Ext
@@ -109,6 +108,9 @@ public class ProcessDataModel
 
     [JsonIgnore]
     public BitmapImage? Icon { get; set; }
+
+    [JsonIgnore]
+    public bool Injected { get; set; }
 
     public static Task<BitmapImage> ImageFromBytes(byte[] bytes)
     {
