@@ -218,7 +218,18 @@ namespace TouchChan.AssistiveTouch.Menu
             public static TuneBladeApi? Setup(int port)
             {
                 var tb = new TuneBladeApi(port);
-                var response = tb.GetAllDevicesAsync().Result;
+                HttpResponseMessage response;
+                try
+                {
+                    response = tb.GetAllDevicesAsync().Result;
+                }
+                catch (Exception ex)
+                {
+                    // error port number
+                    Debug.WriteLine(ex.Message);
+                    return null;
+                }
+
                 if (!response.IsSuccessStatusCode) // Check port failed
                     return null;
 
@@ -231,8 +242,8 @@ namespace TouchChan.AssistiveTouch.Menu
                 // Only support connect to the first device
                 var arr = responseBody.Split(' ');// (id, status, volume, name)
                 var id = arr[0];
-                var status = int.Parse(arr[1]) != 0;
-                if (status == false)
+                var status = Enum.Parse<ConnectionStatus>(arr[1]);
+                if (status == ConnectionStatus.Disconnected)
                     _ = tb.ConnectDeviceAsync(id).Result;
 
                 return tb;
