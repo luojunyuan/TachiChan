@@ -17,6 +17,8 @@ public partial class App : Application
 {
     public static IntPtr GameWindowHandle { get; private set; }
 
+    public static Engine GameEngine { get; private set; }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
@@ -44,8 +46,12 @@ public partial class App : Application
             Core.KeyboardHooker.Install(GameWindowHandle);
 
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
-        var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName);
-        if (dir is not null && File.Exists(Path.Combine(dir, "RIO.INI"))) // Shinario
+        var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
+        GameEngine = File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
+            File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
+            File.Exists(Path.Combine(dir, "data.xp3")) ? Engine.Kirikiri :
+            Engine.TBD;
+        if (GameEngine == Engine.Shinario)
             return;
 
         DisableWPFTabletSupport();
@@ -83,4 +89,12 @@ public partial class App : Application
 
         }
     }
+}
+
+public enum Engine
+{
+    TBD,
+    Shinario,
+    Kirikiri,
+    AtelierKaguya,
 }

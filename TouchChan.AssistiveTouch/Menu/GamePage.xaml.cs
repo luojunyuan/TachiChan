@@ -135,47 +135,40 @@ namespace TouchChan.AssistiveTouch.Menu
             };
         }
 
-        private static readonly bool IsAtelierKaguya = InitIsAtelierKaguya();
-
-        private static bool InitIsAtelierKaguya()
-        {
-            User32.GetWindowThreadProcessId(App.GameWindowHandle, out var pid);
-            var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName);
-            return dir is not null && File.Exists(Path.Combine(dir, "message.dat"));
-        }
-
         private const int UIMinimumResponseTime = 50;
         private async void FullScreenSwitcherOnClickEvent(object sender, EventArgs e)
         {
-            if (IsAtelierKaguya)
+            switch (App.GameEngine)
             {
-                if (Fullscreen.GameInFullscreen)
-                {
+                case Engine.AtelierKaguya:
+                    if (Fullscreen.GameInFullscreen)
+                    {
+                        await WindowsInput.Simulate.Events()
+                            .MoveTo(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN), User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN))
+                            .Click(ButtonCode.Right)
+                            .Click(KeyCode.Up)
+                            .Wait(UIMinimumResponseTime)
+                            .Click(KeyCode.E)
+                            .Click(KeyCode.W)
+                            .Invoke();
+                    }
+                    else User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
+                    break;
+                case Engine.Kirikiri:
+                    if (Fullscreen.GameInFullscreen) await WindowsInput.Simulate.Events().ClickChord(KeyCode.Alt, KeyCode.V, KeyCode.W).Invoke();
+                    else await WindowsInput.Simulate.Events().ClickChord(KeyCode.Alt, KeyCode.V, KeyCode.F).Invoke();
+                    break;
+                default:
+                    HwndTools.WindowLostFocus(MainWindow.Handle, true);
                     await WindowsInput.Simulate.Events()
-                        .MoveTo(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN), User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN))
-                        .Click(ButtonCode.Right)
-                        .Click(KeyCode.Up)
+                        .Hold(KeyCode.Alt)
+                        .Hold(KeyCode.Enter)
                         .Wait(UIMinimumResponseTime)
-                        .Click(KeyCode.E)
-                        .Click(KeyCode.W)
+                        .Release(KeyCode.Enter)
+                        .Release(KeyCode.Alt)
                         .Invoke();
-                }
-                else
-                {
-                    User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
-                }
-            }
-            else
-            {
-                HwndTools.WindowLostFocus(MainWindow.Handle, true);
-                await WindowsInput.Simulate.Events()
-                    .Hold(KeyCode.Alt)
-                    .Hold(KeyCode.Enter)
-                    .Wait(UIMinimumResponseTime)
-                    .Release(KeyCode.Enter)
-                    .Release(KeyCode.Alt)
-                    .Invoke();
-                HwndTools.WindowLostFocus(MainWindow.Handle, false);
+                    HwndTools.WindowLostFocus(MainWindow.Handle, false);
+                    break;
             }
         }
 
