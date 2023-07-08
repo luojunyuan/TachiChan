@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using TouchChan.AssistiveTouch.Helper;
+using Windows.Media.Protection.PlayReady;
 using WindowsInput.Events;
 
 namespace TouchChan.AssistiveTouch.Menu
@@ -19,18 +20,41 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            var pid = Process.GetProcessesByName("TuneBlade").FirstOrDefault()?.Id ?? -1;
-            if (pid != -1) // TuneBlade exist
-            {
-                TuneBladePort = RetrieveTuneBladePort(pid);
-                VolumeDown.Symbol = Symbol.CalculatorSubtract;
-                VolumeUp.Symbol = Symbol.CalculatorAddition;
-                _tuneBladeClient = new HttpClient();
-            }
+            (_tuneBladeClient, TuneBladePort) = SetupTuneBlade();
         }
 
         // How about if TuneBlade exit, restart etc. Not consider. 
         private readonly int TuneBladePort;
+        private (HttpClient?, int) SetupTuneBlade()
+        {
+            var pid = Process.GetProcessesByName("TuneBlade").FirstOrDefault()?.Id ?? -1;
+            if (pid == -1)
+                return (null, 0);
+            
+            // TuneBlade exist
+            var port = RetrieveTuneBladePort(pid);
+            var client = new HttpClient();
+            var response = client.GetAsync($"http://localhost:{port}/v2/").Result;
+            if (!response.IsSuccessStatusCode) // Check port failed
+                return (null, 0);
+
+            // Connection
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            Debug.WriteLine(responseBody);
+            if (responseBody == string.Empty)
+                return (null, 0);
+
+            // Only support connect to the first device
+            var arr = responseBody.Split(' ');// (id, status, volume, name)
+            var id = arr[0];
+            var status = int.Parse(arr[1]) != 0;
+            if (status == false)
+                client.GetAsync($"http://localhost:{port}/v2/{id}/Status/Connect");
+
+            VolumeDown.Symbol = Symbol.CalculatorSubtract;
+            VolumeUp.Symbol = Symbol.CalculatorAddition;
+            return (client, port);
+        }
 
         public void Show(double moveDistance)
         {
@@ -156,8 +180,6 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             var response = await client.GetAsync($"http://localhost:{port}/v2/");
             response.EnsureSuccessStatusCode();
-            // TODO: if there is nothing, take no effect
-            // if there is more than one line, let user select which one to interact
             string responseBody = await response.Content.ReadAsStringAsync();
             var arr = responseBody.Split(' ');// (id, status, volume, name)
             var id = arr[0];

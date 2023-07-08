@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace TouchChan.AssistiveTouch.Core;
 
@@ -78,7 +79,7 @@ public static class TouchConversionHooker
     {
         var gotPoint = User32.GetCursorPos(out var currentMousePoint);
         if (!gotPoint)
-            currentMousePoint = new System.Drawing.Point(0, 0);
+            currentMousePoint = default;
         return (currentMousePoint.X, currentMousePoint.Y);
     }
 }
