@@ -3,9 +3,6 @@ using TouchChan;
 using SplashScreenGdip;
 using System.Diagnostics;
 using System.IO.Pipes;
-using System.Security.Principal;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 if (args.Length == 1 && int.TryParse(args[0], out var pid))
 {
@@ -143,12 +140,6 @@ static void Run(Process game, SplashScreen? splash = null)
         };
 
         touch.Start();
-
-        if (AppdataRoming.UseEnterKeyMapping())
-        {
-            // Exited with touch
-            ProcessStart.GlobalKeyHook(touch.Id, gameWindowHandle);
-        }
 
         touch.WaitForExit();
     }

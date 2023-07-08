@@ -26,6 +26,7 @@ public partial class MainWindow : Window
         Loaded += (_, _) => ForceSetForegroundWindow(App.GameWindowHandle);
         ContentRendered += (_, _) =>
         {
+            // Final chance to check window handle, due to some games has a launcher window 
             if (!User32.IsWindow(App.GameWindowHandle))
             {
                 Close();
