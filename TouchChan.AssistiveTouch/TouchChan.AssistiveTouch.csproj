@@ -6,11 +6,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <Platforms>ARM64;x64;x86</Platforms>
+    <Platforms>arm64;x64;x86</Platforms>
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
+	  <!--  https://github.com/microsoft/WindowsAppSDK/discussions/3295#discussioncomment-4675160  -->
 	  <SelfContained>false</SelfContained>
 	  <PublishReadyToRun>true</PublishReadyToRun>
       <TieredCompilation>false</TieredCompilation>
+    <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Platform)'=='x64'">
@@ -19,7 +21,7 @@
 	<PropertyGroup Condition="'$(Platform)'=='x86'">
 		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Platform)'=='ARM64'">
+	<PropertyGroup Condition="'$(Platform)'=='arm64'">
 		<RuntimeIdentifier>win-arm64</RuntimeIdentifier>
 	</PropertyGroup>
 

@@ -3,6 +3,8 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <FontFamily x:Key="UIFont">Meiryo UI</FontFamily>
 
+    <system:String x:Key="Notification_Admin">タッチちゃんただいま管理者権限で実行ちゅう</system:String>
+
     <system:String x:Key="AssistiveTouch_Device">デバイス</system:String>
     <system:String x:Key="AssistiveTouch_Game">ゲーム</system:String>
     <system:String x:Key="AssistiveTouch_Function">ファンクション</system:String>

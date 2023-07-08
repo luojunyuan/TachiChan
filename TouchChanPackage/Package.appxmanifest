@@ -13,7 +13,7 @@
     Version="2.0.8.0" />
 
   <Properties>
-    <DisplayName>TouchChan</DisplayName>
+    <DisplayName>タッチちゃん</DisplayName>
     <PublisherDisplayName>k1mlka</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="TouchChan"
+        DisplayName="TachiChan"
         Description="A visual novel tool for win-tablet"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"

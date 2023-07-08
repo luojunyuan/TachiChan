@@ -29,7 +29,7 @@ public partial class App : Application
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
         { 
             new ToastContentBuilder()
-                .AddText("TouchChan is running as admin")
+                .AddText(Helper.XamlResource.GetString("Notification_Admin"))
                 .Show(t =>
                 {
                     t.Tag = "eh";
