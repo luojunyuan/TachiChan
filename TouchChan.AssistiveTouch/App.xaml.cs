@@ -40,7 +40,8 @@ public partial class App : Application
 
         Config.Load();
         
-        //Core.KeyboardHooker.Install(GameWindowHandle);
+        if (Config.UseEnterKeyMapping)
+            Core.KeyboardHooker.Install(GameWindowHandle);
 
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName);
