@@ -24,7 +24,15 @@ public partial class MainWindow : Window
         Dpi = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
         Loaded += (_, _) => ForceSetForegroundWindow(App.GameWindowHandle);
-        ContentRendered += (_, _) => IpcRenderer.Send("Loaded");
+        ContentRendered += (_, _) =>
+        {
+            if (!User32.IsWindow(App.GameWindowHandle))
+            {
+                Close();
+                return;
+            }
+            IpcRenderer.Send("Loaded");
+        };
 
         HwndTools.RemovePopupAddChildStyle(Handle);
         User32.SetParent(Handle, App.GameWindowHandle);

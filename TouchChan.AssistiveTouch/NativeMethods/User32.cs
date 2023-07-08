@@ -98,5 +98,9 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
         [DllImport(User32Dll)]
         public static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+        // ...
+        [DllImport(User32Dll)]
+        public static extern bool IsWindow(IntPtr hWnd);
     }
 }
