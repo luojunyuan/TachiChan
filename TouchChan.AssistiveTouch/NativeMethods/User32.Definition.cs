@@ -97,7 +97,6 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
         public enum HookType
         {
-            WH_CBT = 5,
             WH_MOUSE = 7,
             WH_KEYBOARD_LL = 13,
             WH_MOUSE_LL = 14 // Global only
