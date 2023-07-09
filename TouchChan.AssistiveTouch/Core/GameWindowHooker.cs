@@ -31,8 +31,7 @@ internal class GameWindowHooker : IDisposable
 
         _throttle = new(300, rectClient =>
         {
-            _rev = !_rev;
-            Win32.SetWindowSize(_touchWindow, rectClient.Width + (_rev ? 1 : -1), rectClient.Height);
+            Win32.SetWindowSize(_touchWindow, rectClient.Width + ((_rev ^= true) ? 1 : -1), rectClient.Height);
         });
 
         // Lose focus hook
