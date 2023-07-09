@@ -30,9 +30,7 @@ internal class GameWindowHooker : IDisposable
              WinEventHookInternalFlags);
 
         _throttle = new(300, rectClient =>
-        {
-            Win32.SetWindowSize(_touchWindow, rectClient.Width + ((_rev ^= true) ? 1 : -1), rectClient.Height);
-        });
+            Win32.SetWindowSize(_touchWindow, rectClient.Width + ((_rev ^= true) ? 1 : -1), rectClient.Height));
 
         // Lose focus hook
         const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
