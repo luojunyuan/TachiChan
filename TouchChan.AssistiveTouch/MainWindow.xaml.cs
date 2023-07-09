@@ -42,7 +42,7 @@ public partial class MainWindow : Window
 
         var hooker = new GameWindowHooker(Handle);
         hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
-        hooker.FocusLost += (_, _) => { if (Menu.IsOpened) Menu.ManualClose(); };
+        hooker.GameWindowLostFocus += (_, _) => { if (Menu.IsOpened) Menu.ManualClose(); };
 
         if (Config.UseEdgeTouchMask)
         {

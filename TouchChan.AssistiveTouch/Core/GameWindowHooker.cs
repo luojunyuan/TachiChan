@@ -6,6 +6,7 @@ namespace TouchChan.AssistiveTouch.Helper;
 
 internal class GameWindowHooker : IDisposable
 {
+    public event EventHandler? GameWindowLostFocus;
     public event EventHandler<Size>? SizeChanged;
 
     private readonly IntPtr _windowsEventHook;
@@ -34,14 +35,14 @@ internal class GameWindowHooker : IDisposable
             Win32.SetWindowSize(_touchWindow, rectClient.Width + (_rev ? 1 : -1), rectClient.Height);
         });
 
-        // Lose focus
+        // Lose focus hook
         const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
         var focusStatus = User32.GetForegroundWindow() == App.GameWindowHandle;
         User32.WinEventProc winProc = (_, _, h, _, _, _, _) =>
         {
             if (focusStatus && h != App.GameWindowHandle)
             {
-                FocusLost?.Invoke(this, new());
+                GameWindowLostFocus?.Invoke(this, new());
                 focusStatus = false;
             }
             else if (h == App.GameWindowHandle)
@@ -55,8 +56,6 @@ internal class GameWindowHooker : IDisposable
              IntPtr.Zero, winProc, 0, 0,
              User32.WINEVENT.WINEVENT_OUTOFCONTEXT);
     }
-
-    public EventHandler? FocusLost { get; set; }
 
     // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwineventhook
     private const User32.WINEVENT WinEventHookInternalFlags = User32.WINEVENT.WINEVENT_OUTOFCONTEXT |
