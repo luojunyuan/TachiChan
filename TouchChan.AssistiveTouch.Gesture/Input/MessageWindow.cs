@@ -100,6 +100,9 @@ public class MessageWindow : NativeWindow
         }
     }
 
+    /// <summary>
+    /// 可以给外部更新
+    /// </summary>
     public void UpdateRegistration()
     {
         _validDevices.Clear();
@@ -304,6 +307,7 @@ public class MessageWindow : NativeWindow
 
             if (_requiringContactCount == 0 && PointsIntercepted != null)
             {
+                // Output 1
                 PointsIntercepted(this, new RawPointsDataMessageEventArgs(_outputTouchs, _sourceDevice));
                 if (_outputTouchs.TrueForAll(rd => rd.State == DeviceStates.None))
                 {

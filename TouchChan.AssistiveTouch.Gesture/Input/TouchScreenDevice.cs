@@ -1,13 +1,13 @@
 ﻿using TouchChan.AssistiveTouch.Gesture.Common;
 using TouchChan.AssistiveTouch.Gesture.Native;
 
-namespace TouchChan.AssistiveTouch.Gesture;
+namespace TouchChan.AssistiveTouch.Gesture.Input;
 
 public class TouchScreenDevice : HidDevice
 {
     public override Devices DeviceType => Devices.TouchScreen;
 
-    public TouchScreenDevice(IntPtr rawInputBuffer, ref RAWINPUT raw) : base(rawInputBuffer, ref raw)
+    public TouchScreenDevice(nint rawInputBuffer, ref RAWINPUT raw) : base(rawInputBuffer, ref raw)
     {
     }
 
@@ -15,7 +15,7 @@ public class TouchScreenDevice : HidDevice
     {
         for (int dwIndex = 0; dwIndex < _dwCount; dwIndex++)
         {
-            IntPtr pRawDataPacket = new IntPtr(_pRawData.ToInt64() + dwIndex * _dwSizHid);
+            nint pRawDataPacket = new nint(_pRawData.ToInt64() + dwIndex * _dwSizHid);
             for (short nodeIndex = 1; nodeIndex <= numberOfChildren; nodeIndex++)
             {
                 int contactIdentifier = GetContactId(nodeIndex, pRawDataPacket);
