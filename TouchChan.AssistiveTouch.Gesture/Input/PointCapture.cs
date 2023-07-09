@@ -1,12 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Win32;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TouchChan.AssistiveTouch.Gesture.Input
 {
@@ -99,7 +93,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
         public event EventHandler? CaptureEnded;
 
-        
+
         public event PointsCapturedEventHandler CaptureCanceled;
 
         #endregion
