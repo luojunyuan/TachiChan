@@ -29,8 +29,9 @@ internal class GameWindowHooker : IDisposable
              IntPtr.Zero, winEventDelegate, pid, targetThreadId,
              WinEventHookInternalFlags);
 
+        var rev = false;
         _throttle = new(300, rectClient =>
-            Win32.SetWindowSize(_touchWindow, rectClient.Width + ((_rev ^= true) ? 1 : -1), rectClient.Height));
+            Win32.SetWindowSize(_touchWindow, rectClient.Width + ((rev ^= true) ? 1 : -1), rectClient.Height));
 
         // Lose focus hook
         const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
@@ -103,7 +104,6 @@ internal class GameWindowHooker : IDisposable
     }
 
     private readonly Throttle<User32.RECT> _throttle;
-    private bool _rev;
     private Size _lastGameWindowSize;
 
     public void Dispose()
