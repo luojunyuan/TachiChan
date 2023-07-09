@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using TouchChan.AssistiveTouch.Gesture.Input;
 
 namespace TouchChan.AssistiveTouch.Gesture;
@@ -15,8 +16,9 @@ internal static class Program
         ApplicationConfiguration.Initialize();
 
         PointCapture.Instance.Load();
+        GestureManager.Instance.Load(PointCapture.Instance);
+        PointCapture.Instance.GestureRecognized += (_, e) => Debug.WriteLine(e.GestureName);
 
-
-        Application.Run(new Form());
+        Application.Run();
     }
 }

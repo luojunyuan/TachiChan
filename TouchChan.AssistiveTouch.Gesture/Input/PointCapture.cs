@@ -285,13 +285,12 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
             if (pointsInformation.Cancel) return;
 
-            Debug.WriteLine("ddddddddd");
-            //if (GestureManager.Instance.GestureName != null)
-            //{
-            //    List<Point> capturedPoints = pointsInformation.FirstCapturedPoints;
-            //    // Output 2
-            //    GestureRecognized?.Invoke(this, new RecognitionEventArgs(GestureManager.Instance.GestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
-            //}
+            if (GestureManager.Instance.GestureName != null)
+            {
+                List<Point> capturedPoints = pointsInformation.FirstCapturedPoints;
+                // Output 2
+                GestureRecognized?.Invoke(this, new RecognitionEventArgs(GestureManager.Instance.GestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
+            }
 
             AfterPointsCaptured?.Invoke(this, pointsInformation);
 
