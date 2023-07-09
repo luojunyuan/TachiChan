@@ -1,7 +1,6 @@
 ﻿using TouchChan.AssistiveTouch.Gesture.Common;
-using TouchChan.AssistiveTouch.Gesture.Input;
 
-namespace TouchChan.AssistiveTouch.Gesture
+namespace TouchChan.AssistiveTouch.Gesture.Input
 {
     public class PointEventTranslator
     {
