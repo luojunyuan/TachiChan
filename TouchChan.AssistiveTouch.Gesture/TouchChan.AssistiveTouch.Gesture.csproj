@@ -7,6 +7,13 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+	  <PublishAot>true</PublishAot>
+	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WinFormsComInterop" Version="0.4.3" />
+  </ItemGroup>
 
 </Project>
