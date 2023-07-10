@@ -15,7 +15,6 @@ namespace TouchChan.AssistiveTouch
             // front window check ? yes
             const int SendKeyBlock = 50;
 
-            // KeyboardHooker z键在くれよんちゅーりっぷ里不工作，金恋里是空格，其他正常，体验良好
             // 下面的键盘输入在くれよんちゅーりっぷ里不工作
             DictionaryOfEvents.Add(ChannelName.TwoFingerTap, p =>
             {
