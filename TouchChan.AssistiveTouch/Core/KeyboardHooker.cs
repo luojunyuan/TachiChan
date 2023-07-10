@@ -51,7 +51,7 @@ namespace TouchChan.AssistiveTouch.Core
             return User32.CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
-        static void SetKeyEvent(INPUT[] keyEventArray, KeyCode keyCode, KeyboardFlag flags, nuint extraInfo)
+        public static void SetKeyEvent(INPUT[] keyEventArray, KeyCode keyCode, KeyboardFlag flags, nuint extraInfo)
         {
             keyEventArray[0].Type = InputType.Keyboard;
             keyEventArray[0].Data.Keyboard.KeyCode = keyCode;
@@ -63,7 +63,7 @@ namespace TouchChan.AssistiveTouch.Core
         }
 
         [DllImport("user32.dll")]
-        private static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
+        public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
         // 仮想キーコードをスキャンコードに変換
         [DllImport("user32.dll")]
@@ -169,6 +169,7 @@ namespace TouchChan.AssistiveTouch.Core
 
         internal enum KeyCode : short
         {
+            SPACE = 0x20,
             RETURN = 0x0D,
         }
 

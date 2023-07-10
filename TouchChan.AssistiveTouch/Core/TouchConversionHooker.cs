@@ -55,6 +55,7 @@ public static class TouchConversionHooker
                 Task.Run(() =>
                 {
                     var (x, y) = GetCursorPosition();
+                    User32.SetCursorPos(x, y);
                     User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, x, y, 0, IntPtr.Zero);
                     Thread.Sleep(UserTimerMinimum);
                     User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, x, y, 0, IntPtr.Zero);

@@ -99,8 +99,17 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         [DllImport(User32Dll)]
         public static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
 
-        // ...
+        // Check for game window is existed
         [DllImport(User32Dll)]
         public static extern bool IsWindow(IntPtr hWnd);
+
+        // Touch gesture action
+
+        [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, IntPtr dwExtraInfo);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetCursorPos(int X, int Y);
+
     }
 }

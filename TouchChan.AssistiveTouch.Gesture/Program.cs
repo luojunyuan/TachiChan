@@ -27,7 +27,7 @@ internal static class Program
         GestureManager.Instance.Load(PointCapture.Instance);
         using var sw = new StreamWriter(pipeClient);
         sw.AutoFlush = true;
-        PointCapture.Instance.GestureRecognized += (_, e) => sw.WriteLine(e.GestureName);
+        PointCapture.Instance.GestureRecognized += (_, e) => sw.WriteLine(e.GestureName + " " + e.FirstCapturedPoints.FirstOrDefault());
 
         Application.Run();
     }

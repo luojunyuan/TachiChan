@@ -23,7 +23,6 @@ namespace TouchChan.AssistiveTouch.Core
 
             try
             {
-                // Send current pid and App.GameWindowHandle
                 Process.Start(new ProcessStartInfo()
                 {
                     FileName = gestureHooker,
