@@ -29,7 +29,12 @@ namespace TouchChan.AssistiveTouch
             });
             DictionaryOfEvents.Add(ChannelName.ThreeFingerTap, _ =>
             {
-                // not work for くれよんちゅーりっぷ
+                // Work for editor but not game.
+                //var keyEventList = new Core.KeyboardHooker.INPUT[2];
+                //Core.KeyboardHooker.SetKeyEvent(keyEventList, Core.KeyboardHooker.KeyCode.SPACE, 0, 0);
+                //Core.KeyboardHooker.SetKeyEvent(keyEventList, Core.KeyboardHooker.KeyCode.SPACE, Core.KeyboardHooker.KeyboardFlag.KeyUp, 0);
+                //Core.KeyboardHooker.SendInput(2, keyEventList, Core.KeyboardHooker.INPUT.Size);
+                //// not work for くれよんちゅーりっぷ
                 Task.Run(() =>
                 {
                     User32.keybd_event(0x20, 0, 0, IntPtr.Zero);

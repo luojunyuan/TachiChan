@@ -53,13 +53,16 @@ namespace TouchChan.AssistiveTouch.Core
 
         public static void SetKeyEvent(INPUT[] keyEventArray, KeyCode keyCode, KeyboardFlag flags, nuint extraInfo)
         {
-            keyEventArray[0].Type = InputType.Keyboard;
-            keyEventArray[0].Data.Keyboard.KeyCode = keyCode;
-            keyEventArray[0].Data.Keyboard.Flags = flags;
-            keyEventArray[0].Data.Keyboard.ExtraInfo = extraInfo;
+            var i = keyEventArray
+                .Select((input, index) => (input, index))
+                .First(x => x.input.Data.Keyboard.KeyCode == default).index;
+            keyEventArray[i].Type = InputType.Keyboard;
+            keyEventArray[i].Data.Keyboard.KeyCode = keyCode;
+            keyEventArray[i].Data.Keyboard.Flags = flags;
+            keyEventArray[i].Data.Keyboard.ExtraInfo = extraInfo;
 
             const int MAPVK_VK_TO_VSC = 0;
-            keyEventArray[0].Data.Keyboard.ScanCode = (ushort)MapVirtualKey((int)keyCode, MAPVK_VK_TO_VSC);
+            keyEventArray[i].Data.Keyboard.ScanCode = (ushort)MapVirtualKey((int)keyCode, MAPVK_VK_TO_VSC);
         }
 
         [DllImport("user32.dll")]
@@ -169,8 +172,8 @@ namespace TouchChan.AssistiveTouch.Core
 
         internal enum KeyCode : short
         {
-            SPACE = 0x20,
             RETURN = 0x0D,
+            SPACE = 0x20,
         }
 
         private static class Kernel32
