@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Security.Principal;
 using CommunityToolkit.WinUI.Notifications;
+using TouchChan.AssistiveTouch.Core;
 
 namespace TouchChan.AssistiveTouch;
 
@@ -24,8 +25,14 @@ public partial class App : Application
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
         _ = new IpcRenderer(_pipeClient);
 
+        var pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+        _ = new IpcMain(pipeServer);
+
         GameWindowHandle = int.Parse(e.Args[1]);
 
+
+        //TODO: Test admin 
+        TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), Environment.ProcessId);
 
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
@@ -43,7 +50,7 @@ public partial class App : Application
         Config.Load();
         
         if (Config.UseEnterKeyMapping)
-            Core.KeyboardHooker.Install(GameWindowHandle);
+            KeyboardHooker.Install(GameWindowHandle);
 
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
@@ -95,6 +102,6 @@ public enum Engine
 {
     TBD,
     Shinario,
-    Kirikiri,
+    Kirikiri, // SoftHouse-Seal extrans.dll krmovie.dll protect.dll.exe.x64.x86 sound.xp3 video.xp3 wuvorbis.dll
     AtelierKaguya,
 }

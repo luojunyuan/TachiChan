@@ -8,8 +8,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-	  <PublishAot>true</PublishAot>
+	  <PublishAot>false</PublishAot>
+	  <InvariantGlobalization>true</InvariantGlobalization>
 	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+
+	  <SatelliteResourceLanguages>ja</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
