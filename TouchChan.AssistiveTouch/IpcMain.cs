@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.IO.Pipes;
-using System.Text.Json;
 using System.Windows;
 using TouchChan.AssistiveTouch.NativeMethods;
 
@@ -14,31 +12,31 @@ namespace TouchChan.AssistiveTouch
         public IpcMain(AnonymousPipeServerStream serverIn)
         {
             _serverIn = serverIn;
-            // front window check ?
-            const int UserTimerMinimum = 0x0000000A;
+            // front window check ? yes
+            const int SendKeyBlock = 50;
 
+            // KeyboardHooker z键在くれよんちゅーりっぷ里不工作，金恋里是空格，其他正常，体验良好
+            // 下面的键盘输入在くれよんちゅーりっぷ里不工作
             DictionaryOfEvents.Add(ChannelName.TwoFingerTap, p =>
             {
+                if (User32.GetForegroundWindow() != App.GameWindowHandle)
+                    return;
                 Task.Run(() =>
                 {
                     User32.SetCursorPos((int)p.X, (int)p.Y);
                     User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, (int)p.X, (int)p.Y, 0, IntPtr.Zero);
-                    Thread.Sleep(UserTimerMinimum);
+                    Thread.Sleep(SendKeyBlock);
                     User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, (int)p.X, (int)p.Y, 0, IntPtr.Zero);
                 });
             });
             DictionaryOfEvents.Add(ChannelName.ThreeFingerTap, _ =>
             {
-                // Work for editor but not game.
-                //var keyEventList = new Core.KeyboardHooker.INPUT[2];
-                //Core.KeyboardHooker.SetKeyEvent(keyEventList, Core.KeyboardHooker.KeyCode.SPACE, 0, 0);
-                //Core.KeyboardHooker.SetKeyEvent(keyEventList, Core.KeyboardHooker.KeyCode.SPACE, Core.KeyboardHooker.KeyboardFlag.KeyUp, 0);
-                //Core.KeyboardHooker.SendInput(2, keyEventList, Core.KeyboardHooker.INPUT.Size);
-                //// not work for くれよんちゅーりっぷ
+                if (User32.GetForegroundWindow() != App.GameWindowHandle)
+                    return;
                 Task.Run(() =>
                 {
                     User32.keybd_event(0x20, 0, 0, IntPtr.Zero);
-                    Thread.Sleep(UserTimerMinimum);
+                    Thread.Sleep(SendKeyBlock);
                     User32.keybd_event(0x20, 0, 0x0002, IntPtr.Zero);
                 });
             });

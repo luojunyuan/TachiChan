@@ -13,7 +13,7 @@ namespace TouchChan.AssistiveTouch.Core
     {
         public static void Start(string pipeHandle, int pid)
         {
-            var gestureHooker = Path.Combine(AppContext.BaseDirectory, "TouchChan.AssistiveTouch.Gesture.exe");
+            var gestureHooker = "..\\TouchChan.AssistiveTouch.Gesture\\TouchChan.AssistiveTouch.Gesture.exe";
 
             if (!File.Exists(gestureHooker))
             {
