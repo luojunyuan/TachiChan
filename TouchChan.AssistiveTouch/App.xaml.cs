@@ -1,13 +1,13 @@
-﻿using TouchChan.AssistiveTouch.NativeMethods;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
-using System.Security.Principal;
-using CommunityToolkit.WinUI.Notifications;
 using TouchChan.AssistiveTouch.Core;
+using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch;
 
@@ -35,7 +35,7 @@ public partial class App : Application
 
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
-        { 
+        {
             new ToastContentBuilder()
                 .AddText(Helper.XamlResource.GetString("Notification_Admin"))
                 .Show(t =>
@@ -47,7 +47,7 @@ public partial class App : Application
         }
 
         Config.Load();
-        
+
         if (Config.UseEnterKeyMapping)
             KeyboardHooker.Install(GameWindowHandle);
 

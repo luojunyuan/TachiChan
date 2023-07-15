@@ -21,8 +21,7 @@
 	</PropertyGroup>
 	
   <ItemGroup>
-    <PackageReference Include="WindowsShortcutFactory" Version="1.1.0" />
-    <PackageReference Include="SplashScreenGdipAot" Version="1.0.5" />
+    <ProjectReference Include="..\TouchChan.SplashScreen\TouchChan.SplashScreen.csproj" />
     <!--  Splash screen  -->
     <EmbeddedResource Include="assets\klee.png" />
   </ItemGroup>
