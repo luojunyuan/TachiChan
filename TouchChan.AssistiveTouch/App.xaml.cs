@@ -31,7 +31,6 @@ public partial class App : Application
         GameWindowHandle = int.Parse(e.Args[1]);
 
 
-        //TODO: Test admin 
         TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), Environment.ProcessId);
 
         // TODO: net8 Environment.IsPrivilegedProcess
@@ -51,6 +50,9 @@ public partial class App : Application
         
         if (Config.UseEnterKeyMapping)
             KeyboardHooker.Install(GameWindowHandle);
+
+        // Config.UseModernSleep
+        ModernSleepTimer.Start();
 
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;

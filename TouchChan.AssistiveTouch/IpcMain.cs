@@ -2,7 +2,6 @@
 using System.IO.Pipes;
 using System.Windows;
 using TouchChan.AssistiveTouch.Core;
-using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch
 {
@@ -15,8 +14,8 @@ namespace TouchChan.AssistiveTouch
             _serverIn = serverIn;
             DictionaryOfEvents.Add(ChannelName.TwoFingerTap, TouchGestureHooker.SendRightClick);
             DictionaryOfEvents.Add(ChannelName.ThreeFingerTap, _ => TouchGestureHooker.SendSpaceKey());
-            DictionaryOfEvents.Add(ChannelName.PointDown, _ => MessageBox.Show("Down"));
-            DictionaryOfEvents.Add(ChannelName.PointUp, _ => MessageBox.Show("Up"));
+            DictionaryOfEvents.Add(ChannelName.PointDown, _ => WindowsInput.Simulate.Events().Scroll(WindowsInput.Events.ButtonCode.VScroll, WindowsInput.Events.ButtonScrollDirection.Up).Invoke());
+            DictionaryOfEvents.Add(ChannelName.PointUp, _ => WindowsInput.Simulate.Events().Scroll(WindowsInput.Events.ButtonCode.VScroll, WindowsInput.Events.ButtonScrollDirection.Down).Invoke());
             Start();
         }
 

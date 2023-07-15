@@ -1,6 +1,11 @@
 Code Name: TouchChan
 表紙ネーム：TachiChan - タッチちゃんー触控酱
 
+向前兼容，非商店版本向前兼容到win7，达到仅在修改三个项目TFM为netfx472的前提下就能成功编译运行，增加Preference.Win32辅助
+代码里的winrt/net8不兼容的部分，使用fx472格式，宏定义条件的方式增加代码。不作为优先项目实现。
+
+去掉WindowsInput依赖自己SendInput搭建模拟输入
+
 ErogeHelper                   net7-WinRT    net8 native                  net8 WinRT native
 ErogeHelper.AssistiveTouch    net7          net8 R2R wpf                 net8 WinRT R2R wpf
 Preference                    uwp           uwp                          uwp (min 1809 17763)

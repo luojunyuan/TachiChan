@@ -111,5 +111,12 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
+        // Sleep
+
+        [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+        public static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);
     }
 }

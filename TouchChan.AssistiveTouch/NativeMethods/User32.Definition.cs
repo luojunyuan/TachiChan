@@ -20,7 +20,7 @@ namespace TouchChan.AssistiveTouch.NativeMethods
             public UIntPtr dwExtraInfo;
         }
 
-        [StructLayout(LayoutKind.Sequential)] // do i need
+        [StructLayout(LayoutKind.Sequential)]
         internal struct RECT
         {
             public int left;
@@ -45,6 +45,16 @@ namespace TouchChan.AssistiveTouch.NativeMethods
                 get { return new Size(Width, Height); }
                 set { Width = value.Width; Height = value.Height; }
             }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct LASTINPUTINFO
+        {
+            public uint cbSize;
+
+            public uint dwTime;
+
+            public static readonly LASTINPUTINFO Default = new() { cbSize = (uint)Marshal.SizeOf(typeof(LASTINPUTINFO)) };
         }
     }
 
