@@ -1,12 +1,4 @@
-﻿using Microsoft.VisualBasic.Logging;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TouchChan.AssistiveTouch.Gesture.Common;
+﻿using TouchChan.AssistiveTouch.Gesture.Common;
 using TouchChan.AssistiveTouch.Gesture.Input;
 using TouchChan.AssistiveTouch.Gesture.PointPatterns;
 
@@ -20,7 +12,7 @@ internal class GestureManager
 
     public GestureManager()
     {
-        _Gestures = new Common.Gesture[4] 
+        _Gestures = new Common.Gesture[4]
         {
             new Common.Gesture("TwoFingerTap", new PointPattern[1] { new PointPattern(new Point[2][] { new Point[1] { new Point(685, 357) }, new Point[1] { new Point(833, 257) } }) }),
             new Common.Gesture("ThreeFingerTap", new PointPattern[1] { new PointPattern(new Point[3][] { new Point[1] { new Point(615, 345) }, new Point[1] { new Point(735, 268) }, new Point[1] { new Point(897, 277) } }) }),
@@ -91,16 +83,16 @@ internal class GestureManager
         var sourceGesture = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
         GestureName = GetGestureSetNameMatch(e.Points.Select(l => l.ToArray()).ToArray(), sourceGesture, _gestureLevel, out _gestureMatchResult);
 
-            if (_gestureMatchResult != null && _gestureMatchResult.Count != 0)
-            {
-                _gestureLevel++;
-                _lastGestureTime = Environment.TickCount;
-            }
-            else
-            {
-                _gestureLevel = 0;
-                _gestureMatchResult = null;
-            }
+        if (_gestureMatchResult != null && _gestureMatchResult.Count != 0)
+        {
+            _gestureLevel++;
+            _lastGestureTime = Environment.TickCount;
+        }
+        else
+        {
+            _gestureLevel = 0;
+            _gestureMatchResult = null;
+        }
     }
 
     #endregion
