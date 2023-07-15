@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TouchChan.AssistiveTouch.Gesture.Common;
 using TouchChan.AssistiveTouch.Gesture.Input;
+using TouchChan.AssistiveTouch.Gesture.PointPatterns;
 
 namespace TouchChan.AssistiveTouch.Gesture;
 

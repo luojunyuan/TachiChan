@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using TouchChan.AssistiveTouch.Helper;
+using TouchChan.AssistiveTouch.NativeMethods;
 using WindowsInput.Events;
 
 namespace TouchChan.AssistiveTouch.Menu

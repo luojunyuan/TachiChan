@@ -1,4 +1,4 @@
-﻿namespace TouchChan.AssistiveTouch.Gesture.Common
+﻿namespace TouchChan.AssistiveTouch.Gesture.PointPatterns
 {
     public static class PointPatternMath
     {
@@ -97,7 +97,7 @@
 
         public static double GetAngularGradient(PointF LineStartPoint, PointF LineEndPoint)
         {
-            return Math.Atan2((LineEndPoint.Y - LineStartPoint.Y), (LineEndPoint.X - LineStartPoint.X));
+            return Math.Atan2(LineEndPoint.Y - LineStartPoint.Y, LineEndPoint.X - LineStartPoint.X);
         }
 
         public static double GetAngularDelta(double Angle1, double Angle2)

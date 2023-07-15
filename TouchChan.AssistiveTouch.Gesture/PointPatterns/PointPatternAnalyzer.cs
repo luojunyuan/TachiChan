@@ -1,4 +1,4 @@
-﻿namespace TouchChan.AssistiveTouch.Gesture.Common
+﻿namespace TouchChan.AssistiveTouch.Gesture.PointPatterns
 {
     public class PointPatternAnalyzer
     {

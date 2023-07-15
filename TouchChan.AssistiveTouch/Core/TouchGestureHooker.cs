@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Principal;
 using System.Windows;
 using TouchChan.AssistiveTouch.NativeMethods;
 
@@ -27,7 +23,7 @@ namespace TouchChan.AssistiveTouch.Core
                 Process.Start(new ProcessStartInfo()
                 {
                     FileName = gestureHooker,
-                    Arguments = pipeHandle + " " + pid,
+                    Arguments = pipeHandle + " " + pid + " " + new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator),
                 });
             }
             catch (SystemException ex)

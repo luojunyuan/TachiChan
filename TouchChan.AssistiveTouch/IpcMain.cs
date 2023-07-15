@@ -14,7 +14,8 @@ namespace TouchChan.AssistiveTouch
             _serverIn = serverIn;
             DictionaryOfEvents.Add(ChannelName.TwoFingerTap, TouchGestureHooker.SendRightClick);
             DictionaryOfEvents.Add(ChannelName.ThreeFingerTap, _ => TouchGestureHooker.SendSpaceKey());
-            DictionaryOfEvents.Add(ChannelName.PointDown, _ => WindowsInput.Simulate.Events().Scroll(WindowsInput.Events.ButtonCode.VScroll, WindowsInput.Events.ButtonScrollDirection.Up).Invoke());
+            DictionaryOfEvents.Add(ChannelName.PointDown, _ => 
+                WindowsInput.Simulate.Events().Scroll(WindowsInput.Events.ButtonCode.VScroll, WindowsInput.Events.ButtonScrollDirection.Up).Invoke());
             DictionaryOfEvents.Add(ChannelName.PointUp, _ => WindowsInput.Simulate.Events().Scroll(WindowsInput.Events.ButtonCode.VScroll, WindowsInput.Events.ButtonScrollDirection.Down).Invoke());
             Start();
         }

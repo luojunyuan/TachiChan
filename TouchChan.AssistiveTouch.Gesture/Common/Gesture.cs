@@ -1,4 +1,6 @@
-﻿namespace TouchChan.AssistiveTouch.Gesture.Common
+﻿using TouchChan.AssistiveTouch.Gesture.PointPatterns;
+
+namespace TouchChan.AssistiveTouch.Gesture.Common
 {
     public interface IGesture
     {

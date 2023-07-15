@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.Gesture.Common;
+using TouchChan.AssistiveTouch.Gesture.PointPatterns;
 
 namespace TouchChan.AssistiveTouch.Gesture.Input
 {
@@ -23,6 +24,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         // Create new Touch hook control to capture global input from Touch, and create an event translator to get formal events
         private readonly PointEventTranslator _pointEventTranslator;
         private readonly InputProvider _inputProvider;
+        private readonly PointerInputTargetWindow _pointerInputTargetWindow;
         private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
         private readonly System.Threading.Timer _blockTouchDelayTimer;
 
@@ -97,8 +99,9 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
             _currentContext = SynchronizationContext.Current;
 
-            if (false)//AppConfig.UiAccess)
+            if (Program.UiAccess)
             {
+                _pointerInputTargetWindow = new PointerInputTargetWindow();
                 _blockTouchDelayTimer = new System.Threading.Timer(UpdateBlockTouchInputThresholdCallback, null, Timeout.Infinite, Timeout.Infinite);
             }
 
@@ -116,6 +119,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
                     _inputProvider?.Dispose();
+                    _pointerInputTargetWindow?.Dispose();
                 }
 
                 SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
@@ -215,8 +219,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
         private void UpdateBlockTouchInputThreshold(int? threshold = null)
         {
-            //if (!AppConfig.UiAccess) return;
-            if (true) return;
+            if (!Program.UiAccess) return;
 
             if (threshold != null)
                 _blockTouchInputThreshold = threshold;
@@ -230,6 +233,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
             _currentContext.Post((state) =>
             {
+                _pointerInputTargetWindow.BlockTouchInputThreshold = _blockTouchInputThreshold.GetValueOrDefault();
                 _blockTouchInputThreshold = null;
             }, null);
         }
