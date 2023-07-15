@@ -24,9 +24,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         // Create new Touch hook control to capture global input from Touch, and create an event translator to get formal events
         private readonly PointEventTranslator _pointEventTranslator;
         private readonly InputProvider _inputProvider;
-        private readonly PointerInputTargetWindow _pointerInputTargetWindow;
         private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
-        private readonly System.Threading.Timer _blockTouchDelayTimer;
 
         private System.Threading.Timer _initialTimeoutTimer;
         SynchronizationContext _currentContext;
@@ -40,7 +38,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
         private bool disposedValue = false; // To detect redundant calls
 
-        private int? _blockTouchInputThreshold;
         private Point _touchPadStartPoint;
 
         #endregion
@@ -99,12 +96,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
             _currentContext = SynchronizationContext.Current;
 
-            if (Program.UiAccess)
-            {
-                _pointerInputTargetWindow = new PointerInputTargetWindow();
-                _blockTouchDelayTimer = new System.Threading.Timer(UpdateBlockTouchInputThresholdCallback, null, Timeout.Infinite, Timeout.Infinite);
-            }
-
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
         }
 
@@ -117,9 +108,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                 if (disposing)
                 {
                     _initialTimeoutTimer?.Dispose();
-                    _blockTouchDelayTimer?.Dispose();
                     _inputProvider?.Dispose();
-                    _pointerInputTargetWindow?.Dispose();
                 }
 
                 SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
@@ -188,7 +177,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             {
                 AddPoint(e.InputPointList);
             }
-            UpdateBlockTouchInputThreshold();
         }
 
         protected void PointEventTranslator_PointUp(object? sender, InputPointsEventArgs e)
@@ -208,7 +196,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             }
 
-            UpdateBlockTouchInputThreshold();
             if (_initialTimeoutTimer != null)
                 _initialTimeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
@@ -217,35 +204,12 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
         #region Private Methods
 
-        private void UpdateBlockTouchInputThreshold(int? threshold = null)
-        {
-            if (!Program.UiAccess) return;
-
-            if (threshold != null)
-                _blockTouchInputThreshold = threshold;
-            if (_blockTouchInputThreshold != null)
-                _blockTouchDelayTimer.Change(100, Timeout.Infinite);
-        }
-
-        private void UpdateBlockTouchInputThresholdCallback(object o)
-        {
-            if (!_blockTouchInputThreshold.HasValue) return;
-
-            _currentContext.Post((state) =>
-            {
-                _pointerInputTargetWindow.BlockTouchInputThreshold = _blockTouchInputThreshold.GetValueOrDefault();
-                _blockTouchInputThreshold = null;
-            }, null);
-        }
-
         private bool TryBeginCapture(List<InputPoint> firstPoint)
         {
             // Create capture args so we can notify subscribers that capture has started and allow them to cancel if they want.
             PointsCapturedEventArgs captureStartedArgs;
             captureStartedArgs = new PointsCapturedEventArgs(firstPoint.Select(p => p.Point).ToList());
             CaptureStarted?.Invoke(this, captureStartedArgs);
-
-            UpdateBlockTouchInputThreshold(captureStartedArgs.BlockTouchInputThreshold);
 
             if (captureStartedArgs.Cancel)
                 return false;
@@ -293,7 +257,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             {
                 List<Point> capturedPoints = pointsInformation.FirstCapturedPoints;
                 // Output 2
-                Console.WriteLine(GestureManager.Instance.GestureName);
                 GestureRecognized?.Invoke(this, new RecognitionEventArgs(GestureManager.Instance.GestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
             }
 

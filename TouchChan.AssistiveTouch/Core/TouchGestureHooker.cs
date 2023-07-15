@@ -23,7 +23,7 @@ namespace TouchChan.AssistiveTouch.Core
                 Process.Start(new ProcessStartInfo()
                 {
                     FileName = gestureHooker,
-                    Arguments = pipeHandle + " " + pid + " " + new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator),
+                    Arguments = pipeHandle + " " + pid,
                 });
             }
             catch (SystemException ex)
