@@ -44,6 +44,17 @@ splash.Run();
 static string WinShortcutWrapper(string gamePath) =>
     WindowsShortcutFactory.WindowsShortcut.Load(gamePath).Path ?? "Resolve lnk file failed";
 
+static string GetTargetPath(string lnkFilePath)
+{
+    byte[] lnkBytes = File.ReadAllBytes(lnkFilePath);
+
+    int targetPathStartIndex = 0x1C;
+    int targetPathLength = BitConverter.ToInt32(lnkBytes, targetPathStartIndex);
+    string targetPath = System.Text.Encoding.Unicode.GetString(lnkBytes, targetPathStartIndex + 4, targetPathLength * 2);
+
+    return targetPath;
+}
+
 static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
 {
     #region Start Game

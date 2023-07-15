@@ -245,6 +245,10 @@ namespace TouchChan.AssistiveTouch.Menu
                 var status = Enum.Parse<ConnectionStatus>(arr[1]);
                 if (status == ConnectionStatus.Disconnected)
                     _ = tb.ConnectDeviceAsync(id).Result;
+                
+                var volume = int.Parse(arr[2]);
+                if (volume > 30)
+                    _ = tb.ChangeVolumeAsync(id, 30).Result;
 
                 return tb;
             }
