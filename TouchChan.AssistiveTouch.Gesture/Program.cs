@@ -17,7 +17,7 @@ internal static class Program
     {
         var pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, args[0]);
         var parent = Process.GetProcessById(int.Parse(args[1]));
-        UIAccess = bool.Parse(args[2]);
+        UiAccess = bool.Parse(args[2]);
         parent.EnableRaisingEvents = true;
         parent.Exited += (s, e) => Environment.Exit(0);
 
