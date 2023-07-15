@@ -1,5 +1,4 @@
-﻿using SplashScreenGdip;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace TouchChan;
 

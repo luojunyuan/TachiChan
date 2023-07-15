@@ -44,6 +44,7 @@ splash.Run();
 static string WinShortcutWrapper(string gamePath) =>
     WindowsShortcutFactory.WindowsShortcut.Load(gamePath).Path ?? "Resolve lnk file failed";
 
+#pragma warning disable CS8321 // ローカル関数は宣言されていますが、一度も使用されていません
 static string GetTargetPath(string lnkFilePath)
 {
     byte[] lnkBytes = File.ReadAllBytes(lnkFilePath);
@@ -54,6 +55,7 @@ static string GetTargetPath(string lnkFilePath)
 
     return targetPath;
 }
+#pragma warning restore CS8321 // ローカル関数は宣言されていますが、一度も使用されていません
 
 static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
 {

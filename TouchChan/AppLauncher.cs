@@ -14,14 +14,14 @@ internal static class AppLauncher
 
         var gameFolder = Path.GetDirectoryName(gamePath);
 
-        if (!AppdataRoming.IsDpiAppDisabled() && !RegistryModifier.IsDpiCompatibilitySetted(gamePath))
+        if (!RegistryModifier.IsDpiCompatibilitySetted(gamePath))
         {
             RegistryModifier.SetDPICompatibilityAsApplication(gamePath);
         }
 
         if (leEnable)
         {
-            var lePath = AppdataRoming.GetLEPath();
+            var lePath = RegistryModifier.LEPathInRegistry();
             if (lePath == string.Empty)
                 throw new ArgumentException(lePath);
             if (!File.Exists(lePath))
