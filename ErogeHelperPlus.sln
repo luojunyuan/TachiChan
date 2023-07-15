@@ -5,6 +5,7 @@ VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{3B530AD6-8436-4E1D-84D4-0FE69ACD3EFB}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		app.manifest = app.manifest
 		README.txt = README.txt
 	EndProjectSection
@@ -19,7 +20,7 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "TouchChanPackage", "TouchCh
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinRTLauncher", "WinRTLauncher\WinRTLauncher.vcxproj", "{2518C195-E1B8-4C70-8B22-D2AF9A44C259}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchChan.AssistiveTouch.Gesture", "TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj", "{7EA74551-4AB0-4E60-925C-EAC24424E0D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.AssistiveTouch.Gesture", "TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj", "{7EA74551-4AB0-4E60-925C-EAC24424E0D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

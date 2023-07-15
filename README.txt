@@ -1,5 +1,16 @@
 Code Name: TouchChan
-表紙ネーム：TachiChan - タッチちゃんー触控酱
+表紙ネーム：TachiChan - タッチちゃん - 触控酱
+
+1. 用最新的编程方法来编写
+2. 最少的发行属性，完善的一键发行
+3. 向前兼容到win7
+4. 无任何外部依赖，纯原生实现
+5. win11 mica 以下 透明模糊
+6. package支持到 17763 1809，不知可否还能再早可能需要另外装sdk
+7. 还是想要支持win7但是，一种是net8的native，一种是netfx，看到
+
+关掉的提示 
+DllImport
 
 向前兼容，非商店版本向前兼容到win7，达到仅在修改三个项目TFM为netfx472的前提下就能成功编译运行，增加Preference.Win32辅助
 代码里的winrt/net8不兼容的部分，使用fx472格式，宏定义条件的方式增加代码。不作为优先项目实现。
@@ -12,7 +23,6 @@ ErogeHelper                   net7-WinRT    net8 native                  net8 Wi
 ErogeHelper.AssistiveTouch    net7          net8 R2R wpf                 net8 WinRT R2R wpf
 Preference                    uwp           uwp                          uwp (min 1809 17763)
 ErogeHelper.TextWindow                      net8 native winforms
-ErogeHelper.KeyMapping                      c++ exe
 ErogeHelper.VirtualKeyboard                 net8 native winforms
 
 -windows10.0.19041.0 enable WinRT
