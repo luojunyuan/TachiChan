@@ -16,6 +16,7 @@ namespace TouchChan.AssistiveTouch.Core
                 var WM_SYSCOMMAND = 0x112;
                 var SC_MONITORPOWER = 0xF170;
                 var MONITOR_OFF = 2;
+                // FIXME: Desire not work
                 User32.SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_OFF);
             });
             sleep.Signal();
