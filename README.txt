@@ -2,6 +2,7 @@ Code Name: TouchChan
 表紙ネーム：TachiChan - タッチちゃん - 触控酱
 
 肯定优先商店publish，再清理csproj
+TouchChan.Preference
 
 1. 用最新的编程方法来编写
 2. 最少的发行属性，完善的一键发行
