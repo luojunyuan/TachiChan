@@ -31,6 +31,8 @@ internal partial class User32
 
     // Windows
 
+#if !NET472
+
     [LibraryImport(User32Dll, SetLastError = true, EntryPoint = "LoadIconW")]
     public static partial nint LoadIcon(nint hInstance, nint lpIconName);
     [LibraryImport(User32Dll, SetLastError = true, EntryPoint = "LoadCursorW")]
@@ -120,6 +122,8 @@ internal partial class User32
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial bool DestroyWindow(nint hWnd);
 
+#endif
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
     internal unsafe struct MONITORINFOEX
     {
@@ -154,4 +158,93 @@ internal partial class User32
         public IntPtr lpszClassName;
         public IntPtr hIconSm;
     }
+
+#if NET472
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate IntPtr WindowProc([In] IntPtr hwnd, [In] uint uMsg, [In] IntPtr wParam, [In] IntPtr lParam);
+
+    [DllImport(User32Dll)]
+    public static extern IntPtr LoadIcon(IntPtr hInstance, IntPtr lpIconName);
+    [DllImport(User32Dll)]
+    public static extern IntPtr LoadCursor(IntPtr hInstance, int lpCursorName);
+
+    [DllImport(User32Dll, SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern ushort RegisterClassEx(ref WNDCLASSEX Arg1);
+
+    [DllImport(User32Dll)]
+    public static extern IntPtr CreateWindowEx([In] uint dwExStyle, string lpClassName,
+        string lpWindowName, [In] uint dwStyle, int x, int y, int nWidth, int nHeight,
+        IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    public static extern IntPtr GetDC([In, Optional] IntPtr ptr);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
+    [DllImport(User32Dll, SetLastError = true, CharSet = CharSet.Auto)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetMessage(out nint lpMsg, [Optional] IntPtr hWnd, [Optional] uint wMsgFilterMin, [Optional] uint wMsgFilterMax);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool TranslateMessage(in nint lpMsg);
+
+    [DllImport(User32Dll, SetLastError = false, CharSet = CharSet.Auto)]
+    public static extern IntPtr DispatchMessage(in nint lpMsg);
+
+    [DllImport(User32Dll, SetLastError = true, ExactSpelling = true)]
+    public static extern int GetSystemMetrics(int nIndex);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    public static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
+
+    [DllImport(User32Dll, SetLastError = false, CharSet = CharSet.Auto)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    public static extern uint GetDpiForWindow(IntPtr hwnd);
+
+    [DllImport(User32Dll, SetLastError = true, ExactSpelling = true)]
+    [System.Security.SecurityCritical]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    [DllImport(User32Dll, ExactSpelling = true, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    [System.Security.SecurityCritical]
+    public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+    [Flags]
+    public enum UpdateLayeredWindowFlags
+    {
+        ULW_COLORKEY = 0x00000001,
+        ULW_ALPHA = 0x00000002,
+        ULW_OPAQUE = 0x00000004,
+        ULW_EX_NORESIZE = 0x00000008,
+    }
+    [DllImport(User32Dll, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool UpdateLayeredWindow(IntPtr hWnd, IntPtr hdcDst, in POINT pptDst, in SIZE psize, IntPtr hdcSrc, in POINT pptSrc, uint crKey, in Gdi32.BLENDFUNCTION pblend, int dwFlags);
+
+    [DllImport(User32Dll, SetLastError = true, CharSet = CharSet.Auto)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool PostMessage([Optional] IntPtr hWnd, uint Msg, [Optional] IntPtr wParam, [Optional] IntPtr lParam);
+
+    [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
+    public static extern void PostQuitMessage([Optional] int nExitCode);
+
+    [DllImport(User32Dll, SetLastError = false, CharSet = CharSet.Auto)]
+    public static extern IntPtr DefWindowProc(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport(User32Dll, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool DestroyWindow(IntPtr hWnd);
+#endif
 }

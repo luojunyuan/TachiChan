@@ -40,7 +40,7 @@ public class SplashScreen
     {
         if (!IsClosed)
         {
-            User32.PostMessage(_window, User32.WindowMessage_WM_CLOSE, nint.Zero, nint.Zero);
+            User32.PostMessage(_window, User32.WindowMessage_WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
             Closed?.Invoke(this, new());
 
             IsClosed = true;
@@ -65,9 +65,9 @@ public class SplashScreen
                 cbWndExtra = 0,
                 hInstance = hInstance,
                 hIcon = User32.LoadIcon(hInstance, User32.SystemIcons_IDI_APPLICATION),
-                hCursor = User32.LoadCursor(nint.Zero, User32.IDC_ARROW),
+                hCursor = User32.LoadCursor(IntPtr.Zero, User32.IDC_ARROW),
                 hbrBackground = User32.SystemColorIndex_COLOR_WINDOW,
-                lpszMenuName = nint.Zero,
+                lpszMenuName = IntPtr.Zero,
                 lpszClassName = Marshal.StringToHGlobalUni(WindowClass),
             };
 
@@ -83,12 +83,12 @@ public class SplashScreen
                 User32.CW_USEDEFAULT,
                 User32.CW_USEDEFAULT,
                 User32.CW_USEDEFAULT,
-                nint.Zero,
-                nint.Zero,
+                IntPtr.Zero,
+                IntPtr.Zero,
                 hInstance,
-                nint.Zero);
+                IntPtr.Zero);
             
-            if (_window == nint.Zero)
+            if (_window == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             _windowDC = User32.GetDC(_window);
@@ -105,7 +105,7 @@ public class SplashScreen
             var startupInput = new Gdiplus.GdiplusStartupInput
             {
                 GdiplusVersion = 1,
-                DebugEventCallback = nint.Zero,
+                DebugEventCallback = IntPtr.Zero,
                 SuppressBackgroundThread = 0, //false,
                 SuppressExternalCodecs = 0, //false,
             };
@@ -114,11 +114,16 @@ public class SplashScreen
                 throw new Exception("GDI+ Error, please check if image is existed");
 
             int gpStatus = -1;
+
             if (SplashResource != null)
             {
+#if !NET472
                 using System.Drawing.DrawingCom.IStreamWrapper streamWrapper = 
                     System.Drawing.DrawingCom.GetComWrapper(new System.Drawing.Internal.GPStream(SplashResource));
                 gpStatus = Gdiplus.GdipLoadImageFromStream(streamWrapper.Ptr, out _splashImage);
+#else
+                gpStatus = Gdiplus.GdipLoadImageFromStream(new GPStream(SplashResource), out _splashImage);
+#endif
             }
             else if (SplashFilePath != string.Empty)
             {
@@ -143,7 +148,7 @@ public class SplashScreen
             try
             {
                 User32.SetWindowPos(_window, User32.HWND_TOPMOST, 0, 0, 0, 0, 0x0001 | 0x0002);
-                while (User32.GetMessage(out var msg, nint.Zero, 0, 0) != false)
+                while (User32.GetMessage(out var msg, IntPtr.Zero, 0, 0) != false)
                 {
                     User32.TranslateMessage(msg);
                     User32.DispatchMessage(msg);
@@ -166,15 +171,15 @@ public class SplashScreen
 
     private nint _windowDC;
 
-    private nint _memoryDC = nint.Zero;
+    private nint _memoryDC = IntPtr.Zero;
 
     private nint _splashImage;
 
     private nint _graphics;
 
-    private nint _memoryBitmap = nint.Zero;
+    private nint _memoryBitmap = IntPtr.Zero;
 
-    private nuint _gdipToken = nuint.Zero;
+    private nuint _gdipToken = UIntPtr.Zero;
 
     private nint WindowProc(nint hWnd, uint msg, nint wParam, nint lParam)
     {
@@ -184,14 +189,14 @@ public class SplashScreen
             {
                 case User32.WindowMessage_WM_DESTROY:
                     User32.PostQuitMessage(0);
-                    return nint.Zero;
+                    return IntPtr.Zero;
                 case User32.WindowMessage_WM_DPICHANGED:
                     SetPositionAndSize(wParam.ToInt32() >> 16); //ToUInt32
                     DrawImage();
-                    return nint.Zero;
+                    return IntPtr.Zero;
                 case User32.WindowMessage_WM_NCHITTEST:
                     var result = User32.DefWindowProc(hWnd, msg, wParam, lParam);
-                    return result == User32.HitTestValues_HTCAPTION ? User32.HitTestValues_HTNOWHERE : result;
+                    return result == (IntPtr)User32.HitTestValues_HTCAPTION ? User32.HitTestValues_HTNOWHERE : result;
                 default:
                     return User32.DefWindowProc(hWnd, msg, wParam, lParam);
             }
@@ -202,7 +207,7 @@ public class SplashScreen
             //This may be because this method was called by system code.
             //So we must handle exception here.
             User32.DestroyWindow(_window);
-            return nint.Zero;
+            return IntPtr.Zero;
         }
     }
 
@@ -218,7 +223,7 @@ public class SplashScreen
         var screenHeight = User32.GetSystemMetrics(User32.SystemMetric_SM_CYSCREEN);
 
         var monitor = User32.MonitorFromWindow(_window, User32.MonitorFlags_MONITOR_DEFAULTTONULL);
-        if (monitor != nint.Zero)
+        if (monitor != IntPtr.Zero)
         {
             var info = User32.MONITORINFOEX.CreateWritable();
             if (User32.GetMonitorInfo(monitor, ref info))
@@ -264,16 +269,16 @@ public class SplashScreen
     /// <summary>
     /// Screen DC
     /// </summary>
-    private readonly nint _screenDC = User32.GetDC(nint.Zero);
+    private readonly nint _screenDC = User32.GetDC(IntPtr.Zero);
 
     /// <summary>
     /// Draw Image
     /// </summary>
     private void DrawImage()
     {
-        if (_memoryDC != nint.Zero)
+        if (_memoryDC != IntPtr.Zero)
             Gdi32.DeleteDC(_memoryDC);
-        if (_memoryBitmap != nint.Zero)
+        if (_memoryBitmap != IntPtr.Zero)
             Gdi32.DeleteObject(_memoryBitmap);
 
         _memoryDC = Gdi32.CreateCompatibleDC(_windowDC);
@@ -327,11 +332,16 @@ public class SplashScreen
     /// </summary>
     private void ReleaseAllResource()
     {
-        if (_gdipToken != nuint.Zero)
+        if (_gdipToken != UIntPtr.Zero)
             Gdiplus.GdiplusShutdown(_gdipToken);
         Gdi32.DeleteObject(_memoryBitmap);
         Gdi32.DeleteDC(_memoryDC);
         User32.ReleaseDC(_window, _windowDC);
-        User32.ReleaseDC(nint.Zero, _screenDC);
+        User32.ReleaseDC(IntPtr.Zero, _screenDC);
     }
+}
+
+public static class Extension
+{
+    public static int ToInt32(this nint nativeValue) => (int)nativeValue;
 }
