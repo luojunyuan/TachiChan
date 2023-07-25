@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Windows.Devices.Power;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -18,8 +17,11 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeAnimation();
 
             // TODO: Check the value on AC device, maybe empty?
+            // using Windows.Devices.Power;
+#if !NET472            
             if (Windows.Devices.Power.Battery.AggregateBattery.DeviceId != "AggregateBattery")
                 Battery.Visibility = Visibility.Collapsed;
+#endif
         }
 
         public void Show(double moveDistance)

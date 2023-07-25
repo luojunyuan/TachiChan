@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
@@ -42,6 +41,8 @@ public partial class App : Application
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
         {
+            // Microsoft.Toolkit.Uwp.Notifications;
+#if !NET472
             new ToastContentBuilder()
                 .AddText(Helper.XamlResource.GetString("Notification_Admin"))
                 .Show(t =>
@@ -50,6 +51,9 @@ public partial class App : Application
                     t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
                     // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
                 });
+#else 
+            System.Windows.MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin"));
+#endif
         }
 
         Config.Load();
