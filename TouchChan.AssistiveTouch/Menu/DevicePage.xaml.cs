@@ -19,20 +19,7 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             InitializeComponent();
             InitializeAnimation();
-
-            if (ExistProcess("TuneBlade")) // && Config.TuneBladePort not 0
-            {
-                _tuneBlade = TuneBladeApi.Setup(port);
-                if (_tuneBlade is not null)
-                {
-                    VolumeDown.Symbol = Symbol.CalculatorSubtract;
-                    VolumeUp.Symbol = Symbol.CalculatorAddition;
-                }
-            }
         }
-
-        private const int port = 60142;
-        private static bool ExistProcess(string processName) => Process.GetProcessesByName(processName).Length != 0;
 
         public void Show(double moveDistance)
         {
@@ -137,38 +124,15 @@ namespace TouchChan.AssistiveTouch.Menu
             }
         }
 
-        private readonly TuneBladeApi? _tuneBlade;
-        private async void VolumeDownOnClickEvent(object sender, EventArgs e)
-        {
-            if (_tuneBlade is null)
-            {
-                await WindowsInput.Simulate.Events()
-                    .Click(KeyCode.VolumeDown)
-                    .Invoke();
-            }
-            else
-            {
-                var (volume, id) = await _tuneBlade.GetFirstDeviceVolumeAsync();
-                var newVolume = volume < 5 ? 0 : volume - 5;
-                await _tuneBlade.ChangeVolumeAsync(id, newVolume);
-            }
-        }
+        private async void VolumeDownOnClickEvent(object sender, EventArgs e) => 
+            await WindowsInput.Simulate.Events()
+                .Click(KeyCode.VolumeDown)
+                .Invoke();
 
-        private async void VolumeUpOnClickEvent(object sender, EventArgs e)
-        {
-            if (_tuneBlade is null)
-            {
-                await WindowsInput.Simulate.Events()
-                    .Click(KeyCode.VolumeUp)
-                    .Invoke();
-            }
-            else
-            {
-                var (volume, id) = await _tuneBlade.GetFirstDeviceVolumeAsync();
-                var newVolume = volume > 95 ? 100 : volume + 5;
-                await _tuneBlade.ChangeVolumeAsync(id, newVolume);
-            }
-        }
+        private async void VolumeUpOnClickEvent(object sender, EventArgs e) =>
+            await WindowsInput.Simulate.Events()
+                .Click(KeyCode.VolumeUp)
+                .Invoke();
 
         private async void ActionCenterOnClickEvent(object sender, EventArgs e) =>
             await WindowsInput.Simulate.Events()
@@ -213,102 +177,5 @@ namespace TouchChan.AssistiveTouch.Menu
             await WindowsInput.Simulate.Events()
                 .ClickChord(KeyCode.LWin, KeyCode.D)
                 .Invoke();
-
-        private class TuneBladeApi
-        {
-            public static TuneBladeApi? Setup(int port)
-            {
-                var tb = new TuneBladeApi(port);
-                HttpResponseMessage response;
-                try
-                {
-                    response = tb.GetAllDevicesAsync().Result;
-                }
-                catch (Exception ex)
-                {
-                    // error port number
-                    Debug.WriteLine(ex.Message);
-                    return null;
-                }
-
-                if (!response.IsSuccessStatusCode) // Check port failed
-                    return null;
-
-                // Connection
-                string responseBody = response.Content.ReadAsStringAsync().Result;
-                Debug.WriteLine(responseBody); // TODO: if there has many (check the option config "friendly name")
-                if (responseBody == string.Empty)
-                    return null;
-
-                // Only support connect to the first device
-                var arr = responseBody.Split(' ');// (id, status, volume, name)
-                var id = arr[0];
-                var status = Enum.Parse<ConnectionStatus>(arr[1]);
-                if (status == ConnectionStatus.Disconnected)
-                    _ = tb.ConnectDeviceAsync(id).Result;
-                
-                var volume = int.Parse(arr[2]);
-                if (volume > 30)
-                    _ = tb.ChangeVolumeAsync(id, 30).Result;
-
-                return tb;
-            }
-
-            public enum ConnectionStatus
-            {
-                Disconnected = 0,
-                Connected = 100,
-                Standby = 200
-            }
-
-            private readonly HttpClient Client = new HttpClient();
-            private readonly int Port;
-
-            public TuneBladeApi(int port)
-            {
-                Port = port;
-            }
-
-            /// <summary>
-            /// Get list of all AirPlay receivers including connection and volume status.
-            /// </summary>
-            public async Task<HttpResponseMessage> GetAllDevicesAsync() =>
-                await Client.GetAsync($"http://localhost:{Port}/v2/");
-
-            /// <summary>
-            /// Get connection and volume status of a particular AirPlay receiver.
-            /// </summary>
-            public async Task<HttpResponseMessage> GetValueByDeviceIdAsync(int id) =>
-                await Client.GetAsync($"http://localhost:{Port}/v2/{id}");
-
-
-            /// <summary>
-            /// Connect/Disconnect to a particular AirPlay receiver.
-            /// </summary>
-            /// <returns>no response body</returns>
-            public async Task<HttpResponseMessage> ConnectDeviceAsync(string id, bool connect = true) =>
-                await Client.GetAsync($"http://localhost:{Port}/v2/{id}/Status/{(connect ? "Connect" : "Disconnect")}");
-
-            /// <summary>
-            /// Change volume of a particular AirPlay receiver
-            /// </summary>
-            /// <returns>no response body</returns>
-            public async Task<HttpResponseMessage> ChangeVolumeAsync(string id, int volumeLevel) =>
-                await Client.GetAsync($"http://localhost:{Port}/v2/{id}/Volume/{volumeLevel}");
-
-            public async Task<(int, string)> GetFirstDeviceVolumeAsync()
-            {
-                var response = await Client.GetAsync($"http://localhost:{Port}/v2/");
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var arr = responseBody.Split(' ');// (id, status, volume, name)
-                var id = arr[0];
-                var status = int.Parse(arr[1]) != 0;
-                var volume = int.Parse(arr[2]);
-                if (status == false)
-                    await Client.GetAsync($"http://localhost:{Port}/v2/{id}/Status/Connect");
-                return (volume, id);
-            }
-        }
     }
 }
