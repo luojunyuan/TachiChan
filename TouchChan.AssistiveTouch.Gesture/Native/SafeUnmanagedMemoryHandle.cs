@@ -31,14 +31,14 @@ public sealed class SafeUnmanagedMemoryHandle : SafeHandleZeroOrMinusOneIsInvali
 
         // If the handle was set,
         // free it. Return success.
-        if (handle != nint.Zero)
+        if (handle != IntPtr.Zero)
         {
 
             // Free the handle.
             Marshal.FreeHGlobal(handle);
 
             // Set the handle to zero.
-            handle = nint.Zero;
+            handle = IntPtr.Zero;
 
             // Return success.
             return true;

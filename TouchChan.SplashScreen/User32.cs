@@ -122,44 +122,7 @@ internal partial class User32
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial bool DestroyWindow(nint hWnd);
 
-#endif
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
-    internal unsafe struct MONITORINFOEX
-    {
-        public int cbSize;
-        public RECT rcMonitor;
-        public RECT rcWork;
-        public int dwFlags;
-        public fixed char szDevice[32];
-        public static MONITORINFOEX CreateWritable()
-            => new()
-            {
-                cbSize = Marshal.SizeOf(typeof(MONITORINFOEX)),
-                rcMonitor = new RECT(),
-                rcWork = new RECT(),
-                dwFlags = 0
-            };
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct WNDCLASSEX
-    {
-        public int cbSize;
-        public uint style;
-        public IntPtr lpfnWndProc; // not WndProc
-        public int cbClsExtra;
-        public int cbWndExtra;
-        public IntPtr hInstance;
-        public IntPtr hIcon;
-        public IntPtr hCursor;
-        public IntPtr hbrBackground;
-        public IntPtr lpszMenuName;
-        public IntPtr lpszClassName;
-        public IntPtr hIconSm;
-    }
-
-#if NET472
+#else
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     public delegate IntPtr WindowProc([In] IntPtr hwnd, [In] uint uMsg, [In] IntPtr wParam, [In] IntPtr lParam);
 
@@ -221,14 +184,6 @@ internal partial class User32
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-    [Flags]
-    public enum UpdateLayeredWindowFlags
-    {
-        ULW_COLORKEY = 0x00000001,
-        ULW_ALPHA = 0x00000002,
-        ULW_OPAQUE = 0x00000004,
-        ULW_EX_NORESIZE = 0x00000008,
-    }
     [DllImport(User32Dll, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool UpdateLayeredWindow(IntPtr hWnd, IntPtr hdcDst, in POINT pptDst, in SIZE psize, IntPtr hdcSrc, in POINT pptSrc, uint crKey, in Gdi32.BLENDFUNCTION pblend, int dwFlags);
@@ -246,5 +201,41 @@ internal partial class User32
     [DllImport(User32Dll, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool DestroyWindow(IntPtr hWnd);
+
 #endif
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+    internal unsafe struct MONITORINFOEX
+    {
+        public int cbSize;
+        public RECT rcMonitor;
+        public RECT rcWork;
+        public int dwFlags;
+        public fixed char szDevice[32];
+        public static MONITORINFOEX CreateWritable()
+            => new()
+            {
+                cbSize = Marshal.SizeOf(typeof(MONITORINFOEX)),
+                rcMonitor = new RECT(),
+                rcWork = new RECT(),
+                dwFlags = 0
+            };
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct WNDCLASSEX
+    {
+        public int cbSize;
+        public uint style;
+        public IntPtr lpfnWndProc; // not WndProc
+        public int cbClsExtra;
+        public int cbWndExtra;
+        public IntPtr hInstance;
+        public IntPtr hIcon;
+        public IntPtr hCursor;
+        public IntPtr hbrBackground;
+        public IntPtr lpszMenuName;
+        public IntPtr lpszClassName;
+        public IntPtr hIconSm;
+    }
 }

@@ -28,10 +28,16 @@ public partial class App : Application
         var pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
         _ = new IpcMain(pipeServer);
 
-        GameWindowHandle = int.Parse(e.Args[1]);
+        GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
 
-        TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), Environment.ProcessId);
+        TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 
+#if !NET472
+            Environment.ProcessId
+#else
+            System.Diagnostics.Process.GetCurrentProcess().Id
+#endif
+            );
 
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))

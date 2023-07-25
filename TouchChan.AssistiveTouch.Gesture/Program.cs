@@ -18,7 +18,9 @@ internal static class Program
         parent.EnableRaisingEvents = true;
         parent.Exited += (s, e) => Environment.Exit(0);
 
+#if !NET472
         ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
+#endif
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
@@ -32,3 +34,16 @@ internal static class Program
         Application.Run();
     }
 }
+
+#if NET472
+internal static partial class ApplicationConfiguration
+{
+    public static void Initialize()
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        // Set dpi aware in manifest instead
+        // Application.SetHighDpiMode(HighDpiMode.SystemAware);
+    }
+}
+#endif

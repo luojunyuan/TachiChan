@@ -15,7 +15,7 @@ public class TouchScreenDevice : HidDevice
     {
         for (int dwIndex = 0; dwIndex < _dwCount; dwIndex++)
         {
-            nint pRawDataPacket = new nint(_pRawData.ToInt64() + dwIndex * _dwSizHid);
+            var pRawDataPacket = new IntPtr(_pRawData.ToInt64() + dwIndex * _dwSizHid);
             for (short nodeIndex = 1; nodeIndex <= numberOfChildren; nodeIndex++)
             {
                 int contactIdentifier = GetContactId(nodeIndex, pRawDataPacket);

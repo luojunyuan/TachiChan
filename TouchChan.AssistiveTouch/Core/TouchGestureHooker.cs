@@ -10,8 +10,11 @@ namespace TouchChan.AssistiveTouch.Core
     {
         public static void Start(string pipeHandle, int pid)
         {
+#if !NET472
             var gestureHooker = "..\\TouchChan.AssistiveTouch.Gesture\\TouchChan.AssistiveTouch.Gesture.exe";
-
+#else
+            var gestureHooker = "TouchChan.AssistiveTouch.Gesture.exe";
+#endif
             if (!File.Exists(gestureHooker))
             {
                 MessageBox.Show("TouchChan.AssistiveTouch.Gesture.exe not exist.", "TachiChan");

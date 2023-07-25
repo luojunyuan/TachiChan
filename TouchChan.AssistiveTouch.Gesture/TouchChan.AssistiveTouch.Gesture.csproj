@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows7.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -13,9 +13,17 @@
 	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 
 	  <SatelliteResourceLanguages>ja</SatelliteResourceLanguages>
+    
+    <!-- Linux only netX-windows needed -->
+	  <!-- <EnableWindowsTargeting>true</EnableWindowsTargeting> -->
+    
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
   <ItemGroup>
+    <Using Remove="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(targetframework)' != 'net472'">
     <PackageReference Include="WinFormsComInterop" Version="0.4.3" />
   </ItemGroup>
 

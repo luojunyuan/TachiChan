@@ -14,7 +14,7 @@ namespace TouchChan.AssistiveTouch.Core
             var moduleHandle = Kernel32.GetModuleHandle(); // get current exe instant handle
 
             _hookId = User32.SetWindowsHookEx(User32.HookType_WH_KEYBOARD_LL, Hook, moduleHandle, 0); // tid 0 set global hook
-            if (_hookId == nint.Zero)
+            if (_hookId == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
@@ -45,7 +45,7 @@ namespace TouchChan.AssistiveTouch.Core
                 }
 
                 SendInput(1, keyEventList, INPUT.Size);
-                return new nint(1);
+                return new IntPtr(1);
             }
 
             return User32.CallNextHookEx(_hookId, nCode, wParam, lParam);

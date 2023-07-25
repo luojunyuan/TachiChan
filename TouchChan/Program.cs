@@ -70,8 +70,9 @@ static string ExtractLnkPath(string file)
             long pathLength = (totalStructLength + fileInfoStartsAt) - fileStream.Position - 2; // read
             // the base pathname. I don't need the 2 terminating nulls.
             var linkTarget = fileReader.ReadBytes((int)pathLength); // should be unicode safe
+#if !NET472
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
+#endif
             var link = Encoding.GetEncoding(0).GetString(linkTarget);
 
             int begin = link.IndexOf("\0\0");
@@ -186,7 +187,11 @@ static void Run(Process game, SplashScreen? splash = null)
         {
             StartInfo = new ProcessStartInfo
             {
+#if !NET472
                 FileName = "..\\TouchChan.AssistiveTouch\\TouchChan.AssistiveTouch.exe",
+#else
+                FileName = "TouchChan.AssistiveTouch.exe",
+#endif
                 Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle,
                 UseShellExecute = false,
             }

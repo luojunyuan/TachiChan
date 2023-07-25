@@ -30,7 +30,11 @@ namespace TouchChan.AssistiveTouch
                 while (true)
                 {
                     var input = (sr.ReadLine() ?? "Undefine {X=0,Y=0}").Split(' ');
+#if !NET472
                     var channel = Enum.Parse<ChannelName>(input[0]);
+#else
+                    var channel = (ChannelName)Enum.Parse(typeof(ChannelName), input[0]);
+#endif
                     var point = ExtractPoint(input[1]);
                     if (channel == ChannelName.Undefine)
                         continue;
