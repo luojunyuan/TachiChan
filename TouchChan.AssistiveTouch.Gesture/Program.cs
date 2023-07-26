@@ -24,6 +24,7 @@ internal static class Program
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         //ApplicationConfiguration.Initialize();
+        SetProcessDPIAware(); // needed to fix mapping
 
         PointCapture.Instance.Load();
         GestureManager.Instance.Load(PointCapture.Instance);
@@ -33,6 +34,9 @@ internal static class Program
 
         Application.Run();
     }
+
+    [DllImport("user32.dll")]
+    private static extern bool SetProcessDPIAware();
 }
 
 #if NET472

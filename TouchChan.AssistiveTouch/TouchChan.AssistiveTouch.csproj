@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.18362.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -15,7 +15,7 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
 
-  <Import Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
 	
 	<PropertyGroup Condition="'$(Platform)'=='x64'">
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>

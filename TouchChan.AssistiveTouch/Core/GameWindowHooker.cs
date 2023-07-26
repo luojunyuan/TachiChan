@@ -84,7 +84,6 @@ internal class GameWindowHooker : IDisposable
             if (rectClient.Size == default && _lastGameWindowSize == default) // Only kiniro?
                 return;
 
-                Console.WriteLine($"{rectClient.Size} {_lastGameWindowSize}");
             if (rectClient.Size != _lastGameWindowSize)
             {
                 Win32.SetWindowSize(_touchWindow, rectClient.Width, rectClient.Height);

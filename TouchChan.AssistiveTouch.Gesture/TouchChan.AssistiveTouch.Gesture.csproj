@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -19,6 +19,6 @@
     <PackageReference Include="WinFormsComInterop" Version="0.4.3" />
   </ItemGroup>
 
-  <Import Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
 
 </Project>

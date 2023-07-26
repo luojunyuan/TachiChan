@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>ARM64;x64;x86</Platforms>
@@ -10,7 +10,7 @@
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-  <Import Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
 
 	<PropertyGroup>
 		<!--  PublishAot PublishReadyToRun NETSDK1032  -->
