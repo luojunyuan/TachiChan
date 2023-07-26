@@ -39,8 +39,12 @@ internal static partial class ApplicationConfiguration
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        // Set dpi aware in manifest instead
-        // Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        //Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        // Or set dpi aware in manifest instead
+        SetProcessDPIAware(); // SystemAware
     }
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool SetProcessDPIAware();
 }
 #endif
