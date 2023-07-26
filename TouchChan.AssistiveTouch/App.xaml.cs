@@ -29,7 +29,7 @@ public partial class App : Application
 
         GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
-        //MessageBox.Show(pipeServer.GetClientHandleAsString());
+
         TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 
 #if !NET472
             Environment.ProcessId

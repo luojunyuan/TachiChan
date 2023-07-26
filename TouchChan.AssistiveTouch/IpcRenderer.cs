@@ -14,7 +14,6 @@ namespace TouchChan.AssistiveTouch
 
         public static void Send(string channel)
         {
-            // bug?
             using var sw = new StreamWriter(PipeClient);
             sw.AutoFlush = true;
             sw.WriteLine(channel);
