@@ -23,7 +23,7 @@ internal static class Program
 #endif
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
-        ApplicationConfiguration.Initialize();
+        //ApplicationConfiguration.Initialize();
 
         PointCapture.Instance.Load();
         GestureManager.Instance.Load(PointCapture.Instance);
@@ -41,7 +41,7 @@ internal static partial class ApplicationConfiguration
     public static void Initialize()
     {
         Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
+        Application.SetCompatibleTextRenderingDefault(false); // error net472 release
         // Set dpi aware in manifest instead
         // Application.SetHighDpiMode(HighDpiMode.SystemAware);
     }

@@ -84,7 +84,7 @@ public partial class Form1 : Form
         }
 
         using var exeKey = Registry.ClassesRoot.OpenSubKey(ExeName, true) ?? Registry.ClassesRoot.CreateSubKey(ExeName, true);
-        exeKey.SetValue("MUIVerb", "TouchChan");
+        exeKey.SetValue("MUIVerb", "TachiChan"); // The display name
         exeKey.SetValue("SubCommands", "TouchChan.Run;TouchChan.RunWith;TouchChan.Preference");
         exeKey.SetValue("Icon", $"\"{Path.Combine(AppContext.BaseDirectory, "Preference.exe")}\", 0");
 

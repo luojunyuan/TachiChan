@@ -53,6 +53,8 @@ internal class GameWindowHooker : IDisposable
              EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
              IntPtr.Zero, winProc, 0, 0,
              User32.WINEVENT.WINEVENT_OUTOFCONTEXT);
+
+        // FIXME: Recover from minimize, touch disapear (kiniro)
     }
 
     // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwineventhook
