@@ -48,6 +48,7 @@ public class SplashScreen
     }
 
     private nint _window;
+    private User32.WindowProc? _wndProcDelegate;
 
     public void Run(int milliseconds = 0)
     {
@@ -55,7 +56,7 @@ public class SplashScreen
         {
             var hInstance = Process.GetCurrentProcess().Handle;
 
-            User32.WindowProc _wndProcDelegate = WindowProc;
+            _wndProcDelegate = WindowProc;
             User32.WNDCLASSEX wndClassEx = new()
             {
                 cbSize = Marshal.SizeOf<User32.WNDCLASSEX>(),
