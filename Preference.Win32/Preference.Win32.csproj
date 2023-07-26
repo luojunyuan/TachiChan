@@ -10,6 +10,6 @@
     <Version>1.2.0.0</Version>
   </PropertyGroup>
 
-  <Import Project="..\Common.props" />
+  <Import Project="..\net472.props" />
 
 </Project>

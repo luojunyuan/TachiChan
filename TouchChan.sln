@@ -6,11 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{3B530AD6-8436-4E1D-84D4-0FE69ACD3EFB}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.gitignore = .gitignore
 		app.manifest = app.manifest
-		build.bat = build.bat
-		Common.props = Common.props
 		README.txt = README.txt
+		net472.props = net472.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preference", "Preference\Preference.csproj", "{DF58EAB8-F16E-4119-9DE5-2BF0CC408140}"
@@ -27,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.AssistiveTouch.Ge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.SplashScreen", "TouchChan.SplashScreen\TouchChan.SplashScreen.csproj", "{53EBB71C-9723-4645-B877-9340CE1DCD36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preference.Win32", "Preference.Win32\Preference.Win32.csproj", "{9E918030-876D-433F-B03F-2AA37E103159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Preference.Win32", "Preference.Win32\Preference.Win32.csproj", "{9E918030-876D-433F-B03F-2AA37E103159}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

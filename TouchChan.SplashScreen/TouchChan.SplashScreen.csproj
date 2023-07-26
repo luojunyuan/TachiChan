@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0-windows7.0</TargetFramework>
@@ -7,6 +7,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 
 </Project>

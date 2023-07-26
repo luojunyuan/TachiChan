@@ -10,7 +10,7 @@
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 
 	<PropertyGroup>
 		<!--  PublishAot PublishReadyToRun NETSDK1032  -->

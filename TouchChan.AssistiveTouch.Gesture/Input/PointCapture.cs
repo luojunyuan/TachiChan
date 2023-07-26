@@ -27,7 +27,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         private readonly InputProvider _inputProvider;
         private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
 
-        SynchronizationContext _currentContext;
+        SynchronizationContext? _currentContext;
 
         private Dictionary<int, List<Point>>? _pointsCaptured;
         // Create variable to hold the only allowed instance of this class
@@ -261,7 +261,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             foreach (var p in point)
             {
                 // Don't accept point if it's within specified distance of last point unless it's the first point
-                if (_pointsCaptured!.TryGetValue(p.ContactIdentifier, out List<Point> stroke))
+                if (_pointsCaptured!.TryGetValue(p.ContactIdentifier, out List<Point>? stroke))
                 {
                     if (stroke.Count != 0)
                     {

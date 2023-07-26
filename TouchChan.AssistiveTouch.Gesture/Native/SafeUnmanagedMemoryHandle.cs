@@ -4,7 +4,9 @@ using System.Security.Permissions;
 
 namespace TouchChan.AssistiveTouch.Gesture.Native;
 
+#if NET472
 [SecurityPermission(SecurityAction.Demand, UnmanagedCode = true)]
+#endif
 public sealed class SafeUnmanagedMemoryHandle : SafeHandleZeroOrMinusOneIsInvalid
 {
     // Set ownsHandle to true for the default constructor.

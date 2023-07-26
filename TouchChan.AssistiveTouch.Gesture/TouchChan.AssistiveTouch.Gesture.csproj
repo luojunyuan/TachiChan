@@ -19,6 +19,6 @@
     <PackageReference Include="WinFormsComInterop" Version="0.4.3" />
   </ItemGroup>
 
-  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 
 </Project>

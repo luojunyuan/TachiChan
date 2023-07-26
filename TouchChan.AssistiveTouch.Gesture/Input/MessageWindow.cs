@@ -169,7 +169,11 @@ public class MessageWindow : NativeWindow
         using (new SafeUnmanagedMemoryHandle(pInfo))
         {
             NativeMethods.GetRawInputDeviceInfo(hDevice, NativeMethods.RIDI_DEVICEINFO, pInfo, ref pcbSize);
+#if !NET472
+            var info = Marshal.PtrToStructure<RID_DEVICE_INFO>(pInfo);
+#else
             var info = (RID_DEVICE_INFO)Marshal.PtrToStructure(pInfo, typeof(RID_DEVICE_INFO));
+#endif
             switch (info.hid.usUsage)
             {
                 case NativeMethods.TouchPadUsage:
@@ -188,7 +192,7 @@ public class MessageWindow : NativeWindow
             using (new SafeUnmanagedMemoryHandle(pData))
             {
                 NativeMethods.GetRawInputDeviceInfo(hDevice, NativeMethods.RIDI_DEVICENAME, pData, ref pcbSize);
-                string deviceName = Marshal.PtrToStringAnsi(pData);
+                var deviceName = Marshal.PtrToStringAnsi(pData);
 
                 if (string.IsNullOrEmpty(deviceName) || deviceName.IndexOf("VIRTUAL_DIGITIZER", StringComparison.OrdinalIgnoreCase) >= 0 || deviceName.IndexOf("ROOT", StringComparison.OrdinalIgnoreCase) >= 0)
                     return true;
@@ -260,7 +264,11 @@ public class MessageWindow : NativeWindow
                 throw new ApplicationException("GetRawInputData does not return correct size !\n.");
             }
 
+#if !NET472
+            var raw = Marshal.PtrToStructure<RAWINPUT>(buffer);
+#else
             RAWINPUT raw = (RAWINPUT)Marshal.PtrToStructure(buffer, typeof(RAWINPUT));
+#endif
 
             ushort usage;
             if (!_validDevices.TryGetValue(raw.header.hDevice, out usage))
@@ -318,5 +326,5 @@ public class MessageWindow : NativeWindow
     }
 
 
-    #endregion ProcessInput
+#endregion ProcessInput
 }

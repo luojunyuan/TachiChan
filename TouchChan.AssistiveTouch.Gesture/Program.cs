@@ -25,6 +25,7 @@ internal static class Program
         // see https://aka.ms/applicationconfiguration.
         //ApplicationConfiguration.Initialize();
         SetProcessDPIAware(); // needed to fix mapping
+        // or use manifest?
 
         PointCapture.Instance.Load();
         GestureManager.Instance.Load(PointCapture.Instance);

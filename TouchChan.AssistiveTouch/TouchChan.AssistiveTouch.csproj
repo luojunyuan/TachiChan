@@ -15,7 +15,7 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
 
-  <Import Condition="'$(targetframework)' == 'net472'" Project="..\Common.props" />
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 	
 	<PropertyGroup Condition="'$(Platform)'=='x64'">
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
