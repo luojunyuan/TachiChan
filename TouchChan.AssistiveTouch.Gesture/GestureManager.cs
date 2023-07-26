@@ -99,8 +99,8 @@ internal class GestureManager
 
     #region Custom Events
 
-    public static event EventHandler OnLoadGesturesCompleted;
-    public static event EventHandler GestureSaved;
+    //public static event EventHandler OnLoadGesturesCompleted;
+    //public static event EventHandler GestureSaved;
 
     #endregion
 

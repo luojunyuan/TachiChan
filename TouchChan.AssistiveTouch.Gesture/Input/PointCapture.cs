@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿#nullable enable
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.Gesture.Common;
@@ -26,10 +27,9 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         private readonly InputProvider _inputProvider;
         private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
 
-        private System.Threading.Timer _initialTimeoutTimer;
         SynchronizationContext _currentContext;
 
-        private Dictionary<int, List<Point>> _pointsCaptured;
+        private Dictionary<int, List<Point>>? _pointsCaptured;
         // Create variable to hold the only allowed instance of this class
         static readonly PointCapture _Instance = new PointCapture();
 
@@ -37,8 +37,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         private volatile CaptureState _state;
 
         private bool disposedValue = false; // To detect redundant calls
-
-        private Point _touchPadStartPoint;
 
         #endregion
 
@@ -81,7 +79,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         public event EventHandler? CaptureEnded;
 
 
-        public event PointsCapturedEventHandler CaptureCanceled;
+        //public event PointsCapturedEventHandler? CaptureCanceled;
 
         #endregion
 
@@ -107,7 +105,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             {
                 if (disposing)
                 {
-                    _initialTimeoutTimer?.Dispose();
                     _inputProvider?.Dispose();
                 }
 
@@ -195,9 +192,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                 e.Handled = true;
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             }
-
-            if (_initialTimeoutTimer != null)
-                _initialTimeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         #endregion
@@ -226,14 +220,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                         _pointsCaptured.Add(rawData.ContactIdentifier, new List<Point>(30));
                 }
             }
-            else
-            {
-                foreach (var rawData in firstPoint.OrderBy(p => p.ContactIdentifier))
-                {
-                    if (!_pointsCaptured.ContainsKey(rawData.ContactIdentifier))
-                        _pointsCaptured.Add(rawData.ContactIdentifier, new List<Point>(30));
-                }
-            }
+
             AddPoint(firstPoint);
             return true;
         }
@@ -241,7 +228,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
         private void EndCapture()
         {
             // Create points capture event args, to be used to send off to event subscribers or to simulate original Point event
-            var pointsInformation = new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), _pointsCaptured.Values.Select(p => p.FirstOrDefault()).ToList());
+            var pointsInformation = new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured!.Values), _pointsCaptured.Values.Select(p => p.FirstOrDefault()).ToList());
 
             // Notify subscribers that capture has ended （draw end）
             CaptureEnded?.Invoke(this, new());
@@ -274,7 +261,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             foreach (var p in point)
             {
                 // Don't accept point if it's within specified distance of last point unless it's the first point
-                if (_pointsCaptured.TryGetValue(p.ContactIdentifier, out List<Point> stroke))
+                if (_pointsCaptured!.TryGetValue(p.ContactIdentifier, out List<Point> stroke))
                 {
                     if (stroke.Count != 0)
                     {
@@ -293,7 +280,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             if (getNewPoint)
             {
                 // Notify subscribers that point has been captured
-                PointCaptured?.Invoke(this, new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), point.Select(p => p.Point).ToList()));
+                PointCaptured?.Invoke(this, new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured!.Values), point.Select(p => p.Point).ToList()));
             }
         }
 

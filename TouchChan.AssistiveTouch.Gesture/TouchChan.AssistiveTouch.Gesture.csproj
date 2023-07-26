@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net472</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -13,9 +13,6 @@
 	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 
 	  <SatelliteResourceLanguages>ja</SatelliteResourceLanguages>
-    
-    <!-- Linux only netX-windows needed -->
-	  <!-- <EnableWindowsTargeting>true</EnableWindowsTargeting> -->
   </PropertyGroup>
 
   <ItemGroup Condition="'$(targetframework)' != 'net472'">

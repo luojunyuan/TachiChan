@@ -1,4 +1,5 @@
-﻿using GestureSign.Daemon.Native;
+﻿#nullable enable
+using GestureSign.Daemon.Native;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.Gesture.Common;
@@ -8,7 +9,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input;
 
 public class MessageWindow : NativeWindow
 {
-    private Screen _currentScr;
+    private Screen? _currentScr;
 
     private static readonly HandleRef HwndMessage = new HandleRef(null, new IntPtr(-3));
 
@@ -18,9 +19,6 @@ public class MessageWindow : NativeWindow
 
     private Devices _sourceDevice;
     private List<ushort> _registeredDeviceList = new List<ushort>(1);
-    private int? _penLastActivity;
-    private bool _ignoreTouchInputWhenUsingPen;
-    private DeviceStates _penGestureButton;
 
     public event RawPointsDataMessageEventHandler? PointsIntercepted;
 
@@ -275,8 +273,6 @@ public class MessageWindow : NativeWindow
                 return;
             if (usage == NativeMethods.TouchScreenUsage)
             {
-                if (_penLastActivity != null && Environment.TickCount - _penLastActivity < 100)
-                    return;
                 if (_sourceDevice == Devices.None)
                 {
                     _currentScr = Screen.FromPoint(Cursor.Position);
