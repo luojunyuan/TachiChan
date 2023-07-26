@@ -60,8 +60,8 @@ public partial class App : Application
         if (Config.UseEnterKeyMapping)
             KeyboardHooker.Install(GameWindowHandle);
 
-        // Config.UseModernSleep
-        ModernSleepTimer.Start();
+        if (Config.UseModernSleep)
+            ModernSleepTimer.Start();
 
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;

@@ -24,6 +24,8 @@ namespace TouchChan.AssistiveTouch
         public static bool UseEdgeTouchMask { get; private set; }
 
         public static bool EnableMagTouchMapping { get; private set; }
+        
+        public static bool UseModernSleep { get; private set; }
 
         public static void Load()
         {
@@ -36,9 +38,10 @@ namespace TouchChan.AssistiveTouch
             MappingKey = (KeyCode)Enum.Parse(typeof(KeyCode), myIni.Read(nameof(MappingKey)) ?? "Z"); // const int KEY_Z = 0x5A;
             ScreenShotTradition = bool.Parse(myIni.Read(nameof(ScreenShotTradition)) ?? "false");
             AssistiveTouchPosition = myIni.Read(nameof(AssistiveTouchPosition)) ?? string.Empty;
-            // Touch size
             UseEdgeTouchMask = bool.Parse(myIni.Read(nameof(UseEdgeTouchMask)) ?? "false");
             EnableMagTouchMapping = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
+            UseModernSleep = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
+            // Touch size
         }
 
         public static void SaveAssistiveTouchPosition(string pos)

@@ -28,7 +28,6 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.ScreenShot = new System.Windows.Forms.CheckBox();
             this.KeytwoEnter = new System.Windows.Forms.CheckBox();
             this.Register = new System.Windows.Forms.Button();
@@ -41,6 +40,7 @@ partial class Form1
             this.StartProcess = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.DeleteConfigButton = new System.Windows.Forms.Button();
+            this.ModernSleepCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,6 +147,7 @@ partial class Form1
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ModernSleepCheckBox);
             this.groupBox1.Controls.Add(this.DeleteConfigButton);
             this.groupBox1.Controls.Add(this.ProcessComboBox);
             this.groupBox1.Controls.Add(this.StartProcess);
@@ -165,13 +166,24 @@ partial class Form1
             // 
             // DeleteConfigButton
             // 
-            this.DeleteConfigButton.Location = new System.Drawing.Point(38, 369);
+            this.DeleteConfigButton.Location = new System.Drawing.Point(337, 365);
             this.DeleteConfigButton.Name = "DeleteConfigButton";
             this.DeleteConfigButton.Size = new System.Drawing.Size(160, 64);
             this.DeleteConfigButton.TabIndex = 13;
             this.DeleteConfigButton.Text = "Clear Config";
             this.DeleteConfigButton.UseVisualStyleBackColor = true;
             this.DeleteConfigButton.Click += new System.EventHandler(this.DeleteConfigButton_Click);
+            // 
+            // ModernSleepCheckBox
+            // 
+            this.ModernSleepCheckBox.AutoSize = true;
+            this.ModernSleepCheckBox.Location = new System.Drawing.Point(38, 365);
+            this.ModernSleepCheckBox.Name = "ModernSleepCheckBox";
+            this.ModernSleepCheckBox.Size = new System.Drawing.Size(293, 52);
+            this.ModernSleepCheckBox.TabIndex = 14;
+            this.ModernSleepCheckBox.Text = "Sleep computer after 10\r\nminutes (not stable work)";
+            this.ModernSleepCheckBox.UseVisualStyleBackColor = true;
+            this.ModernSleepCheckBox.CheckedChanged += new System.EventHandler(this.ModernSleep_CheckedChanged);
             // 
             // Form1
             // 
@@ -181,7 +193,6 @@ partial class Form1
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Unregister);
             this.Controls.Add(this.Register);
-            //this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -207,4 +218,5 @@ partial class Form1
     private Button StartProcess;
     private GroupBox groupBox1;
     private Button DeleteConfigButton;
+    private CheckBox ModernSleepCheckBox;
 }

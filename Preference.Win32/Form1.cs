@@ -203,6 +203,13 @@ public partial class Form1 : Form
         config.Write("UseEdgeTouchMask", FullscreenMask.Checked.ToString());
     }
 
+    private void ModernSleep_CheckedChanged(object sender, EventArgs e)
+    {
+        var config = new IniFile();
+        config.Write("ModernSleep", ModernSleepCheckBox.Checked.ToString());
+    }
+
+
     private string DefaultLEPath = string.Empty;
 
     private void LEPathDialogButton_Click(object sender, EventArgs e)
