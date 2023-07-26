@@ -70,6 +70,7 @@ static string ExtractLnkPath(string file)
             long pathLength = (totalStructLength + fileInfoStartsAt) - fileStream.Position - 2; // read
             // the base pathname. I don't need the 2 terminating nulls.
             var linkTarget = fileReader.ReadBytes((int)pathLength); // should be unicode safe
+            // error in VS but properly in context menu? "C:\Users\k1mlk\Desktop\金色ラブリッチェ.lnk"
 #if !NET472
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 #endif
