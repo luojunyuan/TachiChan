@@ -5,11 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Remove="System.Net.Http" />
-  </ItemGroup>
+
+  <Import Project="..\Common.props" />
 
 </Project>

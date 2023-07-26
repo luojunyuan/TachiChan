@@ -13,12 +13,9 @@
 	  <PublishReadyToRun>true</PublishReadyToRun>
       <TieredCompilation>false</TieredCompilation>
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
-    
-	<LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Remove="System.Net.Http" />
-  </ItemGroup>
+
+  <Import Project="..\Common.props" />
 	
 	<PropertyGroup Condition="'$(Platform)'=='x64'">
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>

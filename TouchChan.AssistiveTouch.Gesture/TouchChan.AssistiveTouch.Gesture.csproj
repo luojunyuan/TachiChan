@@ -16,15 +16,12 @@
     
     <!-- Linux only netX-windows needed -->
 	  <!-- <EnableWindowsTargeting>true</EnableWindowsTargeting> -->
-    
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Remove="System.Net.Http" />
-  </ItemGroup>
 
   <ItemGroup Condition="'$(targetframework)' != 'net472'">
     <PackageReference Include="WinFormsComInterop" Version="0.4.3" />
   </ItemGroup>
+
+  <Import Project="..\Common.props" />
 
 </Project>
