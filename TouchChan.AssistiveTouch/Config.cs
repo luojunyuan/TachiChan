@@ -11,7 +11,7 @@ namespace TouchChan.AssistiveTouch
     {
         private static readonly string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private static readonly string ConfigFolder = Path.Combine(RoamingPath, "TouchChan");
-        private static readonly string ConfigFilePath = Path.Combine(RoamingPath, "TouchChan", "EHConfig.ini");
+        private static readonly string ConfigFilePath = Path.Combine(RoamingPath, "TouchChan", "Config.ini");
 
         public static bool UseEnterKeyMapping { get; private set; }
 
