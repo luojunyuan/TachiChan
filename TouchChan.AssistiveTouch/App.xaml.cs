@@ -29,30 +29,29 @@ public partial class App : Application
 
         GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
-
+        //MessageBox.Show(pipeServer.GetClientHandleAsString());
         TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 
 #if !NET472
             Environment.ProcessId
 #else
-            System.Diagnostics.Process.GetCurrentProcess().Id
+            Process.GetCurrentProcess().Id
 #endif
             );
 
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
         {
-            // Microsoft.Toolkit.Uwp.Notifications;
 #if !NET472
-            new ToastContentBuilder()
+            new Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder()
                 .AddText(Helper.XamlResource.GetString("Notification_Admin"))
                 .Show(t =>
                 {
                     t.Tag = "eh";
-                    t.Dismissed += (_, _) => ToastNotificationManagerCompat.History.Remove("eh");
+                    t.Dismissed += (_, _) => Microsoft.Toolkit.Uwp.Notifications.ToastNotificationManagerCompat.History.Remove("eh");
                     // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
                 });
 #else 
-            System.Windows.MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin"));
+            MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin"));
 #endif
         }
 
@@ -93,7 +92,7 @@ public partial class App : Application
 
             if (stylusLogic != null)
             {
-                //  Get the type of the stylusLogic returned from the call to StylusLogic.  
+                // Get the type of the stylusLogic returned from the call to StylusLogic.  
                 Type stylusLogicType = stylusLogic.GetType();
 
                 // Loop until there are no more devices to remove.  

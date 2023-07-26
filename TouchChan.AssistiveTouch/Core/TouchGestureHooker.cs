@@ -15,11 +15,6 @@ namespace TouchChan.AssistiveTouch.Core
 #else
             var gestureHooker = "TouchChan.AssistiveTouch.Gesture.exe";
 #endif
-            if (!File.Exists(gestureHooker))
-            {
-                MessageBox.Show("TouchChan.AssistiveTouch.Gesture.exe not exist.", "TachiChan");
-                return;
-            }
 
             try
             {
@@ -27,11 +22,14 @@ namespace TouchChan.AssistiveTouch.Core
                 {
                     FileName = gestureHooker,
                     Arguments = pipeHandle + " " + pid,
+#if NET472
+                    UseShellExecute = false // unless handle would fail
+#endif
                 });
             }
             catch (SystemException ex)
             {
-                MessageBox.Show($"Error with Launching TouchChan.AssistiveTouch.Gesture.exe{Environment.NewLine}" +
+                MessageBox.Show($"Error while Launching TouchChan.AssistiveTouch.Gesture.exe{Environment.NewLine}" +
                     ex.Message,
                     "TachiChan");
                 return;
