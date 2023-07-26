@@ -53,8 +53,6 @@ internal class GameWindowHooker : IDisposable
              EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
              IntPtr.Zero, winProc, 0, 0,
              User32.WINEVENT.WINEVENT_OUTOFCONTEXT);
-
-        // FIXME: Recover from minimize, touch disapear (kiniro)
     }
 
     // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwineventhook
@@ -83,6 +81,10 @@ internal class GameWindowHooker : IDisposable
         {
             User32.GetClientRect(hWnd, out var rectClient);
 
+            if (rectClient.Size == default && _lastGameWindowSize == default) // Only kiniro?
+                return;
+
+                Console.WriteLine($"{rectClient.Size} {_lastGameWindowSize}");
             if (rectClient.Size != _lastGameWindowSize)
             {
                 Win32.SetWindowSize(_touchWindow, rectClient.Width, rectClient.Height);
@@ -92,7 +94,7 @@ internal class GameWindowHooker : IDisposable
             else
             {
                 // https://bugreports.qt.io/browse/QTBUG-64116?focusedCommentId=377425&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel
-                // HACK: Hack way to fix touch position
+                // HACK: Hack way to fix touch position. (There is a offset can not be seeing by eyes)
                 _throttle.Signal(rectClient);
             }
 
