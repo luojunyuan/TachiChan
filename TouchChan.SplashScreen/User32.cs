@@ -215,7 +215,11 @@ internal partial class User32
         public static MONITORINFOEX CreateWritable()
             => new()
             {
+#if !NET472
+                cbSize = Marshal.SizeOf<MONITORINFOEX>(),
+#else
                 cbSize = Marshal.SizeOf(typeof(MONITORINFOEX)),
+#endif
                 rcMonitor = new RECT(),
                 rcWork = new RECT(),
                 dwFlags = 0

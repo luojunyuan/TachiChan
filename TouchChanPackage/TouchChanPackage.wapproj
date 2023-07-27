@@ -52,7 +52,7 @@
   <PropertyGroup>
     <ProjectGuid>ec0bac97-cfa1-452e-9419-4aa2f80555fb</ProjectGuid>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
@@ -172,5 +172,6 @@
       <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-native.pubxml</PublishProfile>
     </ProjectReference>
     <ProjectReference Include="..\Preference\Preference.csproj" />
+    <ProjectReference Include="..\WinRTLauncher\WinRTLauncher.vcxproj" />
   </ItemGroup>
 </Project>

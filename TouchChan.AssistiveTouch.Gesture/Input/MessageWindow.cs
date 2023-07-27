@@ -247,7 +247,12 @@ public class MessageWindow : NativeWindow
         // storing the pointer in "buffer".
         NativeMethods.GetRawInputData(LParam, NativeMethods.RID_INPUT, IntPtr.Zero,
                          ref dwSize,
-                         (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER)));
+#if !NET472
+                         (uint)Marshal.SizeOf<RAWINPUTHEADER>()
+#else
+                         (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER))
+#endif
+                         );
 
         IntPtr buffer = Marshal.AllocHGlobal((int)dwSize);
         try
@@ -259,7 +264,12 @@ public class MessageWindow : NativeWindow
                NativeMethods.GetRawInputData(LParam, NativeMethods.RID_INPUT,
                                  buffer,
                                  ref dwSize,
-                                 (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER))) != dwSize)
+#if !NET472
+                                (uint)Marshal.SizeOf<RAWINPUTHEADER>()
+#else
+                                (uint)Marshal.SizeOf(typeof(RAWINPUTHEADER))
+#endif
+                                    ) != dwSize)
             {
                 throw new ApplicationException("GetRawInputData does not return correct size !\n.");
             }

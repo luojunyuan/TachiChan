@@ -1,6 +1,14 @@
 Code Name: TouchChan
 表紙ネーム：TachiChan - タッチちゃん - 触控酱
 
+### build
+* Universal Windows Platform Devolopment (about 12gb)
+Preference (UWP)
+TouchChanPackage
+* C++ Desktop Devolopment (MSVC v14* C++ x86/x64/arm64 build tools about 3gb)
+WinRTLauncher
+--- Finally can publish the package
+
 1. 为 shinario 启动旧式touch（测试可行，焦点都在touch上）（预计工作量至少一天，若有人提及再优先做）
 2. 消除对 WindowsInput 的依赖
 

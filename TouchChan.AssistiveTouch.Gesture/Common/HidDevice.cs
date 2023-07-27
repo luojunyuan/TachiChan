@@ -144,8 +144,11 @@ namespace TouchChan.AssistiveTouch.Gesture.Common
         {
             Devices foundDevices = Devices.None;
             uint deviceCount = 0;
+#if !NET472
+            int dwSize = Marshal.SizeOf<RAWINPUTDEVICELIST>();
+#else
             int dwSize = Marshal.SizeOf(typeof(RAWINPUTDEVICELIST));
-
+#endif
             if (NativeMethods.GetRawInputDeviceList(IntPtr.Zero, ref deviceCount, (uint)dwSize) == 0)
             {
                 IntPtr pRawInputDeviceList = Marshal.AllocHGlobal((int)(dwSize * deviceCount));
@@ -157,10 +160,14 @@ namespace TouchChan.AssistiveTouch.Gesture.Common
                     {
                         uint pSize = 0;
 
+#if !NET472
+                        var rid = Marshal.PtrToStructure<RAWINPUTDEVICELIST>(
+                            IntPtr.Add(pRawInputDeviceList, dwSize * i));
+#else
                         RAWINPUTDEVICELIST rid = (RAWINPUTDEVICELIST)Marshal.PtrToStructure(
                             IntPtr.Add(pRawInputDeviceList, dwSize * i),
                             typeof(RAWINPUTDEVICELIST));
-
+#endif
                         NativeMethods.GetRawInputDeviceInfo(rid.hDevice, NativeMethods.RIDI_DEVICEINFO, IntPtr.Zero, ref pSize);
                         if (pSize <= 0)
                             continue;
@@ -169,7 +176,11 @@ namespace TouchChan.AssistiveTouch.Gesture.Common
                         using (new SafeUnmanagedMemoryHandle(pInfo))
                         {
                             NativeMethods.GetRawInputDeviceInfo(rid.hDevice, NativeMethods.RIDI_DEVICEINFO, pInfo, ref pSize);
+#if !NET472
+                            var info = Marshal.PtrToStructure<RID_DEVICE_INFO>(pInfo);
+#else
                             var info = (RID_DEVICE_INFO)Marshal.PtrToStructure(pInfo, typeof(RID_DEVICE_INFO));
+#endif
                             switch (info.hid.usUsage)
                             {
                                 case NativeMethods.TouchPadUsage:
