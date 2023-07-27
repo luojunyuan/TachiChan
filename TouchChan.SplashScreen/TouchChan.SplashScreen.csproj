@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>ARM64;x64;x86</Platforms>
   </PropertyGroup>
 
   <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />

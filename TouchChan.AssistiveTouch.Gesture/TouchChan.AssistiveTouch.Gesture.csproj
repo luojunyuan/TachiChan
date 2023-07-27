@@ -4,15 +4,18 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>..\app.manifest</ApplicationManifest>
 
-	  <PublishAot>false</PublishAot>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>ARM64;x64;x86</Platforms>
+
+	  <!--<PublishAot>false</PublishAot>
 	  <InvariantGlobalization>true</InvariantGlobalization>
-	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>-->
 
-	  <SatelliteResourceLanguages>ja</SatelliteResourceLanguages>
+	  <!--<SatelliteResourceLanguages>ja</SatelliteResourceLanguages>-->
   </PropertyGroup>
 
   <ItemGroup Condition="'$(targetframework)' != 'net472'">

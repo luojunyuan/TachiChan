@@ -21,12 +21,6 @@ internal static class Program
 #if !NET472
         ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
 #endif
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
-        //ApplicationConfiguration.Initialize();
-        SetProcessDPIAware(); // needed to fix mapping
-        // or use manifest?
-
         PointCapture.Instance.Load();
         GestureManager.Instance.Load(PointCapture.Instance);
         using var sw = new StreamWriter(pipeClient);
@@ -35,20 +29,4 @@ internal static class Program
 
         Application.Run();
     }
-
-    [DllImport("user32.dll")]
-    private static extern bool SetProcessDPIAware();
 }
-
-#if NET472
-internal static partial class ApplicationConfiguration
-{
-    public static void Initialize()
-    {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false); // error net472 release
-        // Set dpi aware in manifest instead
-        // Application.SetHighDpiMode(HighDpiMode.SystemAware);
-    }
-}
-#endif
