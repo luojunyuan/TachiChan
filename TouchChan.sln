@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.AssistiveTouch", 
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "TouchChanPackage", "TouchChanPackage\TouchChanPackage.wapproj", "{EC0BAC97-CFA1-452E-9419-4AA2F80555FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinRTLauncher", "WinRTLauncher\WinRTLauncher.vcxproj", "{2518C195-E1B8-4C70-8B22-D2AF9A44C259}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.AssistiveTouch.Gesture", "TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj", "{7EA74551-4AB0-4E60-925C-EAC24424E0D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.SplashScreen", "TouchChan.SplashScreen\TouchChan.SplashScreen.csproj", "{53EBB71C-9723-4645-B877-9340CE1DCD36}"
@@ -97,18 +95,6 @@ Global
 		{EC0BAC97-CFA1-452E-9419-4AA2F80555FB}.Release|x86.ActiveCfg = Release|x86
 		{EC0BAC97-CFA1-452E-9419-4AA2F80555FB}.Release|x86.Build.0 = Release|x86
 		{EC0BAC97-CFA1-452E-9419-4AA2F80555FB}.Release|x86.Deploy.0 = Release|x86
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Debug|ARM64.Build.0 = Debug|ARM64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Debug|x64.ActiveCfg = Debug|x64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Debug|x64.Build.0 = Debug|x64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Debug|x86.ActiveCfg = Debug|Win32
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Debug|x86.Build.0 = Debug|Win32
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Release|ARM64.ActiveCfg = Release|ARM64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Release|ARM64.Build.0 = Release|ARM64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Release|x64.ActiveCfg = Release|x64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Release|x64.Build.0 = Release|x64
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Release|x86.ActiveCfg = Release|Win32
-		{2518C195-E1B8-4C70-8B22-D2AF9A44C259}.Release|x86.Build.0 = Release|Win32
 		{7EA74551-4AB0-4E60-925C-EAC24424E0D9}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{7EA74551-4AB0-4E60-925C-EAC24424E0D9}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{7EA74551-4AB0-4E60-925C-EAC24424E0D9}.Debug|x64.ActiveCfg = Debug|x64

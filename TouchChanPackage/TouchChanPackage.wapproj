@@ -61,7 +61,7 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
   </PropertyGroup>
@@ -156,10 +156,21 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj" />
-    <ProjectReference Include="..\TouchChan.AssistiveTouch\TouchChan.AssistiveTouch.csproj" />
-    <ProjectReference Include="..\TouchChan\TouchChan.csproj" />
+    <ProjectReference Include="..\TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj">
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x86'">Properties\PublishProfiles\FolderProfile-x86-framework.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Properties\PublishProfiles\FolderProfile-arm64-native.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-native.pubxml</PublishProfile>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchChan.AssistiveTouch\TouchChan.AssistiveTouch.csproj">
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-framework.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x86'">Properties\PublishProfiles\FolderProfile-x86-framework.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Properties\PublishProfiles\FolderProfile-arm64-framework.pubxml</PublishProfile>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchChan\TouchChan.csproj">
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x86'">Properties\PublishProfiles\FolderProfile-x86-framework.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Properties\PublishProfiles\FolderProfile-arm64-native.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-native.pubxml</PublishProfile>
+    </ProjectReference>
     <ProjectReference Include="..\Preference\Preference.csproj" />
-    <ProjectReference Include="..\WinRTLauncher\WinRTLauncher.vcxproj" />
   </ItemGroup>
 </Project>
