@@ -28,6 +28,8 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
+        // Background = AcrylicBackgroundFillColorDefaultBrush // acrylic
+        // SolidBackgroundFillColorBase // Mica
         ProcessComboBox.ItemsSource = ProcessItems;
         var appView = ApplicationView.GetForCurrentView();
         var resourceLoader = ResourceLoader.GetForCurrentView();
