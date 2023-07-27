@@ -156,6 +156,7 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj" />
     <ProjectReference Include="..\TouchChan.AssistiveTouch\TouchChan.AssistiveTouch.csproj" />
     <ProjectReference Include="..\TouchChan\TouchChan.csproj" />
     <ProjectReference Include="..\Preference\Preference.csproj" />

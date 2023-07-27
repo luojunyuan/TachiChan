@@ -7,14 +7,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>..\app.manifest</ApplicationManifest>
-
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>ARM64;x64;x86</Platforms>
 
-	  <!--<PublishAot>false</PublishAot>
-	  <InvariantGlobalization>true</InvariantGlobalization>
-	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>-->
-
+	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	  <!--<SatelliteResourceLanguages>ja</SatelliteResourceLanguages>-->
   </PropertyGroup>
 
