@@ -1,5 +1,5 @@
 Code Name: TouchChan
-表紙ネーム：TachiChan - タッチちゃん - 触控酱(触摸酱TapChan？どっち)
+表紙ネーム：TachiChan - タッチちゃん - 触控酱(触摸酱TapChan？どっち、TapuChan)
 
 ### build
 * Universal Windows Platform Devolopment (about 12gb)
