@@ -9,5 +9,5 @@ internal class Strings
     public const string App_LENotFound = "Locate Emulator not found in path ";
     public const string App_LENotSupport = "Locate Emulator not support x64 bit program.";
     public const string App_ElevatedError = "No privilege to run the game, please try run as administrator again.";
-    public const string App_Unexpected = "Game existed, please check is there is a launcher.";
+    public const string App_Unexpected = "Game exited, please check if it is a launcher rather the game.";
 }
