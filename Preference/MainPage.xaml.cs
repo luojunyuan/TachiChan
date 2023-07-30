@@ -14,6 +14,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
@@ -28,8 +29,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
-        // Background = AcrylicBackgroundFillColorDefaultBrush // acrylic
-        // SolidBackgroundFillColorBase // Mica
+
         ProcessComboBox.ItemsSource = ProcessItems;
         var appView = ApplicationView.GetForCurrentView();
         var resourceLoader = ResourceLoader.GetForCurrentView();
