@@ -20,7 +20,7 @@ using namespace std;
 //int main()
 int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
 {
-    auto sss = FilterProcessService::GetProcessesIdWithWindows();
+    auto sss = FilterProcessService::GetProcessesWithWindows();
     init_apartment();
     //Uri uri(L"http://aka.ms/cppwinrt");
     //printf("1Hello, %ls!\n", uri.AbsoluteUri().c_str());

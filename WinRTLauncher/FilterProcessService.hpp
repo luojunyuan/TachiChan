@@ -1,20 +1,26 @@
-﻿#pragma comment(lib,"version.lib")
+﻿#pragma comment(lib, "version.lib")
 #include "pch.h"
 
 #include <windows.h>
-#include <tlhelp32.h>
 #include <shellapi.h>
 #include <string>
 #include <vector>
 #include <psapi.h>
 #include <winver.h>
 
+#include <objidl.h>
+#include <gdiplus.h>
+using namespace Gdiplus;
+#pragma comment (lib,"Gdiplus.lib")
+#pragma comment(lib, "Shell32.lib")
+
+
 struct ProcessDataModel {
     DWORD pid;
     std::wstring title;
     std::wstring describe;
     std::wstring path;
-    HICON icon;
+    std::vector<BYTE> icon;
 };
 
 const std::wstring UwpAppsTag = L"WindowsApps";
@@ -26,8 +32,8 @@ public:
     static std::vector<ProcessDataModel> Filter() {
         std::vector<ProcessDataModel> result;
 
-        auto pids = GetProcessesIdWithWindows();
-        for (const auto& pid : pids) {
+        auto processes = GetProcessesWithWindows();
+        for (const auto& process : processes) {
 
 
         }
@@ -51,7 +57,7 @@ public:
         return TRUE;
     }
 
-    static std::vector<ProcessDataModel> GetProcessesIdWithWindows() {
+    static std::vector<ProcessDataModel> GetProcessesWithWindows() {
 
         std::vector<std::pair<DWORD, std::wstring>> processes;
         EnumWindows(EnumWindowsWithTitleProc, reinterpret_cast<LPARAM>(&processes));
@@ -110,6 +116,7 @@ public:
             model.title = title;
             model.describe = description;
             model.path = processPathStr;
+            model.icon = GetIconBytes(model.path);
 
             processesExcept.push_back(model);
 
@@ -120,42 +127,46 @@ public:
     }
 
     static std::vector<BYTE> GetIconBytes(const std::wstring& path) {
-        //Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-        //ULONG_PTR gdiplusToken;
-        //Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+        Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+        ULONG_PTR gdiplusToken;
+        Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
         HICON hIcon;
         UINT iconIndex = 0; // Use first icon
         ExtractIconEx(path.c_str(), iconIndex, &hIcon, nullptr, 1);
 
-        //if (hIcon == nullptr) {
-        //    // Handle the error
+        if (hIcon == nullptr) {
+            // Handle the error
             return std::vector<BYTE>();
-        //}
+        }
 
-        //Gdiplus::Bitmap bitmap(hIcon, nullptr);
-        //DestroyIcon(hIcon);
+        std::vector<BYTE> bytes;
 
-        //IStream* stream = nullptr;
-        //CreateStreamOnHGlobal(NULL, TRUE, &stream);
+        {
+            Gdiplus::Bitmap bitmap(hIcon);
+            DestroyIcon(hIcon);
 
-        //CLSID pngClsid;
-        //CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &pngClsid);
-        //bitmap.Save(stream, &pngClsid, nullptr);
+            IStream* stream = nullptr;
+            CreateStreamOnHGlobal(NULL, TRUE, &stream);
 
-        //HGLOBAL hMem = NULL;
-        //GetHGlobalFromStream(stream, &hMem);
-        //DWORD dwSize = GlobalSize(hMem);
-        //LPVOID pMem = GlobalLock(hMem);
+            CLSID pngClsid;
+            CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &pngClsid);
+            bitmap.Save(stream, &pngClsid, nullptr);
 
-        //std::vector<BYTE> bytes(dwSize);
-        //memcpy(bytes.data(), pMem, dwSize);
+            HGLOBAL hMem = NULL;
+            GetHGlobalFromStream(stream, &hMem);
+            DWORD dwSize = GlobalSize(hMem);
+            LPVOID pMem = GlobalLock(hMem);
 
-        //GlobalUnlock(hMem);
-        //stream->Release();
+            bytes = std::vector<BYTE>(dwSize);
+            memcpy(bytes.data(), pMem, dwSize);
 
-        //Gdiplus::GdiplusShutdown(gdiplusToken);
+            GlobalUnlock(hMem);
+            stream->Release();
+        }
 
-        //return bytes;
+        Gdiplus::GdiplusShutdown(gdiplusToken);
+
+        return bytes;
     }
 };
