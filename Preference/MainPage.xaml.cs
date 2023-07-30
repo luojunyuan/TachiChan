@@ -105,7 +105,7 @@ public class ProcessDataModel
 
     public byte[] IconBytes
     {
-        set => Icon = ImageFromBytes(value).Result;
+        set => Icon = ImageFromBytes(value)?.Result;
     }
 
     [JsonIgnore]
@@ -114,8 +114,11 @@ public class ProcessDataModel
     [JsonIgnore]
     public bool Injected { get; set; }
 
-    public static Task<BitmapImage> ImageFromBytes(byte[] bytes)
+    public static Task<BitmapImage>? ImageFromBytes(byte[] bytes)
     {
+        if (bytes.Length == 0)
+            return null;
+
         var tcs = new TaskCompletionSource<BitmapImage>();
 
         _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
