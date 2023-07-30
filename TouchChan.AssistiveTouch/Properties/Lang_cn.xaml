@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--<FontFamily x:Key="UIFont">Meiryo UI</FontFamily>-->
+
+    <system:String x:Key="Notification_Admin">触控酱正在以管理员权限运行</system:String>
+
+    <system:String x:Key="AssistiveTouch_Device">设备</system:String>
+    <system:String x:Key="AssistiveTouch_Game">游戏</system:String>
+    <system:String x:Key="AssistiveTouch_Function">功能</system:String>
+
+    <system:String x:Key="AssistiveTouch_Keyboard">键盘</system:String>
+    <system:String x:Key="AssistiveTouch_Window">窗口</system:String>
+    <system:String x:Key="AssistiveTouch_Fullscreen">全屏</system:String>
+    <system:String x:Key="AssistiveTouch_MoveGame">移动窗口</system:String>
+    <system:String x:Key="AssistiveTouch_CloseGame">结束</system:String>
+    <system:String x:Key="AssistiveTouch_TouchToMouse">触摸转点击</system:String>
+    <system:String x:Key="AssistiveTouch_TouchToMouseTip">当你触控操作时，触摸的位置将模拟鼠标点击</system:String>
+
+    <system:String x:Key="AssistiveTouch_VolumeDecrease">音量降低</system:String>
+    <system:String x:Key="AssistiveTouch_VolumeIncrease">音量增加</system:String>
+    <system:String x:Key="AssistiveTouch_Screenshot">截图</system:String>
+    <system:String x:Key="AssistiveTouch_TaskView">任务视图</system:String>
+    <system:String x:Key="AssistiveTouch_ActionCenter">操作中心</system:String>
+    <system:String x:Key="AssistiveTouch_VirtualTouchpad">虚拟触摸板</system:String>
+    <system:String x:Key="AssistiveTouch_BackToDesktop">返回桌面</system:String>
+
+    <system:String x:Key="AssistiveTouch_Battery">电池</system:String>
+</ResourceDictionary>

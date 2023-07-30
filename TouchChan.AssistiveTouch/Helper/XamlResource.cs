@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -6,6 +7,21 @@ namespace TouchChan.AssistiveTouch.Helper;
 
 internal class XamlResource
 {
+    public static ResourceDictionary GetI18nDictionary()
+    {
+        var xamlName = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName switch
+        {
+            "zh" => "Lang_cn.xaml",
+            "en" => "Lang_en.xaml",
+            _ => "Language.xaml", // ja
+        };
+
+        return new ResourceDictionary
+        {
+            Source = new Uri($"/TouchChan.AssistiveTouch;component/Properties/{xamlName}", UriKind.RelativeOrAbsolute)
+        };
+    }
+
     public static string GetString(string text) => (string)Application.Current.Resources[text];
 
     public static Visibility MenuItemTextVisible

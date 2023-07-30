@@ -7,7 +7,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Properties/Language.xaml" />
                 <ResourceDictionary Source="Properties/AssistiveTouchResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
 

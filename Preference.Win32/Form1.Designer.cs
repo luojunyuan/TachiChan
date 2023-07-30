@@ -40,6 +40,8 @@ partial class Form1
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ModernSleepCheckBox = new System.Windows.Forms.CheckBox();
             this.DeleteConfigButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,9 +50,10 @@ partial class Form1
             this.ScreenShot.AutoSize = true;
             this.ScreenShot.Location = new System.Drawing.Point(38, 216);
             this.ScreenShot.Name = "ScreenShot";
-            this.ScreenShot.Size = new System.Drawing.Size(432, 52);
+            this.ScreenShot.Size = new System.Drawing.Size(498, 52);
             this.ScreenShot.TabIndex = 0;
-            this.ScreenShot.Text = "Make TachiChan built in screenshot use \r\nAlt+ScreenPrint instead of Win+Shift+S";
+            this.ScreenShot.Text = "Make TachiChan use Alt+PrintScreen instead \r\nof Win+Shift+S for built-in screensh" +
+    "ot.";
             this.ScreenShot.UseVisualStyleBackColor = true;
             this.ScreenShot.CheckedChanged += new System.EventHandler(this.ScreenShot_CheckedChanged);
             // 
@@ -59,15 +62,15 @@ partial class Form1
             this.KeytwoEnter.AutoSize = true;
             this.KeytwoEnter.Location = new System.Drawing.Point(38, 287);
             this.KeytwoEnter.Name = "KeytwoEnter";
-            this.KeytwoEnter.Size = new System.Drawing.Size(287, 28);
+            this.KeytwoEnter.Size = new System.Drawing.Size(374, 28);
             this.KeytwoEnter.TabIndex = 1;
-            this.KeytwoEnter.Text = "z key instead of Enter key";
+            this.KeytwoEnter.Text = "The Z key maps to the Enter key.";
             this.KeytwoEnter.UseVisualStyleBackColor = true;
             this.KeytwoEnter.CheckedChanged += new System.EventHandler(this.KeytwoEnter_CheckedChanged);
             // 
             // Register
             // 
-            this.Register.Location = new System.Drawing.Point(64, 34);
+            this.Register.Location = new System.Drawing.Point(59, 69);
             this.Register.Name = "Register";
             this.Register.Size = new System.Drawing.Size(160, 64);
             this.Register.TabIndex = 2;
@@ -77,7 +80,7 @@ partial class Form1
             // 
             // Unregister
             // 
-            this.Unregister.Location = new System.Drawing.Point(249, 34);
+            this.Unregister.Location = new System.Drawing.Point(244, 69);
             this.Unregister.Name = "Unregister";
             this.Unregister.Size = new System.Drawing.Size(160, 64);
             this.Unregister.TabIndex = 3;
@@ -87,7 +90,7 @@ partial class Form1
             // 
             // LEPathTextbox
             // 
-            this.LEPathTextbox.Location = new System.Drawing.Point(38, 160);
+            this.LEPathTextbox.Location = new System.Drawing.Point(38, 172);
             this.LEPathTextbox.Name = "LEPathTextbox";
             this.LEPathTextbox.ReadOnly = true;
             this.LEPathTextbox.Size = new System.Drawing.Size(263, 31);
@@ -99,14 +102,14 @@ partial class Form1
             this.LEPathDiaboxButton.Name = "LEPathDiaboxButton";
             this.LEPathDiaboxButton.Size = new System.Drawing.Size(128, 64);
             this.LEPathDiaboxButton.TabIndex = 9;
-            this.LEPathDiaboxButton.Text = "Select";
+            this.LEPathDiaboxButton.Text = "Select Path...";
             this.LEPathDiaboxButton.UseVisualStyleBackColor = true;
             this.LEPathDiaboxButton.Click += new System.EventHandler(this.LEPathDialogButton_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 120);
+            this.label1.Location = new System.Drawing.Point(34, 133);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(264, 24);
             this.label1.TabIndex = 10;
@@ -116,7 +119,7 @@ partial class Form1
             // 
             this.ProcessComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ProcessComboBox.FormattingEnabled = true;
-            this.ProcessComboBox.Location = new System.Drawing.Point(38, 55);
+            this.ProcessComboBox.Location = new System.Drawing.Point(38, 83);
             this.ProcessComboBox.Name = "ProcessComboBox";
             this.ProcessComboBox.Size = new System.Drawing.Size(263, 32);
             this.ProcessComboBox.TabIndex = 11;
@@ -125,7 +128,7 @@ partial class Form1
             // 
             // StartProcess
             // 
-            this.StartProcess.Location = new System.Drawing.Point(327, 45);
+            this.StartProcess.Location = new System.Drawing.Point(327, 51);
             this.StartProcess.Name = "StartProcess";
             this.StartProcess.Size = new System.Drawing.Size(128, 64);
             this.StartProcess.TabIndex = 12;
@@ -135,6 +138,7 @@ partial class Form1
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.ModernSleepCheckBox);
             this.groupBox1.Controls.Add(this.DeleteConfigButton);
             this.groupBox1.Controls.Add(this.ProcessComboBox);
@@ -144,9 +148,9 @@ partial class Form1
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.LEPathDiaboxButton);
             this.groupBox1.Controls.Add(this.LEPathTextbox);
-            this.groupBox1.Location = new System.Drawing.Point(64, 124);
+            this.groupBox1.Location = new System.Drawing.Point(59, 159);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(518, 449);
+            this.groupBox1.Size = new System.Drawing.Size(540, 414);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Advanced";
@@ -156,15 +160,15 @@ partial class Form1
             this.ModernSleepCheckBox.AutoSize = true;
             this.ModernSleepCheckBox.Location = new System.Drawing.Point(38, 334);
             this.ModernSleepCheckBox.Name = "ModernSleepCheckBox";
-            this.ModernSleepCheckBox.Size = new System.Drawing.Size(280, 52);
+            this.ModernSleepCheckBox.Size = new System.Drawing.Size(282, 76);
             this.ModernSleepCheckBox.TabIndex = 14;
-            this.ModernSleepCheckBox.Text = "Sleep computer after 10\r\nminutes (not stable work)";
+            this.ModernSleepCheckBox.Text = "Sleep computer after 10\r\nminutes in no interact. \r\n(not stable work)";
             this.ModernSleepCheckBox.UseVisualStyleBackColor = true;
             this.ModernSleepCheckBox.CheckedChanged += new System.EventHandler(this.ModernSleep_CheckedChanged);
             // 
             // DeleteConfigButton
             // 
-            this.DeleteConfigButton.Location = new System.Drawing.Point(337, 365);
+            this.DeleteConfigButton.Location = new System.Drawing.Point(354, 334);
             this.DeleteConfigButton.Name = "DeleteConfigButton";
             this.DeleteConfigButton.Size = new System.Drawing.Size(160, 64);
             this.DeleteConfigButton.TabIndex = 13;
@@ -172,11 +176,30 @@ partial class Form1
             this.DeleteConfigButton.UseVisualStyleBackColor = true;
             this.DeleteConfigButton.Click += new System.EventHandler(this.DeleteConfigButton_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(55, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(371, 24);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Register TachiChan in context menu";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(34, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(137, 24);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Select Game";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 585);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Unregister);
             this.Controls.Add(this.Register);
@@ -188,6 +211,7 @@ partial class Form1
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
     }
 
@@ -205,4 +229,6 @@ partial class Form1
     private GroupBox groupBox1;
     private Button DeleteConfigButton;
     private CheckBox ModernSleepCheckBox;
+    private Label label2;
+    private Label label3;
 }

@@ -29,6 +29,7 @@ public partial class App : Application
 
         GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
+        Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
         TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 
 #if !NET472
@@ -38,10 +39,10 @@ public partial class App : Application
 #endif
             );
 
+#if !NET472
         // TODO: net8 Environment.IsPrivilegedProcess
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
         {
-#if !NET472
             new Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder()
                 .AddText(Helper.XamlResource.GetString("Notification_Admin"))
                 .Show(t =>
@@ -50,10 +51,13 @@ public partial class App : Application
                     t.Dismissed += (_, _) => Microsoft.Toolkit.Uwp.Notifications.ToastNotificationManagerCompat.History.Remove("eh");
                     // t.ExpirationTime = DateTime.Now; // ExpirationTime seems not stable
                 });
-#else 
-            MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin"));
-#endif
         }
+#else
+        if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+        {
+            MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin"));
+        }
+#endif
 
         Config.Load();
 
