@@ -188,8 +188,7 @@ public partial class Form1 : Form
     {
         var config = new IniFile();
         config.Write("ScreenShotTradition", ScreenShot.Checked.ToString());
-
-    }
+    }s
 
     private void KeytwoEnter_CheckedChanged(object sender, EventArgs e)
     {
