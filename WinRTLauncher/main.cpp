@@ -6,6 +6,8 @@
 
 #include<windows.h>
 
+#include "FilterProcessService.hpp"
+
 using namespace winrt;
 using namespace Windows::Foundation;
 
@@ -16,8 +18,9 @@ using namespace winrt::Windows::Foundation::Collections;
 using namespace std;
 
 //int main()
-int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
+int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
 {
+    auto sss = FilterProcessService::GetProcessesIdWithWindows();
     init_apartment();
     //Uri uri(L"http://aka.ms/cppwinrt");
     //printf("1Hello, %ls!\n", uri.AbsoluteUri().c_str());
