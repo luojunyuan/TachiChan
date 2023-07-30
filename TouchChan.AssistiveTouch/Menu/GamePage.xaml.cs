@@ -40,6 +40,11 @@ namespace TouchChan.AssistiveTouch.Menu
                     (Symbol.Fullscreen, XamlResource.GetString("AssistiveTouch_Fullscreen"));
             SetFullscreenSwitcher(Fullscreen.UpdateFullscreenStatus());
             Fullscreen.FullscreenChanged += (_, isFullscreen) => SetFullscreenSwitcher(isFullscreen);
+            if (App.GameEngine == Engine.Kirikiri)
+            {
+                FullScreenSwitcher.ToolTip = string.Empty;
+                FullScreenSwitcher.Disable();
+            }
 
             TouchToMouse.Toggled += (_, _) =>
             {
@@ -153,10 +158,6 @@ namespace TouchChan.AssistiveTouch.Menu
                             .Invoke();
                     }
                     else User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
-                    break;
-                case Engine.Kirikiri:
-                    if (Fullscreen.GameInFullscreen) await WindowsInput.Simulate.Events().ClickChord(KeyCode.Alt, KeyCode.V, KeyCode.W).Invoke();
-                    else await WindowsInput.Simulate.Events().ClickChord(KeyCode.Alt, KeyCode.V, KeyCode.F).Invoke();
                     break;
                 default:
                     HwndTools.WindowLostFocus(MainWindow.Handle, true);

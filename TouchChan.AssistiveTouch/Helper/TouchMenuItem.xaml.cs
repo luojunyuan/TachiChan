@@ -55,17 +55,28 @@ namespace TouchChan.AssistiveTouch.Helper
             InitializeComponent();
         }
 
+        public void Disable()
+        {
+            SetItemForegroundColor(Brushes.Gray);
+            TouchEnter -= ItemOnPreviewMouseLeftButtonDown;
+            TouchLeave -= ItemOnPreviewMouseLeave;
+            TouchUp -= ItemOnTouchUp;
+            ItemPanel.MouseLeave -= ItemOnPreviewMouseLeave;
+            ItemPanel.PreviewMouseLeftButtonDown -= ItemOnPreviewMouseLeftButtonDown;
+            ItemPanel.PreviewMouseLeftButtonUp -= ItemOnPreviewMouseLeftButtonUp;
+        }
+
         private static readonly Brush ItemPressedColor = new SolidColorBrush(Color.FromArgb(255, 111, 196, 241));
 
-        private void ItemOnPreviewMouseLeftButtonDown(object sender, InputEventArgs e)
+        private void ItemOnPreviewMouseLeftButtonDown(object? sender, InputEventArgs e)
         {
             if (!ClickLocked) SetItemForegroundColor(ItemPressedColor);
         }
 
-        private void ItemOnPreviewMouseLeave(object sender, InputEventArgs e) =>
+        private void ItemOnPreviewMouseLeave(object? sender, InputEventArgs e) =>
             SetItemForegroundColor(Brushes.White);
 
-        private void ItemOnPreviewMouseLeftButtonUp(object sender, InputEventArgs e)
+        private void ItemOnPreviewMouseLeftButtonUp(object? sender, InputEventArgs e)
         {
             if (ItemIcon.Foreground != Brushes.White && !ClickLocked)
             {
@@ -75,7 +86,7 @@ namespace TouchChan.AssistiveTouch.Helper
             }
         }
 
-        private void ItemOnTouchUp(object sender, TouchEventArgs e)
+        private void ItemOnTouchUp(object? sender, TouchEventArgs e)
         {
             if (!ClickLocked) Click?.Invoke(this, e);
         }
