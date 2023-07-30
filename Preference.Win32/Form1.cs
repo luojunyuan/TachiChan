@@ -52,7 +52,6 @@ public partial class Form1 : Form
         var config = new IniFile();
         ScreenShot.Checked = bool.Parse(config.Read("ScreenShotTradition") ?? "false");
         KeytwoEnter.Checked = bool.Parse(config.Read("UseEnterKeyMapping") ?? "false");
-        FullscreenMask.Checked = bool.Parse(config.Read("UseEdgeTouchMask") ?? "false");
 
         var lePath = config.Read("LEPath");
         if (lePath != null) LEPathTextbox.Text = lePath;
@@ -188,18 +187,12 @@ public partial class Form1 : Form
     {
         var config = new IniFile();
         config.Write("ScreenShotTradition", ScreenShot.Checked.ToString());
-    }s
+    }
 
     private void KeytwoEnter_CheckedChanged(object sender, EventArgs e)
     {
         var config = new IniFile();
         config.Write("UseEnterKeyMapping", KeytwoEnter.Checked.ToString());
-    }
-
-    private void FullscreenMask_CheckedChanged(object sender, EventArgs e)
-    {
-        var config = new IniFile();
-        config.Write("UseEdgeTouchMask", FullscreenMask.Checked.ToString());
     }
 
     private void ModernSleep_CheckedChanged(object sender, EventArgs e)
@@ -289,7 +282,6 @@ public partial class Form1 : Form
     {
         LEPathTextbox.Text = string.Empty;
         ScreenShot.Checked = false;
-        FullscreenMask.Checked = false;
         KeytwoEnter.Checked = false;
 
         Directory.Delete(IniFile.ConfigFolder, true);
