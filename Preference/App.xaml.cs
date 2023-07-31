@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Data.Json;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -148,10 +149,14 @@ sealed partial class App : Application
 
         input = input.Replace("\0", "");
 
-        if (JsonSerializer.Deserialize<List<ProcessDataModel>>(input) is not { } processList)
+        if (JsonSerializer.Deserialize<List<ProcessDataModelDeserialization>>(input) is not { } processList)
             return;
 
-        ProcessUpdated?.Invoke(this, processList);
+        var modelList = new List<ProcessDataModel>();
+        processList.ForEach(async p =>
+            modelList.Add(await p.ToProcessDataModelAsync()));
+       
+        ProcessUpdated?.Invoke(this, modelList);
 
         d.Complete();
     }

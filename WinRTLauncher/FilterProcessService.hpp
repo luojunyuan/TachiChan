@@ -134,7 +134,7 @@ public:
         LPWSTR windowTitle = new wchar_t[256];
         GetWindowText(hwnd, windowTitle, 256);
 
-        if (IsWindowVisible(hwnd) && wcslen(windowTitle) > 0) {
+        if (IsWindowVisible(hwnd) && wcslen(windowTitle) > 0 && wcslen(windowTitle) < 120) {
             std::vector<std::pair<DWORD, std::wstring>>* processes = reinterpret_cast<std::vector<std::pair<DWORD, std::wstring>>*>(lParam);
             std::wstring windowTitleStr(windowTitle);
             processes->push_back(std::make_pair(processId, windowTitleStr));

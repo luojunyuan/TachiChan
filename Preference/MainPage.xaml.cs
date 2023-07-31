@@ -1,12 +1,9 @@
 ﻿#nullable enable
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -16,7 +13,6 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
@@ -105,29 +101,9 @@ public class ProcessDataModel
     public string Describe { get; set; } = string.Empty;
     public string FullPath { get; set; } = string.Empty;
 
-    public byte[] IconBytes
-    {
-        set => Icon = ImageFromBytes(value);
-    }
-
-    [JsonIgnore]
     public BitmapImage? Icon { get; set; }
 
-    [JsonIgnore]
     public bool Injected { get; set; }
-
-    public static BitmapImage? ImageFromBytes(byte[] bytes)
-    {
-        if (bytes.Length == 0)
-            return null;
-
-        var image = new BitmapImage();
-        using var stream = new InMemoryRandomAccessStream();
-        stream.WriteAsync(bytes.AsBuffer()).GetResults();
-        stream.Seek(0);
-        image.SetSource(stream);
-        return image;
-    }
 
     public override bool Equals(object obj)
     {
@@ -139,5 +115,45 @@ public class ProcessDataModel
     }
 
     public override int GetHashCode() => ProcessId.GetHashCode();
+
+    // Move the setter for IconBytes to the deserialization model
+    public static async Task<BitmapImage?> ImageFromBytesAsync(byte[] bytes)
+    {
+        if (bytes.Length == 0)
+            return null;
+
+        BitmapImage? image = null;
+
+        using var stream = new InMemoryRandomAccessStream();
+        await stream.WriteAsync(bytes.AsBuffer());
+        stream.Seek(0);
+        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            async () =>
+            {
+                image = new BitmapImage();
+                await image.SetSourceAsync(stream);
+            });
+
+        return image;
+    }
 }
 
+public class ProcessDataModelDeserialization
+{
+    public int ProcessId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Describe { get; set; } = string.Empty;
+    public string FullPath { get; set; } = string.Empty;
+
+    public byte[] IconBytes { get; set; } = Array.Empty<byte>();
+
+    public async Task<ProcessDataModel> ToProcessDataModelAsync() =>
+        new ProcessDataModel
+        {
+            ProcessId = ProcessId,
+            Title = Title,
+            Describe = Describe,
+            FullPath = FullPath,
+            Icon = await ProcessDataModel.ImageFromBytesAsync(IconBytes)
+        };
+}
