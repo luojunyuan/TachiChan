@@ -146,6 +146,8 @@ sealed partial class App : Application
         if (message["result"] is not string input)
             return;
 
+        input = input.Replace("\0", "");
+
         if (JsonSerializer.Deserialize<List<ProcessDataModel>>(input) is not { } processList)
             return;
 

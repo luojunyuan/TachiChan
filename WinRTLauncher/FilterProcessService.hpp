@@ -80,10 +80,10 @@ std::wstring stringToWstring(const std::string& str) {
 
 inline
 std::string wstringToString(const std::wstring& wstr) {
-    int multiSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    int multiSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), static_cast<int>(wstr.length()), nullptr, 0, nullptr, nullptr);
     std::string str;
     str.resize(multiSize);
-    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], multiSize, nullptr, nullptr);
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), static_cast<int>(wstr.length()), &str[0], multiSize, nullptr, nullptr);
     return str;
 }
 
