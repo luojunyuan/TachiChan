@@ -139,7 +139,7 @@ sealed partial class App : Application
 
     public static EventHandler<List<ProcessDataModel>>? ProcessUpdated;
 
-    private void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+    private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
     {
         var d = args.GetDeferral();
 
@@ -152,14 +152,14 @@ sealed partial class App : Application
         if (JsonSerializer.Deserialize<List<ProcessDataModelDeserialization>>(input) is not { } processList)
             return;
 
-        var modelList = new List<ProcessDataModel>();
-        processList.ForEach(async p =>
-            modelList.Add(await p.ToProcessDataModelAsync()));
-       
-        ProcessUpdated?.Invoke(this, modelList);
+        var tasks = processList.Select(p => p.ToProcessDataModelAsync());
+        var models = await Task.WhenAll(tasks);
+
+        ProcessUpdated?.Invoke(this, models.ToList());
 
         d.Complete();
     }
+
 
     private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
