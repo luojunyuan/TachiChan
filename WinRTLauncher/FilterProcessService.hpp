@@ -8,6 +8,7 @@
 #include <psapi.h>
 #include <winver.h>
 
+#pragma warning(disable:4458)
 #include <objidl.h>
 #include <gdiplus.h>
 using namespace Gdiplus;
@@ -20,13 +21,14 @@ using json = nlohmann::json;
 #include <locale>
 #include <codecvt>
 
+inline
 std::string base64_encode(const std::vector<unsigned char>& data) {
     const std::string base64_chars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     std::string result;
     int i = 0;
-    int j = 0;
+    //int j = 0;
     unsigned char char_array_3[3];
     unsigned char char_array_4[4];
 
@@ -67,6 +69,24 @@ std::string base64_encode(const std::vector<unsigned char>& data) {
     return result;
 }
 
+inline
+std::wstring stringToWstring(const std::string& str) {
+    int wideSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+    std::wstring wstr;
+    wstr.resize(wideSize);
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], wideSize);
+    return wstr;
+}
+
+inline
+std::string wstringToString(const std::wstring& wstr) {
+    int multiSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    std::string str;
+    str.resize(multiSize);
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], multiSize, nullptr, nullptr);
+    return str;
+}
+
 struct ProcessDataModel {
     int pid;
     std::wstring title;
@@ -77,13 +97,12 @@ struct ProcessDataModel {
 
 inline
 void to_json(json& j, const ProcessDataModel& p) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-
+    
     j = json{
         {"ProcessId", p.pid},
-        {"Title", converter.to_bytes(p.title)},
-        {"Describe", converter.to_bytes(p.describe)},
-        {"FullPath", converter.to_bytes(p.path)},
+        {"Title", wstringToString(p.title)},
+        {"Describe", wstringToString(p.describe)},
+        {"FullPath", wstringToString(p.path)},
         {"IconBytes", base64_encode(p.icon)}
     };
 }
@@ -105,10 +124,7 @@ public:
         json j = processes;
         std::string json_str = j.dump();
 
-        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-        std::wstring wjson_str = converter.from_bytes(json_str);
-
-        return wjson_str;
+        return stringToWstring(json_str);
     }
 
     static BOOL CALLBACK EnumWindowsWithTitleProc(HWND hwnd, LPARAM lParam) {
@@ -226,7 +242,9 @@ public:
 
             HGLOBAL hMem = NULL;
             GetHGlobalFromStream(stream, &hMem);
-            DWORD dwSize = GlobalSize(hMem);
+            // サイズを格納する適切な型を使用する（例：std::size_t）
+            std::size_t dwSize = GlobalSize(hMem);
+
             LPVOID pMem = GlobalLock(hMem);
 
             bytes = std::vector<BYTE>(dwSize);
