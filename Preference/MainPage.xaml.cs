@@ -119,6 +119,7 @@ public class ProcessDataModel
         if (bytes.Length == 0)
             return null;
 
+        return null;
         var tcs = new TaskCompletionSource<BitmapImage>();
 
         _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

@@ -14,14 +14,34 @@ using namespace Gdiplus;
 #pragma comment (lib,"Gdiplus.lib")
 #pragma comment(lib, "Shell32.lib")
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+#include <locale>
+#include <codecvt>
+
 
 struct ProcessDataModel {
-    DWORD pid;
+    int pid;
     std::wstring title;
     std::wstring describe;
     std::wstring path;
-    std::vector<BYTE> icon;
+    std::wstring icon;
 };
+
+inline
+void to_json(json& j, const ProcessDataModel& p) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+
+    j = json{
+        {"ProcessId", p.pid},
+        {"Title", converter.to_bytes(p.title)},
+        {"Describe", converter.to_bytes(p.describe)},
+        {"FullPath", converter.to_bytes(p.path)},
+        {"IconBytes", converter.to_bytes(p.icon)}
+    };
+}
+
 
 const std::wstring UwpAppsTag = L"WindowsApps";
 const std::wstring WindowsPath = L"C:\\Windows\\";
@@ -29,16 +49,66 @@ const std::wstring WindowsPathUpperCase = L"C:\\WINDOWS\\";
 
 class FilterProcessService {
 public:
-    static std::vector<ProcessDataModel> Filter() {
-        std::vector<ProcessDataModel> result;
 
-        auto processes = GetProcessesWithWindows();
-        for (const auto& process : processes) {
+    static std::string base64_encode(const std::vector<unsigned char>& data) {
+        const std::string base64_chars =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+        std::string result;
+        int i = 0;
+        int j = 0;
+        unsigned char char_array_3[3];
+        unsigned char char_array_4[4];
 
+        for (unsigned char byte : data) {
+            char_array_3[i++] = byte;
+            if (i == 3) {
+                char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+                char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+                char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+                char_array_4[3] = char_array_3[2] & 0x3f;
+
+                for (int k = 0; k < 4; k++) {
+                    result += base64_chars[char_array_4[k]];
+                }
+
+                i = 0;
+            }
+        }
+
+        if (i > 0) {
+            for (int k = i; k < 3; k++) {
+                char_array_3[k] = '\0';
+            }
+
+            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+
+            for (int k = 0; k < i + 1; k++) {
+                result += base64_chars[char_array_4[k]];
+            }
+
+            while (i++ < 3) {
+                result += '=';
+            }
         }
 
         return result;
+    }
+
+    static std::wstring Filter() {
+        std::vector<ProcessDataModel> result;
+
+        auto processes = GetProcessesWithWindows();
+
+        json j = processes;
+        std::string json_str = j.dump();
+
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        std::wstring wjson_str = converter.from_bytes(json_str);
+
+        return wjson_str;
     }
 
     static BOOL CALLBACK EnumWindowsWithTitleProc(HWND hwnd, LPARAM lParam) {
@@ -111,12 +181,18 @@ public:
                 }
             }
 
+            auto a = GetIconBytes(processPathStr);
+            auto b = base64_encode(a);
+            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+            std::wstring wjson_str = converter.from_bytes(b);
+
+
             ProcessDataModel model;
             model.pid = pid;
             model.title = title;
             model.describe = description;
             model.path = processPathStr;
-            model.icon = GetIconBytes(model.path);
+            model.icon = wjson_str;
 
             processesExcept.push_back(model);
 
