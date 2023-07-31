@@ -20,13 +20,59 @@ using json = nlohmann::json;
 #include <locale>
 #include <codecvt>
 
+std::string base64_encode(const std::vector<unsigned char>& data) {
+    const std::string base64_chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    std::string result;
+    int i = 0;
+    int j = 0;
+    unsigned char char_array_3[3];
+    unsigned char char_array_4[4];
+
+    for (unsigned char byte : data) {
+        char_array_3[i++] = byte;
+        if (i == 3) {
+            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+            char_array_4[3] = char_array_3[2] & 0x3f;
+
+            for (int k = 0; k < 4; k++) {
+                result += base64_chars[char_array_4[k]];
+            }
+
+            i = 0;
+        }
+    }
+
+    if (i > 0) {
+        for (int k = i; k < 3; k++) {
+            char_array_3[k] = '\0';
+        }
+
+        char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+        char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+        char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+
+        for (int k = 0; k < i + 1; k++) {
+            result += base64_chars[char_array_4[k]];
+        }
+
+        while (i++ < 3) {
+            result += '=';
+        }
+    }
+
+    return result;
+}
 
 struct ProcessDataModel {
     int pid;
     std::wstring title;
     std::wstring describe;
     std::wstring path;
-    std::wstring icon;
+    std::vector<byte> icon;
 };
 
 inline
@@ -38,7 +84,7 @@ void to_json(json& j, const ProcessDataModel& p) {
         {"Title", converter.to_bytes(p.title)},
         {"Describe", converter.to_bytes(p.describe)},
         {"FullPath", converter.to_bytes(p.path)},
-        {"IconBytes", converter.to_bytes(p.icon)}
+        {"IconBytes", base64_encode(p.icon)}
     };
 }
 
@@ -47,55 +93,9 @@ const std::wstring UwpAppsTag = L"WindowsApps";
 const std::wstring WindowsPath = L"C:\\Windows\\";
 const std::wstring WindowsPathUpperCase = L"C:\\WINDOWS\\";
 
+
 class FilterProcessService {
 public:
-
-    static std::string base64_encode(const std::vector<unsigned char>& data) {
-        const std::string base64_chars =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-        std::string result;
-        int i = 0;
-        int j = 0;
-        unsigned char char_array_3[3];
-        unsigned char char_array_4[4];
-
-        for (unsigned char byte : data) {
-            char_array_3[i++] = byte;
-            if (i == 3) {
-                char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-                char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-                char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-                char_array_4[3] = char_array_3[2] & 0x3f;
-
-                for (int k = 0; k < 4; k++) {
-                    result += base64_chars[char_array_4[k]];
-                }
-
-                i = 0;
-            }
-        }
-
-        if (i > 0) {
-            for (int k = i; k < 3; k++) {
-                char_array_3[k] = '\0';
-            }
-
-            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-
-            for (int k = 0; k < i + 1; k++) {
-                result += base64_chars[char_array_4[k]];
-            }
-
-            while (i++ < 3) {
-                result += '=';
-            }
-        }
-
-        return result;
-    }
 
     static std::wstring Filter() {
         std::vector<ProcessDataModel> result;
@@ -181,18 +181,13 @@ public:
                 }
             }
 
-            auto a = GetIconBytes(processPathStr);
-            auto b = base64_encode(a);
-            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-            std::wstring wjson_str = converter.from_bytes(b);
-
 
             ProcessDataModel model;
             model.pid = pid;
             model.title = title;
             model.describe = description;
             model.path = processPathStr;
-            model.icon = wjson_str;
+            model.icon = GetIconBytes(processPathStr);
 
             processesExcept.push_back(model);
 

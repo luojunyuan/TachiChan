@@ -1,8 +1,10 @@
 ﻿#nullable enable
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -105,7 +107,7 @@ public class ProcessDataModel
 
     public byte[] IconBytes
     {
-        set => Icon = ImageFromBytes(value)?.Result;
+        set => Icon = ImageFromBytes(value);
     }
 
     [JsonIgnore]
@@ -114,30 +116,17 @@ public class ProcessDataModel
     [JsonIgnore]
     public bool Injected { get; set; }
 
-    public static Task<BitmapImage>? ImageFromBytes(byte[] bytes)
+    public static BitmapImage? ImageFromBytes(byte[] bytes)
     {
         if (bytes.Length == 0)
             return null;
 
-        return null;
-        var tcs = new TaskCompletionSource<BitmapImage>();
-
-        _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        {
-            var image = new BitmapImage();
-            using var stream = new InMemoryRandomAccessStream();
-            var dataWriter = new DataWriter(stream.GetOutputStreamAt(0));
-            dataWriter.WriteBytes(bytes);
-            dataWriter.StoreAsync().Completed += async (sender, e) =>
-            {
-                dataWriter.DetachStream();
-                stream.Seek(0);
-                await image.SetSourceAsync(stream);
-                tcs.SetResult(image);
-            };
-        });
-
-        return tcs.Task;
+        var image = new BitmapImage();
+        using var stream = new InMemoryRandomAccessStream();
+        stream.WriteAsync(bytes.AsBuffer()).GetResults();
+        stream.Seek(0);
+        image.SetSource(stream);
+        return image;
     }
 
     public override bool Equals(object obj)
