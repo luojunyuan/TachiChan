@@ -40,11 +40,6 @@ namespace TouchChan.AssistiveTouch.Menu
                     (Symbol.Fullscreen, XamlResource.GetString("AssistiveTouch_Fullscreen"));
             SetFullscreenSwitcher(Fullscreen.UpdateFullscreenStatus());
             Fullscreen.FullscreenChanged += (_, isFullscreen) => SetFullscreenSwitcher(isFullscreen);
-            if (App.GameEngine == Engine.Kirikiri)
-            {
-                FullScreenSwitcher.ToolTip = string.Empty;
-                FullScreenSwitcher.Disable();
-            }
 
             TouchToMouse.Toggled += (_, _) =>
             {
