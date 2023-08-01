@@ -7,7 +7,6 @@ Preference (UWP)
 TouchChanPackage
 * C++ Desktop Devolopment (MSVC v14* C++ x86/x64/arm64 build tools about 3gb)
 WinRTLauncher
---- Finally can publish the package
 
 ### debug
 Debug -> x64 -> Package -> "Run"
