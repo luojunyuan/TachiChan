@@ -82,14 +82,14 @@
             // flag = extend ? KeyboardFlag.Extended : KeyboardFlag.None
 
             var keyEventList = new INPUT[1];
-            SetKeyEvent(0, keyEventList, code, KeyboardFlag.None, nuint.Zero);
+            SetKeyEvent(0, keyEventList, code, KeyboardFlag.None, UIntPtr.Zero);
             SendInput(1, keyEventList, INPUT.Size);
         }
 
         private static void KeyUp(KeyCode code)
         {
             var keyEventList = new INPUT[1];
-            SetKeyEvent(0, keyEventList, code, KeyboardFlag.KeyUp, nuint.Zero);
+            SetKeyEvent(0, keyEventList, code, KeyboardFlag.KeyUp, UIntPtr.Zero);
             SendInput(1, keyEventList, INPUT.Size);
         }
 
