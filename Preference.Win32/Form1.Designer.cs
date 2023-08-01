@@ -38,11 +38,15 @@ partial class Form1
             this.ProcessComboBox = new System.Windows.Forms.ComboBox();
             this.StartProcess = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.KeytoEnterValue = new System.Windows.Forms.ComboBox();
+            this.KeytoEnterLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.ModernSleepCheckBox = new System.Windows.Forms.CheckBox();
             this.DeleteConfigButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScreenShot
@@ -60,11 +64,10 @@ partial class Form1
             // KeytwoEnter
             // 
             this.KeytwoEnter.AutoSize = true;
-            this.KeytwoEnter.Location = new System.Drawing.Point(38, 287);
+            this.KeytwoEnter.Location = new System.Drawing.Point(0, 13);
             this.KeytwoEnter.Name = "KeytwoEnter";
-            this.KeytwoEnter.Size = new System.Drawing.Size(374, 28);
+            this.KeytwoEnter.Size = new System.Drawing.Size(28, 27);
             this.KeytwoEnter.TabIndex = 1;
-            this.KeytwoEnter.Text = "The Z key maps to the Enter key.";
             this.KeytwoEnter.UseVisualStyleBackColor = true;
             this.KeytwoEnter.CheckedChanged += new System.EventHandler(this.KeytwoEnter_CheckedChanged);
             // 
@@ -138,13 +141,13 @@ partial class Form1
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.panel2);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.ModernSleepCheckBox);
             this.groupBox1.Controls.Add(this.DeleteConfigButton);
             this.groupBox1.Controls.Add(this.ProcessComboBox);
             this.groupBox1.Controls.Add(this.StartProcess);
             this.groupBox1.Controls.Add(this.ScreenShot);
-            this.groupBox1.Controls.Add(this.KeytwoEnter);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.LEPathDiaboxButton);
             this.groupBox1.Controls.Add(this.LEPathTextbox);
@@ -154,6 +157,52 @@ partial class Form1
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Advanced";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.KeytoEnterValue);
+            this.panel2.Controls.Add(this.KeytoEnterLabel);
+            this.panel2.Controls.Add(this.KeytwoEnter);
+            this.panel2.Location = new System.Drawing.Point(38, 275);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(417, 53);
+            this.panel2.TabIndex = 17;
+            // 
+            // KeytoEnterValue
+            // 
+            this.KeytoEnterValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.KeytoEnterValue.FormattingEnabled = true;
+            this.KeytoEnterValue.Items.AddRange(new object[] {
+            "Z",
+            "A",
+            "Q"});
+            this.KeytoEnterValue.Location = new System.Drawing.Point(75, 10);
+            this.KeytoEnterValue.Name = "KeytoEnterValue";
+            this.KeytoEnterValue.Size = new System.Drawing.Size(61, 32);
+            this.KeytoEnterValue.TabIndex = 16;
+            this.KeytoEnterValue.SelectedIndexChanged += new System.EventHandler(this.KeytoEnterValue_SelectedIndexChanged);
+            // 
+            // KeytoEnterLabel
+            // 
+            this.KeytoEnterLabel.AutoSize = true;
+            this.KeytoEnterLabel.Location = new System.Drawing.Point(29, 13);
+            this.KeytoEnterLabel.Name = "KeytoEnterLabel";
+            this.KeytoEnterLabel.Size = new System.Drawing.Size(384, 24);
+            this.KeytoEnterLabel.TabIndex = 18;
+            this.KeytoEnterLabel.Text = "The          key maps to the Enter key.";
+            this.KeytoEnterLabel.Click += new System.EventHandler(this.KeytoEnterLabel_Click);
+            this.KeytoEnterLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.KeytoEnterLabel_Down);
+            this.KeytoEnterLabel.MouseEnter += new System.EventHandler(this.KeytoEnterLabel_Enter);
+            this.KeytoEnterLabel.MouseLeave += new System.EventHandler(this.KeytoEnterLabel_Leave);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(34, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(137, 24);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Select Game";
             // 
             // ModernSleepCheckBox
             // 
@@ -185,15 +234,6 @@ partial class Form1
             this.label2.TabIndex = 15;
             this.label2.Text = "Register TachiChan in context menu";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(34, 42);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(137, 24);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Select Game";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -210,6 +250,8 @@ partial class Form1
             this.Load += new System.EventHandler(this.OnLoaded);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,4 +273,7 @@ partial class Form1
     private CheckBox ModernSleepCheckBox;
     private Label label2;
     private Label label3;
+    private ComboBox KeytoEnterValue;
+    private Panel panel2;
+    private Label KeytoEnterLabel;
 }

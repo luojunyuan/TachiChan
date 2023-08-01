@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Principal;
+using System.Windows.Forms.VisualStyles;
 
 namespace Preference;
 
@@ -48,10 +49,11 @@ public partial class Form1 : Form
             default:
                 break;
         }
-
+        
         var config = new IniFile();
         ScreenShot.Checked = bool.Parse(config.Read("ScreenShotTradition") ?? "false");
         KeytwoEnter.Checked = bool.Parse(config.Read("UseEnterKeyMapping") ?? "false");
+        KeytoEnterValue.SelectedItem = config.Read("MappingKey") ?? "Z";
 
         var lePath = config.Read("LEPath");
         if (lePath != null) LEPathTextbox.Text = lePath;
@@ -283,9 +285,59 @@ public partial class Form1 : Form
         LEPathTextbox.Text = string.Empty;
         ScreenShot.Checked = false;
         KeytwoEnter.Checked = false;
+        KeytoEnterValue.SelectedItem = "Z";
 
         Directory.Delete(IniFile.ConfigFolder, true);
         MessageBox.Show("Delete configuration file succeed.", "TachiChan");
-        DeleteConfigButton.Enabled = false;
+        DeleteConfigButton.Visible = false;
     }
+
+    private void KeytoEnterLabel_Click(object sender, EventArgs e)
+    {
+        KeytwoEnter.Checked = !KeytwoEnter.Checked;
+    }
+
+    private void KeytoEnterValue_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var config = new IniFile();
+        config.Write("MappingKey", KeytoEnterValue.SelectedItem.ToString());
+    }
+
+    #region KeytoEnterLabel Status
+    private void KeytoEnterLabel_Enter(object sender, EventArgs e)
+    {
+        if (KeytwoEnter.Checked)
+        {
+            CheckBoxRenderer.DrawCheckBox(KeytwoEnter.CreateGraphics(), default, CheckBoxState.CheckedHot);
+        }
+        else
+        {
+            CheckBoxRenderer.DrawCheckBox(KeytwoEnter.CreateGraphics(), default, CheckBoxState.UncheckedHot);
+        }
+    }
+
+    private void KeytoEnterLabel_Leave(object sender, EventArgs e)
+    {
+        if (KeytwoEnter.Checked)
+        {
+            CheckBoxRenderer.DrawCheckBox(KeytwoEnter.CreateGraphics(), default, CheckBoxState.CheckedNormal);
+        }
+        else
+        {
+            CheckBoxRenderer.DrawCheckBox(KeytwoEnter.CreateGraphics(), default, CheckBoxState.UncheckedNormal);
+        }
+    }
+
+    private void KeytoEnterLabel_Down(object sender, MouseEventArgs e)
+    {
+        if (KeytwoEnter.Checked)
+        {
+            CheckBoxRenderer.DrawCheckBox(KeytwoEnter.CreateGraphics(), default, CheckBoxState.CheckedPressed);
+        }
+        else
+        {
+            CheckBoxRenderer.DrawCheckBox(KeytwoEnter.CreateGraphics(), default, CheckBoxState.UncheckedPressed);
+        }
+    }
+    #endregion
 }

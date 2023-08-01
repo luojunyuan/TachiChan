@@ -29,8 +29,7 @@ namespace TouchChan.AssistiveTouch.Core
             if (obj is not KBDLLHOOKSTRUCT info)
                 return User32.CallNextHookEx(_hookId, nCode, wParam, lParam);
 
-            const int KEY_Z = 0x5A;
-            if (info.vkCode == KEY_Z && User32.GetForegroundWindow() == _gameWindowHandle)
+            if (info.vkCode == (uint)Config.MappingKey && User32.GetForegroundWindow() == _gameWindowHandle)
             {
                 const int WM_KEYUP = 0x0101;
                 const int KEYBOARDMANAGER_SINGLEKEY_FLAG = 0x11;
