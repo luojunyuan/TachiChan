@@ -3,12 +3,10 @@ using TouchChan.AssistiveTouch.Helper;
 using TouchChan.AssistiveTouch.NativeMethods;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using WindowsInput.Events;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -143,26 +141,19 @@ namespace TouchChan.AssistiveTouch.Menu
                 case Engine.AtelierKaguya:
                     if (Fullscreen.GameInFullscreen)
                     {
-                        await WindowsInput.Simulate.Events()
-                            .MoveTo(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN), User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN))
-                            .Click(ButtonCode.Right)
-                            .Click(KeyCode.Up)
-                            .Wait(UIMinimumResponseTime)
-                            .Click(KeyCode.E)
-                            .Click(KeyCode.W)
-                            .Invoke();
+                        User32.SetCursorPos(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN) - 5, User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN) - 5);
+                        Simulate.Click(Simulate.ButtonCode.Right);
+                        Simulate.Click(Simulate.KeyCode.Up);
+                        await Task.Delay(UIMinimumResponseTime);
+                        Simulate.Click(Simulate.KeyCode.E, Simulate.KeyCode.W);
                     }
                     else User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
                     break;
                 default:
                     HwndTools.WindowLostFocus(MainWindow.Handle, true);
-                    await WindowsInput.Simulate.Events()
-                        .Hold(KeyCode.Alt)
-                        .Hold(KeyCode.Enter)
-                        .Wait(UIMinimumResponseTime)
-                        .Release(KeyCode.Enter)
-                        .Release(KeyCode.Alt)
-                        .Invoke();
+                    Simulate.Hold(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
+                    await Task.Delay(UIMinimumResponseTime);
+                    Simulate.Release(Simulate.KeyCode.Enter, Simulate.KeyCode.Alt);
                     HwndTools.WindowLostFocus(MainWindow.Handle, false);
                     break;
             }
@@ -179,14 +170,12 @@ namespace TouchChan.AssistiveTouch.Menu
 
         private void BackOnClick(object sender, EventArgs e) => PageChanged?.Invoke(this, new(TouchMenuPageTag.GameBack));
 
-        private const int MenuTransistDuration = 200;
+        private const int MenuTransitsDuration = 200;
         private async void CloseGameOnClick(object sender, EventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
-            await WindowsInput.Simulate.Events()
-                .Wait(MenuTransistDuration)
-                .ClickChord(KeyCode.Alt, KeyCode.F4)
-                .Invoke();
+            await Task.Delay(MenuTransitsDuration);
+            Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
         }
     }
 }

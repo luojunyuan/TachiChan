@@ -13,7 +13,6 @@
   <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 	
   <ItemGroup>
-    <PackageReference Include="WindowsInput" Version="6.4.1" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" PrivateAssets="All" />
 	<!--  Transitive packages which not the newist -->
 	  <PackageReference Include="Fody" Version="6.8.0">

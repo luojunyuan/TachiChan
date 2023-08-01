@@ -105,9 +105,6 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
         // Touch gesture action
 
-        [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
-        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, IntPtr dwExtraInfo);
-
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 

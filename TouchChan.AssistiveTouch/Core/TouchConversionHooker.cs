@@ -54,20 +54,15 @@ public static class TouchConversionHooker
             case 0x202:
                 Task.Run(() =>
                 {
-                    var (x, y) = GetCursorPosition();
-                    User32.SetCursorPos(x, y);
-                    User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, x, y, 0, IntPtr.Zero);
-                    Thread.Sleep(UserTimerMinimum);
-                    User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, x, y, 0, IntPtr.Zero);
+                    User32.SetCursorPos(info.pt.X, info.pt.Y);
+                    Simulate.Click(Simulate.ButtonCode.Left);
                 });
                 break;
             case 0x205:
                 Task.Run(() =>
                 {
-                    var (x, y) = GetCursorPosition();
-                    User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, x, y, 0, IntPtr.Zero);
-                    Thread.Sleep(UserTimerMinimum);
-                    User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, x, y, 0, IntPtr.Zero);
+                    User32.SetCursorPos(info.pt.X, info.pt.Y);
+                    Simulate.Click(Simulate.ButtonCode.Right);
                 });
                 break;
         }
@@ -76,12 +71,4 @@ public static class TouchConversionHooker
     }
 
     private const int UserTimerMinimum = 0x0000000A;
-
-    private static (int X, int Y) GetCursorPosition()
-    {
-        var gotPoint = User32.GetCursorPos(out var currentMousePoint);
-        if (!gotPoint)
-            currentMousePoint = default;
-        return (currentMousePoint.X, currentMousePoint.Y);
-    }
 }

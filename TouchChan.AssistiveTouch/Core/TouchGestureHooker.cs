@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
-using System.Security.Principal;
 using System.Windows;
 using TouchChan.AssistiveTouch.NativeMethods;
 
@@ -44,9 +42,7 @@ namespace TouchChan.AssistiveTouch.Core
             Task.Run(() =>
             {
                 User32.SetCursorPos((int)p.X, (int)p.Y);
-                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, (int)p.X, (int)p.Y, 0, IntPtr.Zero);
-                Thread.Sleep(SendKeyBlock);
-                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, (int)p.X, (int)p.Y, 0, IntPtr.Zero);
+                Simulate.Click(Simulate.ButtonCode.Right);
             });
         }
 
@@ -57,13 +53,13 @@ namespace TouchChan.AssistiveTouch.Core
             Task.Run(() =>
             {
                 const int KEYBOARDMANAGER_SINGLEKEY_FLAG = 0x11;
-                var keyEventList = new KeyboardHooker.INPUT[1];
-                KeyboardHooker.SetKeyEvent(keyEventList, KeyboardHooker.KeyCode.SPACE, 0, KEYBOARDMANAGER_SINGLEKEY_FLAG);
-                KeyboardHooker.SendInput(1, keyEventList, KeyboardHooker.INPUT.Size);
+                var keyEventList = new Simulate.INPUT[1];
+                Simulate.SetKeyEvent(0, keyEventList, Simulate.KeyCode.Space, 0, KEYBOARDMANAGER_SINGLEKEY_FLAG);
+                Simulate.SendInput(1, keyEventList, Simulate.INPUT.Size);
                 Thread.Sleep(0xA);
-                var keyEventList2 = new KeyboardHooker.INPUT[1];
-                KeyboardHooker.SetKeyEvent(keyEventList2, KeyboardHooker.KeyCode.SPACE, KeyboardHooker.KeyboardFlag.KeyUp, KEYBOARDMANAGER_SINGLEKEY_FLAG);
-                KeyboardHooker.SendInput(1, keyEventList2, KeyboardHooker.INPUT.Size);
+                var keyEventList2 = new Simulate.INPUT[1];
+                Simulate.SetKeyEvent(0, keyEventList2, Simulate.KeyCode.Space, Simulate.KeyboardFlag.KeyUp, KEYBOARDMANAGER_SINGLEKEY_FLAG);
+                Simulate.SendInput(1, keyEventList2, Simulate.INPUT.Size);
             });
         }
     }

@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using WindowsInput.Events;
 
 namespace TouchChan.AssistiveTouch
 {
@@ -15,7 +14,7 @@ namespace TouchChan.AssistiveTouch
 
         public static bool UseEnterKeyMapping { get; private set; }
 
-        public static KeyCode MappingKey { get; private set; }
+        public static Simulate.KeyCode MappingKey { get; private set; }
 
         public static bool ScreenShotTradition { get; private set; }
 
@@ -35,7 +34,11 @@ namespace TouchChan.AssistiveTouch
 
             var myIni = new IniFile(ConfigFilePath);
             UseEnterKeyMapping = bool.Parse(myIni.Read(nameof(UseEnterKeyMapping)) ?? "false");
-            MappingKey = (KeyCode)Enum.Parse(typeof(KeyCode), myIni.Read(nameof(MappingKey)) ?? "Z"); // const int KEY_Z = 0x5A;
+#if !NET472
+            MappingKey = Enum.Parse<Simulate.KeyCode>(myIni.Read(nameof(MappingKey)) ?? "Z");
+#else
+            MappingKey = (Simulate.KeyCode)Enum.Parse(typeof(Simulate.KeyCode), myIni.Read(nameof(MappingKey)) ?? "Z");
+#endif
             ScreenShotTradition = bool.Parse(myIni.Read(nameof(ScreenShotTradition)) ?? "false");
             AssistiveTouchPosition = myIni.Read(nameof(AssistiveTouchPosition)) ?? string.Empty;
             UseEdgeTouchMask = bool.Parse(myIni.Read(nameof(UseEdgeTouchMask)) ?? "false");

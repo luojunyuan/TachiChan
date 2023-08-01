@@ -30,7 +30,8 @@
             d:Text="{DynamicResource AssistiveTouch_Fullscreen}"
             d:Symbol="Fullscreen"
             Grid.Row="0" Grid.Column="1"
-            Click="FullScreenSwitcherOnClickEvent" />
+            Click="FullScreenSwitcherOnClickEvent" 
+            ToolTip="Alt + Enter"/>
 
         <help:TouchMenuItem x:Name="MoveGame"
             Grid.Row="0" Grid.Column="2"
