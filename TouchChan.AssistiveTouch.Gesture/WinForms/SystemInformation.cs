@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿#if !NET472
+using System.Runtime.InteropServices;
 
 namespace TouchChan.AssistiveTouch.Gesture.WinForms
 {
@@ -84,3 +85,4 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         }
     }
 }
+#endif

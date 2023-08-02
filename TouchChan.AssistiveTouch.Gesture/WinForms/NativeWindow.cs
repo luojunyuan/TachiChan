@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET472
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -214,3 +215,4 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         public nint Result { get; set; }
     }
 }
+#endif

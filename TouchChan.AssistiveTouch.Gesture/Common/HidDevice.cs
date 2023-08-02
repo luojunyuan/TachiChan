@@ -1,7 +1,6 @@
 ﻿using GestureSign.Daemon.Native;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.Gesture.Native;
-using TouchChan.AssistiveTouch.Gesture.WinForms;
 
 namespace TouchChan.AssistiveTouch.Gesture.Common
 {
@@ -57,7 +56,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Common
             return usageList;
         }
 
-        protected virtual Point GetCoordinate(short linkCollection, WinForms.Screen currentScr, IntPtr pRawDataPacket)
+        protected virtual Point GetCoordinate(short linkCollection, Screen currentScr, IntPtr pRawDataPacket)
         {
             int physicalX = 0;
             int physicalY = 0;
@@ -82,7 +81,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Common
             return new Point(x + currentScr.Bounds.X, y + currentScr.Bounds.Y);
         }
 
-        public virtual Point GetCoordinate(short linkCollection, WinForms.Screen currentScr)
+        public virtual Point GetCoordinate(short linkCollection, Screen currentScr)
         {
             return GetCoordinate(linkCollection, currentScr, _pRawData);
         }

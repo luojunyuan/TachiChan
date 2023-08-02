@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿#if !NET472
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace TouchChan.AssistiveTouch.Gesture.WinForms
@@ -76,7 +77,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
             D2D1_FACTORY_TYPE_MULTI_THREADED = 1,
         }
 
-        public static readonly HandleRef NullHandleRef = new HandleRef(null, nint.Zero);
+        public static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
 
         [DllImport(ExternDll.Shcore, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
@@ -256,3 +257,4 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         }
     }
 }
+#endif

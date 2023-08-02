@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET472
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         /// </summary>
         /// <param name="monitor">The monitor.</param>
         private Screen(nint monitor)
-            : this(monitor, nint.Zero)
+            : this(monitor, IntPtr.Zero)
         {
         }
 
@@ -76,7 +77,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
                 catch
                 {
                     // Windows 7 fallback
-                    var hr = InteropMethods.D2D1CreateFactory(InteropMethods.D2D1_FACTORY_TYPE.D2D1_FACTORY_TYPE_SINGLE_THREADED, typeof(InteropMethods.ID2D1Factory).GUID, nint.Zero, out var factory);
+                    var hr = InteropMethods.D2D1CreateFactory(InteropMethods.D2D1_FACTORY_TYPE.D2D1_FACTORY_TYPE_SINGLE_THREADED, typeof(InteropMethods.ID2D1Factory).GUID, IntPtr.Zero, out var factory);
                     if (hr < 0)
                     {
                         dpiX = 96;
@@ -132,7 +133,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
                 {
                     var closure = new MonitorEnumCallback();
                     var proc = new InteropMethods.MonitorEnumProc(closure.Callback);
-                    InteropMethods.EnumDisplayMonitors(InteropMethods.NullHandleRef, null, proc, nint.Zero);
+                    InteropMethods.EnumDisplayMonitors(InteropMethods.NullHandleRef, null, proc, IntPtr.Zero);
                     if (closure.Screens.Count > 0)
                     {
                         return closure.Screens.Cast<Screen>();
@@ -324,3 +325,4 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         }
     }
 }
+#endif

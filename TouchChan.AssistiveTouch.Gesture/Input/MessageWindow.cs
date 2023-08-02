@@ -4,13 +4,12 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.Gesture.Common;
 using TouchChan.AssistiveTouch.Gesture.Native;
-using TouchChan.AssistiveTouch.Gesture.WinForms;
 
 namespace TouchChan.AssistiveTouch.Gesture.Input;
 
-public class MessageWindow : WinForms.NativeWindow
+public class MessageWindow : NativeWindow
 {
-    private WinForms.Screen? _currentScr;
+    private Screen? _currentScr;
 
     private static readonly HandleRef HwndMessage = new HandleRef(null, new IntPtr(-3));
 
@@ -34,39 +33,38 @@ public class MessageWindow : WinForms.NativeWindow
         DestroyWindow();
     }
 
-    NativeWindow.WindowsProc _callback;
+    //WinForms.NativeWindow.WindowsProc _callback;
 
     public bool CreateWindow()
     {
         if (Handle == IntPtr.Zero)
         {
-            _callback = (hwnd, msg, rp, lp) =>
-            {
-                switch (msg)
-                {
-                    case NativeMethods.WM_INPUT:
-                        {
-                            Console.WriteLine(msg);
-                            ProcessInputCommand(lp);
-                            break;
-                        }
-                    case NativeMethods.WM_INPUT_DEVICE_CHANGE:
-                        {
-                            _validDevices.Clear();
-                            break;
-                        }
-                }
-                return NativeWindow.DefWindowProc(hwnd, msg, rp, lp);
-            };
+            //_callback = (hwnd, msg, rp, lp) =>
+            //{
+            //    switch (msg)
+            //    {
+            //        case NativeMethods.WM_INPUT:
+            //            {
+            //                ProcessInputCommand(lp);
+            //                break;
+            //            }
+            //        case NativeMethods.WM_INPUT_DEVICE_CHANGE:
+            //            {
+            //                _validDevices.Clear();
+            //                break;
+            //            }
+            //    }
+            //    return WinForms.NativeWindow.DefWindowProc(hwnd, msg, rp, lp);
+            //};
             const int WS_EX_NOACTIVATE = 0x08000000;
-            CreateHandle(new WinForms.CreateParams
+            CreateHandle(new CreateParams
             {
                 Style = 0,
                 ExStyle = WS_EX_NOACTIVATE,
                 ClassStyle = 0,
                 Caption = "TCMessageWindow",
                 Parent = (IntPtr)HwndMessage
-            }, _callback);
+            });
         }
         return Handle != IntPtr.Zero;
     }
@@ -223,7 +221,7 @@ public class MessageWindow : WinForms.NativeWindow
         }
     }
 
-    protected override void WndProc(ref WinForms.Message message)
+    protected override void WndProc(ref Message message)
     {
         //Debug.WriteLine(message);
         switch (message.Msg)
@@ -313,7 +311,7 @@ public class MessageWindow : WinForms.NativeWindow
             {
                 if (_sourceDevice == Devices.None)
                 {
-                    _currentScr = WinForms.Screen.FromPoint(default);
+                    _currentScr = Screen.FromPoint(default);
                     if (_currentScr == null)
                         return;
                     _sourceDevice = Devices.TouchScreen;
