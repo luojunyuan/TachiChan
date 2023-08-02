@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace TouchChan.AssistiveTouch.Gesture
 {
@@ -19,26 +14,28 @@ namespace TouchChan.AssistiveTouch.Gesture
         public static unsafe ScreenOrientation ScreenOrientation
         {
             // Alternative https://github.com/dotnet/winforms/blob/db612728612916764ad51f0391f57bcdaed61689/src/System.Windows.Forms/src/System/Windows/Forms/SystemInformation.cs#L755
+
             get
             {
-                ScreenOrientation so = ScreenOrientation.Angle0;
-                DEVMODE dm = new DEVMODE();
-                dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
-                dm.dmDriverExtra = 0;
+                ScreenOrientation result = ScreenOrientation.Angle0;
+                DEVMODE lpDevMode = default;
+                lpDevMode.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
+                lpDevMode.dmDriverExtra = 0;
                 try
                 {
-                    EnumDisplaySettings(null, -1 /*ENUM_CURRENT_SETTINGS*/, ref dm);
-                    if ((dm.dmFields & DM_DISPLAYORIENTATION) > 0)
+                    EnumDisplaySettings(null, -1, ref lpDevMode);
+                    if ((lpDevMode.dmFields & 0x80) > 0)
                     {
-                        so = dm.dmDisplayOrientation;
+                        result = lpDevMode.dmDisplayOrientation;
+                        return result;
                     }
+
+                    return result;
                 }
                 catch
                 {
-                    // empty catch, we'll just return the default if the call to EnumDisplaySettings fails.
+                    return result;
                 }
-
-                return so;
             }
         }
 
