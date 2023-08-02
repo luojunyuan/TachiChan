@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>ARM64;x64;x86</Platforms>
+    <ApplicationManifest>..\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(targetframework)' != 'net472'">
@@ -16,7 +17,6 @@
   <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
   <PropertyGroup Condition="'$(targetframework)' == 'net472'">
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationManifest>..\app.manifest</ApplicationManifest>
   </PropertyGroup> 
 
 </Project>
