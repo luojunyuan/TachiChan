@@ -1,4 +1,12 @@
+#if !NET472
 global using System.Drawing;
+global using Screen = TouchChan.AssistiveTouch.Gesture.WinForms.Screen;
+global using Message = TouchChan.AssistiveTouch.Gesture.WinForms.Message;
+global using NativeWindow = TouchChan.AssistiveTouch.Gesture.WinForms.NativeWindow;
+global using CreateParams = TouchChan.AssistiveTouch.Gesture.WinForms.CreateParams;
+global using SystemInformation = TouchChan.AssistiveTouch.Gesture.WinForms.SystemInformation;
+global using ScreenOrientation = TouchChan.AssistiveTouch.Gesture.WinForms.ScreenOrientation;
+#endif
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;

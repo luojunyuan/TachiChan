@@ -77,17 +77,17 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
                 catch
                 {
                     // Windows 7 fallback
-                    var hr = InteropMethods.D2D1CreateFactory(InteropMethods.D2D1_FACTORY_TYPE.D2D1_FACTORY_TYPE_SINGLE_THREADED, typeof(InteropMethods.ID2D1Factory).GUID, IntPtr.Zero, out var factory);
-                    if (hr < 0)
-                    {
+                    //var hr = InteropMethods.D2D1CreateFactory(InteropMethods.D2D1_FACTORY_TYPE.D2D1_FACTORY_TYPE_SINGLE_THREADED, typeof(InteropMethods.ID2D1Factory).GUID, IntPtr.Zero, out var factory);
+                    //if (hr < 0)
+                    //{
                         dpiX = 96;
-                    }
-                    else
-                    {
-                        factory.GetDesktopDpi(out var x, out _);
-                        Marshal.ReleaseComObject(factory);
-                        dpiX = (uint)x;
-                    }
+                    //}
+                    //else
+                    //{
+                    //    factory.GetDesktopDpi(out var x, out _);
+                    //    Marshal.ReleaseComObject(factory);
+                    //    dpiX = (uint)x;
+                    //}
                 }
 
                 ScaleFactor = dpiX / 96.0;

@@ -39,23 +39,6 @@ public class MessageWindow : NativeWindow
     {
         if (Handle == IntPtr.Zero)
         {
-            //_callback = (hwnd, msg, rp, lp) =>
-            //{
-            //    switch (msg)
-            //    {
-            //        case NativeMethods.WM_INPUT:
-            //            {
-            //                ProcessInputCommand(lp);
-            //                break;
-            //            }
-            //        case NativeMethods.WM_INPUT_DEVICE_CHANGE:
-            //            {
-            //                _validDevices.Clear();
-            //                break;
-            //            }
-            //    }
-            //    return WinForms.NativeWindow.DefWindowProc(hwnd, msg, rp, lp);
-            //};
             const int WS_EX_NOACTIVATE = 0x08000000;
             CreateHandle(new CreateParams
             {

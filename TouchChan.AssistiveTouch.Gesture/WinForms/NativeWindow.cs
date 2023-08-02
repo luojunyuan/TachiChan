@@ -16,13 +16,16 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
     {
         public IntPtr Handle { get; private set; }
 
-        public virtual void CreateHandle(CreateParams cp, WindowsProc callback)
+        private WindowsProc _windowProc;
+
+        public virtual void CreateHandle(CreateParams cp)
         {
-            var WindowClass = "HelperWindowClass";
+            _windowProc = new WindowsProc(Callback);
+            var WindowClass = cp.Caption;
             var wind_class = new WNDCLASS
             {
                 lpszClassName = Marshal.StringToHGlobalUni(WindowClass),
-                lpfnWndProc = callback
+                lpfnWndProc = _windowProc
             };
 
             ushort classAtom = RegisterClassW(ref wind_class);
@@ -30,15 +33,13 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
             if (classAtom == 0)
                 throw new Win32Exception();
 
-            const uint WS_EX_NOACTIVATE = 0x08000000;
-            const uint WS_POPUP = 0x80000000;
             IntPtr hWnd = CreateWindowExW(
-                WS_EX_NOACTIVATE,
+                (uint)cp.ExStyle,
                 WindowClass,
                 "",
-                WS_POPUP,
+                (uint)cp.Style,
                 0, 0, 0, 0,
-                IntPtr.Zero,
+                cp.Parent,
                 IntPtr.Zero,
                 IntPtr.Zero,
                 IntPtr.Zero
@@ -48,6 +49,19 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
                 throw new Win32Exception();
 
             Handle = hWnd;
+        }
+
+        private nint Callback(nint hWnd, int msg, nint wp, nint lp)
+        {
+            var m = new Message()
+            {
+                HWnd = hWnd,
+                Msg = msg,
+                WParam = wp,
+                LParam = lp,
+            };
+            WndProc(ref m);
+            return m.Result;
         }
 
         public virtual void DestroyHandle()
@@ -126,12 +140,12 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         ///  class name in this field. For example, to subclass the standard edit
         ///  control, set this field to "EDIT".
         /// </summary>
-        public string? ClassName { get; set; }
+        public string ClassName { get; set; }
 
         /// <summary>
         ///  The initial caption your control will have.
         /// </summary>
-        public string? Caption { get; set; }
+        public string Caption { get; set; }
 
         /// <summary>
         ///  Window style bits. This must be a combination of WS_XXX style flags and
@@ -179,7 +193,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         /// <summary>
         ///  Any extra information that the underlying handle might want.
         /// </summary>
-        public object? Param { get; set; }
+        public object Param { get; set; }
 
         public override string ToString()
         {

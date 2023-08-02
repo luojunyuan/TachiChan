@@ -20,7 +20,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
             {
                 ScreenOrientation result = ScreenOrientation.Angle0;
                 DEVMODE lpDevMode = default;
-                lpDevMode.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
+                lpDevMode.dmSize = (short)Marshal.SizeOf<DEVMODE>();
                 lpDevMode.dmDriverExtra = 0;
                 try
                 {

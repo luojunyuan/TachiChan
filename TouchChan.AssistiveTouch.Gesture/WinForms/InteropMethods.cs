@@ -196,7 +196,7 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
         public class MONITORINFOEX
         {
-            internal int cbSize = Marshal.SizeOf(typeof(MONITORINFOEX));
+            internal int cbSize = Marshal.SizeOf<MONITORINFOEX>();
 
             internal RECT rcMonitor = new RECT();
             internal RECT rcWork = new RECT();
