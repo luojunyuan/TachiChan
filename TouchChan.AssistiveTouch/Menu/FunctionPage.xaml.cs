@@ -20,7 +20,7 @@ namespace TouchChan.AssistiveTouch.Menu
             // using Windows.Devices.Power;
 #if !NET472            
             if (Windows.Devices.Power.Battery.AggregateBattery.DeviceId != "AggregateBattery")
-                Battery.Visibility = Visibility.Collapsed;
+                Battery.Disable();
 #endif
         }
 

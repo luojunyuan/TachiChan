@@ -12,7 +12,7 @@
     TouchEnter="ItemOnPreviewMouseLeftButtonDown"
     TouchLeave="ItemOnPreviewMouseLeave" TouchUp="ItemOnTouchUp">
 
-    <StackPanel
+    <StackPanel x:Name="ItemPanel"
         HorizontalAlignment="Center" VerticalAlignment="Center"
         MouseLeave="ItemOnPreviewMouseLeave" Orientation="Vertical"
         PreviewMouseLeftButtonDown="ItemOnPreviewMouseLeftButtonDown"

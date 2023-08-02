@@ -73,12 +73,22 @@ namespace TouchChan.AssistiveTouch.Helper
         {
             InitializeComponent();
         }
+        public void Disable()
+        {
+            SetItemForegroundColor(Brushes.Gray);
+            TouchEnter -= ItemOnPreviewMouseLeftButtonDown;
+            TouchLeave -= ItemOnPreviewMouseLeave;
+            TouchUp -= ItemOnTouchUp;
+            ItemPanel.MouseLeave -= ItemOnPreviewMouseLeave;
+            ItemPanel.PreviewMouseLeftButtonDown -= ItemOnPreviewMouseLeftButtonDown;
+            ItemPanel.PreviewMouseLeftButtonUp -= ItemOnPreviewMouseLeftButtonUp;
+        }
 
         private static readonly Brush ItemPressedColor = new SolidColorBrush(Color.FromArgb(255, 111, 196, 241));
 
         private bool _buttonPressed;
 
-        private void ItemOnPreviewMouseLeftButtonDown(object sender, InputEventArgs e)
+        private void ItemOnPreviewMouseLeftButtonDown(object? sender, InputEventArgs e)
         {
             if (!TouchMenuItem.ClickLocked)
             {
@@ -87,7 +97,7 @@ namespace TouchChan.AssistiveTouch.Helper
             }
         }
 
-        private void ItemOnPreviewMouseLeave(object sender, InputEventArgs e)
+        private void ItemOnPreviewMouseLeave(object? sender, InputEventArgs e)
         {
             _buttonPressed = false;
             SetItemForegroundColor(IsOn ? ItemPressedColor : Brushes.White);
@@ -102,7 +112,7 @@ namespace TouchChan.AssistiveTouch.Helper
             }
         }
 
-        private void ItemOnTouchUp(object sender, TouchEventArgs e)
+        private void ItemOnTouchUp(object? sender, TouchEventArgs e)
         {
             if (_buttonPressed)
             {
