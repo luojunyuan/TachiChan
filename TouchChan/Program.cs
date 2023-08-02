@@ -5,6 +5,7 @@ using System.IO.Pipes;
 using System.Text;
 using TouchChan;
 
+
 if (args.Length == 1 && int.TryParse(args[0], out var pid))
 {
     Run(Process.GetProcessById(pid));

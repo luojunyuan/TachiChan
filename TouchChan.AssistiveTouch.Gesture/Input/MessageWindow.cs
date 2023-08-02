@@ -4,12 +4,13 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.Gesture.Common;
 using TouchChan.AssistiveTouch.Gesture.Native;
+using TouchChan.AssistiveTouch.Gesture.WinForms;
 
 namespace TouchChan.AssistiveTouch.Gesture.Input;
 
-public class MessageWindow : NativeWindow
+public class MessageWindow : WinForms.NativeWindow
 {
-    private Screen? _currentScr;
+    private WinForms.Screen? _currentScr;
 
     private static readonly HandleRef HwndMessage = new HandleRef(null, new IntPtr(-3));
 
@@ -33,19 +34,39 @@ public class MessageWindow : NativeWindow
         DestroyWindow();
     }
 
+    NativeWindow.WindowsProc _callback;
+
     public bool CreateWindow()
     {
         if (Handle == IntPtr.Zero)
         {
+            _callback = (hwnd, msg, rp, lp) =>
+            {
+                switch (msg)
+                {
+                    case NativeMethods.WM_INPUT:
+                        {
+                            Console.WriteLine(msg);
+                            ProcessInputCommand(lp);
+                            break;
+                        }
+                    case NativeMethods.WM_INPUT_DEVICE_CHANGE:
+                        {
+                            _validDevices.Clear();
+                            break;
+                        }
+                }
+                return NativeWindow.DefWindowProc(hwnd, msg, rp, lp);
+            };
             const int WS_EX_NOACTIVATE = 0x08000000;
-            CreateHandle(new CreateParams
+            CreateHandle(new WinForms.CreateParams
             {
                 Style = 0,
                 ExStyle = WS_EX_NOACTIVATE,
                 ClassStyle = 0,
                 Caption = "TCMessageWindow",
                 Parent = (IntPtr)HwndMessage
-            });
+            }, _callback);
         }
         return Handle != IntPtr.Zero;
     }
@@ -202,8 +223,7 @@ public class MessageWindow : NativeWindow
         }
     }
 
-    //怎么弄的？只接受全局的input消息
-    protected override void WndProc(ref Message message)
+    protected override void WndProc(ref WinForms.Message message)
     {
         //Debug.WriteLine(message);
         switch (message.Msg)
@@ -293,7 +313,7 @@ public class MessageWindow : NativeWindow
             {
                 if (_sourceDevice == Devices.None)
                 {
-                    _currentScr = Screen.FromPoint(Cursor.Position);
+                    _currentScr = WinForms.Screen.FromPoint(default);
                     if (_currentScr == null)
                         return;
                     _sourceDevice = Devices.TouchScreen;

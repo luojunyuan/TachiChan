@@ -1,5 +1,6 @@
 ﻿using TouchChan.AssistiveTouch.Gesture.Common;
 using TouchChan.AssistiveTouch.Gesture.Native;
+using TouchChan.AssistiveTouch.Gesture.WinForms;
 
 namespace TouchChan.AssistiveTouch.Gesture.Input;
 
@@ -11,7 +12,7 @@ public class TouchScreenDevice : HidDevice
     {
     }
 
-    public void GetRawDatas(short numberOfChildren, Screen currentScr, ref int requiringContactCount, ref List<RawData> _outputTouchs)
+    public void GetRawDatas(short numberOfChildren, WinForms.Screen currentScr, ref int requiringContactCount, ref List<RawData> _outputTouchs)
     {
         for (int dwIndex = 0; dwIndex < _dwCount; dwIndex++)
         {

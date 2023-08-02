@@ -1,23 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows7.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationManifest>..\app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>ARM64;x64;x86</Platforms>
-
-	  <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
-	  <!--<SatelliteResourceLanguages>ja</SatelliteResourceLanguages>-->
   </PropertyGroup>
 
   <ItemGroup Condition="'$(targetframework)' != 'net472'">
-    <PackageReference Include="WinFormsComInterop" Version="0.4.3" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="7.0.0" />
   </ItemGroup>
 
   <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
+  <PropertyGroup Condition="'$(targetframework)' == 'net472'">
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>..\app.manifest</ApplicationManifest>
+  </PropertyGroup> 
 
 </Project>

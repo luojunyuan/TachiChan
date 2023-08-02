@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace TouchChan.AssistiveTouch.Gesture
+namespace TouchChan.AssistiveTouch.Gesture.WinForms
 {
     public enum ScreenOrientation
     {

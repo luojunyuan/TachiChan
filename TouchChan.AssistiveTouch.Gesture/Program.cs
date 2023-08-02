@@ -1,3 +1,4 @@
+global using System.Drawing;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
@@ -18,15 +19,23 @@ internal static class Program
         parent.EnableRaisingEvents = true;
         parent.Exited += (s, e) => Environment.Exit(0);
 
-#if !NET472
-        ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
-#endif
         PointCapture.Instance.Load();
         GestureManager.Instance.Load(PointCapture.Instance);
         using var sw = new StreamWriter(pipeClient);
         sw.AutoFlush = true;
         PointCapture.Instance.GestureRecognized += (_, e) => sw.WriteLine(e.GestureName + " " + e.FirstCapturedPoints.FirstOrDefault());
 
-        Application.Run();
+        while (GetMessage(out var msg, IntPtr.Zero, 0, 0) != false)
+        {
+            TranslateMessage(msg);
+            DispatchMessage(msg);
+        }
     }
+
+    [DllImport("user32.dll")]
+    static extern bool GetMessage(out IntPtr lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+    [DllImport("user32.dll")]
+    static extern bool TranslateMessage(in IntPtr lpMsg);
+    [DllImport("user32.dll")]
+    static extern IntPtr DispatchMessage(in IntPtr lpMsg);
 }
