@@ -15,9 +15,5 @@
   </ItemGroup>
 
   <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
-  <PropertyGroup Condition="'$(targetframework)' == 'net472'">
-    <!--Use winforms to reduce code size in net472-->
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup> 
 
 </Project>

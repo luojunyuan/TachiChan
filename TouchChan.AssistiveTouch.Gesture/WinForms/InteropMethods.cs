@@ -1,5 +1,4 @@
-﻿#if !NET472
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace TouchChan.AssistiveTouch.Gesture.WinForms
@@ -257,4 +256,3 @@ namespace TouchChan.AssistiveTouch.Gesture.WinForms
         }
     }
 }
-#endif
