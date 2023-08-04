@@ -297,8 +297,15 @@ public partial class Form1 : Form
         KeytwoEnter.Checked = !KeytwoEnter.Checked;
     }
 
+    private bool _loadedFirstCall = true;
     private void KeytoEnterValue_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (_loadedFirstCall)
+        {
+            _loadedFirstCall = false;
+            return;
+        }
+
         var config = new IniFile();
         config.Write("MappingKey", KeytoEnterValue.SelectedItem.ToString());
     }
