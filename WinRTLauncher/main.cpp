@@ -77,8 +77,8 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
         STARTUPINFOW startupInfo = { sizeof(startupInfo) };
         PROCESS_INFORMATION processInfo;
 
-        MessageBox(nullptr, programPath.c_str(), L"", MB_OK);
-        MessageBox(nullptr, programArgs.c_str(), L"", MB_OK);
+        //MessageBox(nullptr, programPath.c_str(), L"", MB_OK);
+        //MessageBox(nullptr, programArgs.c_str(), L"", MB_OK);
         // プログラムの起動
         if (CreateProcessW(programPath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
             // プログラムの起動に成功した場合
