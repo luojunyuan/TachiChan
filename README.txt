@@ -17,7 +17,7 @@ Release -> Package -> "Publish Application"
 ##### Find My Future
 1. 为 shinario 启动旧式touch（测试可行，焦点都在touch上）（预计工作量至少一天，若有人提及再优先做）
 2. （完成） 消除对 WindowsInput 的依赖
-3. 去掉 Gesture 对 winforms 的引用，尝试移动到 AssistiveTouch.Core 命名空间下
+3. （很多东西是能够做到的，就是看取舍）去掉 Gesture 对 winforms 的引用，尝试移动到 AssistiveTouch.Core 命名空间下
 
 使用多个进程的结构是有理由的
 1. 仅在AssistiveTouch启动时读入用户配置，Preference对配置进行编辑。（AssistiveTouch结束时存储按钮位置是个例外）
