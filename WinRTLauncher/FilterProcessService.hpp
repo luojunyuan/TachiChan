@@ -218,6 +218,10 @@ public:
         ULONG_PTR gdiplusToken;
         Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
+        //HINSTANCE hInstance = GetModuleHandle(nullptr);
+        //WORD index = 0; // Icon的索引，通常设为0
+        //HICON hIcon = ExtractAssociatedIcon(nullptr, const_cast<LPWSTR>(path.c_str()), &index);
+
         HICON hIcon;
         UINT iconIndex = 0; // Use first icon
         ExtractIconEx(path.c_str(), iconIndex, &hIcon, nullptr, 1);

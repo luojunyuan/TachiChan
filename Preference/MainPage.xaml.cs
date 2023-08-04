@@ -45,17 +45,18 @@ public sealed partial class MainPage : Page
 
                 if (disappearItems.Count != 0 || newishItems.Count == 0)
                 {
-                    foreach (var item in newishItems)
+                    foreach (var item in newishItems.Reverse())
                         ProcessItems.SafeAdd(item);
                 }
                 else
                 {
-                    // HACK: ComboBox UI won't refresh when there comes new items
+                    // HACK: ComboBox UI height won't reset when there comes new items
                     var moto = ProcessItems.ToList().AsReadOnly();
                     ProcessItems.Clear();
+                    await Task.Delay(50); // make sure clear take effect
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        foreach (var item in moto.Concat(newishItems))
+                        foreach (var item in moto.Concat(newishItems).Reverse())
                             ProcessItems.SafeAdd(item);
                     });
                 }
