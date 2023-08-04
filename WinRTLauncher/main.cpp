@@ -62,21 +62,25 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
     }
     else if (commandLine.find(L"--path") != std::wstring::npos)
     {
+        wchar_t buffer[MAX_PATH];
+        GetModuleFileName(nullptr, buffer, MAX_PATH);
+        auto launcherPath = wstring(buffer);
         // 起動するプログラムのパスと引数を指定
-        //LPCWSTR programPath = L"..\\TouchChan\\TouchChan.exe";
-        LPCWSTR programPath = L"C:\\Users\\ami\\source\\repos\\luojunyuan\\TachiChan\\TouchChanPackage\\bin\\x64\\Debug\\TouchChan\\TouchChan.exe";
-        LPCWSTR programArgs = argv[4]; // winrt.exe pkgArg1 pkgArg2 --path game.exe
-        std::wstring programPathStr = programPath;
-        std::wstring programArgsStr = programArgs;
+        std::filesystem::path programPathRelative = L"..\\TouchChan\\TouchChan.exe";
+        std::wstring programPath = std::filesystem::canonical(
+            std::filesystem::path(launcherPath).parent_path() / programPathRelative);
+        std::wstring programArgs = argv[4]; // winrt.exe TouchChan.exe pkgArg1 --path game.exe
 
-        programArgsStr = programPathStr + L" \"" + programArgsStr + L"\"";
+        programArgs = programPath + L" \"" + programArgs + L"\"";
 
         // CreateProcessのパラメータを設定
         STARTUPINFOW startupInfo = { sizeof(startupInfo) };
         PROCESS_INFORMATION processInfo;
 
+        MessageBox(nullptr, programPath.c_str(), L"", MB_OK);
+        MessageBox(nullptr, programArgs.c_str(), L"", MB_OK);
         // プログラムの起動
-        if (CreateProcessW(programPath, const_cast<LPWSTR>(programArgsStr.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
+        if (CreateProcessW(programPath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
             // プログラムの起動に成功した場合
             //std::wcout << L"プログラムを起動しました。プロセスID: " << processInfo.dwProcessId << std::endl;
 
