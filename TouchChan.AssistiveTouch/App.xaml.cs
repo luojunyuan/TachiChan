@@ -67,17 +67,19 @@ public partial class App : Application
         if (Config.UseModernSleep)
             ModernSleepTimer.Start();
 
+        DisableWPFTabletSupport();
+
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
         GameEngine = File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
             File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
             File.Exists(Path.Combine(dir, "data.xp3")) ? Engine.Kirikiri :
             Engine.TBD;
-        if (GameEngine == Engine.Shinario)
-            return;
-
-        DisableWPFTabletSupport();
+        if (GameEngine == Engine.Shinario || e.Args.Contains("--old-style"))
+            OldStyleTouch = true;
     }
+
+    public static bool OldStyleTouch { get; private set; }
 
     private static void DisableWPFTabletSupport()
     {

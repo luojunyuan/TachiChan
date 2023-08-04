@@ -4,6 +4,19 @@ namespace TouchChan.AssistiveTouch.Helper;
 
 public static class HwndTools
 {
+    public static void HideWindowInAltTab(nint windowHandle)
+    {
+        if (windowHandle == IntPtr.Zero)
+            return;
+
+        const int wsExToolWindow = 0x00000080;
+
+        var exStyle = User32.GetWindowLong(windowHandle,
+            User32.WindowLongFlags.GWL_EXSTYLE);
+        exStyle |= wsExToolWindow;
+        _ = User32.SetWindowLong(windowHandle, User32.WindowLongFlags.GWL_EXSTYLE, exStyle);
+    }
+
     public static void RemovePopupAddChildStyle(IntPtr handle)
     {
         var style = (uint)User32.GetWindowLong(handle, User32.WindowLongFlags.GWL_STYLE);

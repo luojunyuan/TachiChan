@@ -4,6 +4,7 @@ using TouchChan.AssistiveTouch.NativeMethods;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using TouchChan.AssistiveTouch.Menu;
 
 namespace TouchChan.AssistiveTouch;
 
@@ -35,14 +36,39 @@ public partial class MainWindow : Window
             IpcRenderer.Send("Loaded");
         };
 
-        HwndTools.RemovePopupAddChildStyle(Handle);
-        User32.SetParent(Handle, App.GameWindowHandle);
-        User32.GetClientRect(App.GameWindowHandle, out var rectClient);
-        User32.SetWindowPos(Handle, IntPtr.Zero, 0, 0, rectClient.Width, rectClient.Height, User32.SetWindowPosFlags.SWP_NOZORDER);
+        if (!App.OldStyleTouch)
+        {
+            HwndTools.RemovePopupAddChildStyle(Handle);
+            User32.SetParent(Handle, App.GameWindowHandle);
+            User32.GetClientRect(App.GameWindowHandle, out var rectClient);
+            User32.SetWindowPos(Handle, IntPtr.Zero, 0, 0, rectClient.Width, rectClient.Height, User32.SetWindowPosFlags.SWP_NOZORDER);
 
-        var hooker = new GameWindowHooker(Handle);
-        hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
-        hooker.GameWindowLostFocus += (_, _) => { if (Menu.IsOpened) Menu.ManualClose(); };
+            var hooker = new GameWindowHooker(Handle);
+            hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
+            hooker.GameWindowLostFocus += (_, _) => { if (Menu.IsOpened) Menu.ManualClose(); };
+        }
+        else
+        {
+            Topmost = true;
+            ShowInTaskbar = false;
+            HwndTools.HideWindowInAltTab(Handle);
+            Loaded += (_, _) =>
+            {
+                ((GamePage)Menu.GameMenu.Content).FullScreenSwitcher.Disable();
+                ((GamePage)Menu.GameMenu.Content).CloseGame.Disable();
+                ((GamePage)Menu.GameMenu.Content).MoveGame.Disable();
+            };
+            var hooker = new GameWindowHookerOld();
+            hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
+            hooker.WindowPositionChanged += (_, pos) =>
+            {
+                Height = pos.Height / Dpi;
+                Width = pos.Width / Dpi;
+                Left = pos.Left / Dpi;
+                Top = pos.Top / Dpi;
+            };
+            hooker.UpdatePosition(App.GameWindowHandle);
+        }
 
         if (Config.UseEdgeTouchMask)
         {
