@@ -55,7 +55,7 @@ public partial class App : Application
 #else
         if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
         {
-            MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin"));
+            Task.Run(() => MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin")));
         }
 #endif
 
