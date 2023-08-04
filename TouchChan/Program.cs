@@ -148,7 +148,7 @@ static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
     }
     #endregion
 
-    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySetted(gamePath) ? string.Empty : "--old-style";
+    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(gamePath) ? string.Empty : "--old-style";
 
     Run(game, splash, oldStyleTouch);
 

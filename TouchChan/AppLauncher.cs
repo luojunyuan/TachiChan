@@ -14,7 +14,7 @@ internal static class AppLauncher
 
         var gameFolder = Path.GetDirectoryName(gamePath);
 
-        if (!RegistryModifier.IsDpiCompatibilitySetted(gamePath))
+        if (!RegistryModifier.IsDpiCompatibilitySet(gamePath))
         {
             RegistryModifier.SetDPICompatibilityAsApplication(gamePath);
         }

@@ -7,7 +7,7 @@ internal class RegistryModifier
 {
     private const string ApplicationCompatibilityRegistryPath =
         @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers";
-    public static bool IsDpiCompatibilitySetted(string exeFilePath)
+    public static bool IsDpiCompatibilitySet(string exeFilePath)
     {
         using var key = Registry.CurrentUser.OpenSubKey(ApplicationCompatibilityRegistryPath)
             ?? Registry.CurrentUser.CreateSubKey(ApplicationCompatibilityRegistryPath);
