@@ -120,6 +120,12 @@
   <data name="ButtonInject.Content" xml:space="preserve">
     <value>Start</value>
   </data>
+  <data name="ProcessExitTipDialog.CloseButtonText" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="ProcessExitTipDialog.Title" xml:space="preserve">
+    <value>The process has gone</value>
+  </data>
   <data name="ProcessSelector" xml:space="preserve">
     <value>Process Selector</value>
   </data>

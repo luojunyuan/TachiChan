@@ -9,7 +9,9 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage.Streams;
+using Windows.System.Diagnostics;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -72,9 +74,25 @@ public sealed partial class MainPage : Page
     {
         var selected = (ProcessDataModel)ProcessComboBox.SelectedItem;
 
+        var existed = ProcessDiagnosticInfo.GetForProcesses().Any(p => p.ProcessId == selected.ProcessId);
+        if (!existed)
+        {
+            var resourceLoader = ResourceLoader.GetForCurrentView();
+            var processExitTipDialog = new ContentDialog
+            {
+                Title = resourceLoader.GetString("ProcessExitTipDialog.Title"),
+                CloseButtonText = resourceLoader.GetString("ProcessExitTipDialog.CloseButtonText")
+            };
+
+            await processExitTipDialog.ShowAsync();
+
+            ProcessItems.Remove(selected);
+            return;
+        }
+      
         await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--path \"{selected.FullPath}\"");
 
-        selected.Injected = false;
+        selected.Injected = true;
         InjectButton.IsEnabled = false;
     }
 
