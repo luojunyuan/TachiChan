@@ -148,13 +148,15 @@ static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
     }
     #endregion
 
-    Run(game, splash);
+    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySetted(gamePath) ? string.Empty : "--old-style";
+
+    Run(game, splash, oldStyleTouch);
 
     // prevent exception when startup
     splash.Close();
 }
 
-static void Run(Process game, SplashScreen? splash = null)
+static void Run(Process game, SplashScreen? splash = null, string oldStyle = "")
 {
     var pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
     _ = new IpcMain(pipeServer);
@@ -194,7 +196,7 @@ static void Run(Process game, SplashScreen? splash = null)
 #else
                 FileName = "TouchChan.AssistiveTouch.exe",
 #endif
-                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle,
+                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + ' ' + oldStyle,
                 UseShellExecute = false,
             }
         };
