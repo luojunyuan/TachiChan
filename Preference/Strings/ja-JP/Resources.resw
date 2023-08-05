@@ -123,6 +123,9 @@
   <data name="ButtonInject.Width" xml:space="preserve">
     <value>240</value>
   </data>
+  <data name="MainPage.Content" xml:space="preserve">
+    <value>プロセスセレクタ</value>
+  </data>
   <data name="ProcessExitTipDialog.CloseButtonText" xml:space="preserve">
     <value>はい</value>
   </data>

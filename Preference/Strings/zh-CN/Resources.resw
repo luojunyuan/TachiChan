@@ -120,6 +120,9 @@
   <data name="ButtonInject.Content" xml:space="preserve">
     <value>开始</value>
   </data>
+  <data name="MainPage.Content" xml:space="preserve">
+    <value>进程选择器</value>
+  </data>
   <data name="ProcessExitTipDialog.CloseButtonText" xml:space="preserve">
     <value>确定</value>
   </data>
