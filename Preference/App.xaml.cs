@@ -153,9 +153,12 @@ sealed partial class App : Application
             return;
 
         var tasks = processList.Select(p => p.ToProcessDataModelAsync());
-        var models = await Task.WhenAll(tasks);
+        var models = (await Task.WhenAll(tasks)).ToList();
+        models.ForEach(m => m.Describe = 
+            m.Describe == string.Empty ? 
+            m.Title : m.Describe);
 
-        ProcessUpdated?.Invoke(this, models.ToList());
+        ProcessUpdated?.Invoke(this, models);
 
         d.Complete();
     }

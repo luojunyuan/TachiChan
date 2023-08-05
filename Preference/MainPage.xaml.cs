@@ -90,7 +90,8 @@ public sealed partial class MainPage : Page
             return;
         }
       
-        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--path \"{selected.FullPath}\"");
+        //await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--path \"{selected.FullPath}\"");
+        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--process-id {selected.ProcessId}");
 
         selected.Injected = true;
         InjectButton.IsEnabled = false;

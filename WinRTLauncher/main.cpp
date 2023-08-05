@@ -95,6 +95,32 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
             MessageBox(nullptr, errorMessage.c_str(), L"WinRTLauncher", MB_OK);
         }
     }
+    else if (commandLine.find(L"--process-id") != std::wstring::npos)
+    {
+        wchar_t buffer[MAX_PATH];
+        GetModuleFileName(nullptr, buffer, MAX_PATH);
+        auto launcherPath = wstring(buffer);
+        std::filesystem::path programPathRelative = L"..\\TouchChan\\TouchChan.exe";
+        std::wstring programPath = std::filesystem::canonical(
+            std::filesystem::path(launcherPath).parent_path() / programPathRelative);
+        std::wstring programArgs = argv[4]; // winrt.exe TouchChan.exe pkgArg1 --process-id 1111
+
+        programArgs = programPath + L" " + programArgs;
+
+        STARTUPINFOW startupInfo = { sizeof(startupInfo) };
+        PROCESS_INFORMATION processInfo;
+
+        if (CreateProcessW(programPath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
+
+            CloseHandle(processInfo.hProcess);
+            CloseHandle(processInfo.hThread);
+        }
+        else {
+            DWORD errorCode = GetLastError();
+            std::wstring errorMessage = L"プログラムの起動に失敗しました。エラーコード: " + std::to_wstring(errorCode);
+            MessageBox(nullptr, errorMessage.c_str(), L"WinRTLauncher", MB_OK);
+        }
+    }
 
     return 0;
 }
