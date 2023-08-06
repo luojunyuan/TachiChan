@@ -10,7 +10,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <Grid>
-
+    <Grid 
+        Margin="20 10"
+        HorizontalAlignment="Left" VerticalAlignment="Top">
+        <StackPanel Spacing="10">
+            <CheckBox x:Name="Screenshot" Click="Screenshot_Click" Content="Make TachiChan use Alt+PrintScreen instead of Win+Shift+S for built-in screensh" />
+            <CheckBox x:Name="EnterKeyMapping" Click="EnterKeyMapping_Click" Content="Use Z key maps to the Enter key" />
+        </StackPanel>
     </Grid>
 </Page>
