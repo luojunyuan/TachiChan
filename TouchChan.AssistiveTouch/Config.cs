@@ -1,8 +1,8 @@
-﻿using TouchChan.AssistiveTouch.NativeMethods;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch
 {
@@ -10,7 +10,8 @@ namespace TouchChan.AssistiveTouch
     {
         private static readonly string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private static readonly string ConfigFolder = Path.Combine(RoamingPath, "TouchChan");
-        private static readonly string ConfigFilePath = Path.Combine(RoamingPath, "TouchChan", "Config.ini");
+
+        private static string ConfigFilePath = null!;
 
         public static bool UseEnterKeyMapping { get; private set; }
 
@@ -23,11 +24,18 @@ namespace TouchChan.AssistiveTouch
         public static bool UseEdgeTouchMask { get; private set; }
 
         public static bool EnableMagTouchMapping { get; private set; }
-        
+
         public static bool UseModernSleep { get; private set; }
 
-        public static void Load()
+        public static async void Load()
         {
+#if !NET472
+            Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
+            Windows.Storage.IStorageItem item = await roamingFolder.TryGetItemAsync("Config.ini");
+            ConfigFilePath = item.Path;
+#else
+            ConfigFilePath = Path.Combine(RoamingPath, "TouchChan", "Config.ini");
+#endif
             // First time start
             if (!File.Exists(ConfigFilePath))
                 return;

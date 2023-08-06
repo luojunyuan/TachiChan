@@ -23,7 +23,7 @@ More test on different devices
 3. Gesture 引用了winforms，为保持纯净必须与wpf项目分离开。更多的是为了模块化，保证功能独立性，AssistiveTouch.Core下的功能已经够多了。
 
 .editorconfig changes
-1.DllImport
+1.DllImport (不使用LibraryImport的理由：1.会引入unsafe。2.无法与net472兼容需用宏编译分离两套代码)
 
 TachiChan使用到的winrt服务
 （c++/winrt Launcher）
@@ -31,3 +31,4 @@ TachiChan使用到的winrt服务
 （TouchChan.AssistiveTouch）
 2.Toast用来提示是否是管理员模式
 3.Battery模块用来检查设备是否带电池（考虑将来替换原生实现）
+4.StorageFolder搭配UWP获取程序配置

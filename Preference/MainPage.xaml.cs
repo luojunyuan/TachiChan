@@ -29,6 +29,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
+        this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
 
         ProcessComboBox.ItemsSource = ProcessItems;
         var appView = ApplicationView.GetForCurrentView();
