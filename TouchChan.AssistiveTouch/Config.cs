@@ -27,13 +27,15 @@ namespace TouchChan.AssistiveTouch
 
         public static bool UseModernSleep { get; private set; }
 
+#if !NET472
         public static async void Load()
         {
-#if !NET472
             Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
             Windows.Storage.IStorageItem item = await roamingFolder.TryGetItemAsync("Config.ini");
             ConfigFilePath = item.Path;
 #else
+        public static void Load()
+        {
             ConfigFilePath = Path.Combine(RoamingPath, "TouchChan", "Config.ini");
 #endif
             // First time start

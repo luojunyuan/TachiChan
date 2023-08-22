@@ -175,7 +175,8 @@ partial class Form1
             this.KeytoEnterValue.Items.AddRange(new object[] {
             "Z",
             "A",
-            "Q"});
+            "Q",
+            "Space"});
             this.KeytoEnterValue.Location = new System.Drawing.Point(75, 10);
             this.KeytoEnterValue.Name = "KeytoEnterValue";
             this.KeytoEnterValue.Size = new System.Drawing.Size(61, 32);
