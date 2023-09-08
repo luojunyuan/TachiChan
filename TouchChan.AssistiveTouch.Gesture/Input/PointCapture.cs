@@ -244,6 +244,7 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
             {
                 List<Point> capturedPoints = pointsInformation.FirstCapturedPoints;
                 // Output 2
+                //Console.WriteLine(GestureManager.Instance.GestureName);
                 GestureRecognized?.Invoke(this, new RecognitionEventArgs(GestureManager.Instance.GestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
             }
 

@@ -73,9 +73,12 @@ public partial class App : Application
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
         GameEngine = File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
             File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
-            File.Exists(Path.Combine(dir, "data.xp3")) ? Engine.Kirikiri :
+            File.Exists(Path.Combine(dir, "char.xp3")) ? Engine.Kirikiri :
+            File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
             Engine.TBD;
-        if (GameEngine == Engine.Shinario || e.Args.Contains("--old-style"))
+        if (GameEngine == Engine.Shinario // Can not be tapped after menu opened
+            || GameEngine == Engine.Kirikiri
+            || e.Args.Contains("--old-style")) // No dpi compatible set
             OldStyleTouch = true;
     }
 
@@ -121,4 +124,5 @@ public enum Engine
     Shinario,
     Kirikiri, // SoftHouse-Seal extrans.dll krmovie.dll protect.dll.exe.x64.x86 sound.xp3 video.xp3 wuvorbis.dll
     AtelierKaguya,
+    SiglusEngine,
 }
