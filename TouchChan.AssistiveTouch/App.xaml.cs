@@ -73,12 +73,13 @@ public partial class App : Application
         var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
         GameEngine = File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
             File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
-            File.Exists(Path.Combine(dir, "char.xp3")) ? Engine.Kirikiri :
+            File.Exists(Path.Combine(dir, "char.xp3")) ? Engine.Kirikiri : // data.xp3 ?
             File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
             Engine.TBD;
         if (GameEngine == Engine.Shinario // Can not be tapped after menu opened
-            || GameEngine == Engine.Kirikiri
-            || e.Args.Contains("--old-style")) // No dpi compatible set
+            || GameEngine == Engine.Kirikiri // The hole window is blocked (game さめ)
+            || e.Args.Contains("--no-dpi") // No dpi compatible set
+            || File.Exists(Path.Combine(dir, "pixel.windows.exe")) )
             OldStyleTouch = true;
     }
 

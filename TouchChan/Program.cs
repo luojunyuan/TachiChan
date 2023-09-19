@@ -37,7 +37,9 @@ if (!File.Exists(gamePath))
 #endregion
 
 var stream = typeof(Program).Assembly.GetManifestResourceStream("TouchChan.assets.klee.png")!;
-var splash = new SplashScreen(96, stream);
+var splash = new SplashScreen(96 * 
+    (args.Contains("--small-device") ? 2 : 
+    RegistryModifier.IsSmallDevice() ? 2 : 1), stream);
 new Thread(() => PreProcessing(args.Contains("-le"), gamePath, splash)).Start();
 
 splash.Run();
@@ -165,7 +167,7 @@ static void Run(Process game, SplashScreen? splash = null)
         splash = null;
     });
 
-    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : "--old-style";
+    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : "--no-dpi";
 
     Environment.CurrentDirectory = AppContext.BaseDirectory;
     while (!game.HasExited)
