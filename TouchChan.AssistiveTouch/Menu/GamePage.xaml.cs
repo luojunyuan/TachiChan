@@ -173,9 +173,20 @@ namespace TouchChan.AssistiveTouch.Menu
         private const int MenuTransitsDuration = 200;
         private async void CloseGameOnClick(object sender, EventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
-            await Task.Delay(MenuTransitsDuration);
-            Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
+            if (!App.OldStyleTouch)
+            {
+                ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
+                await Task.Delay(MenuTransitsDuration);
+                Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
+            }
+            else
+            {
+                ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
+                User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND,
+                // ReSharper disable once RedundantArgumentDefaultValue
+                (IntPtr)User32.SysCommand.SC_CLOSE);
+                // User32.BringWindowToTop(App.GameWindowHandle); // Shrink the menu
+            }
         }
     }
 }

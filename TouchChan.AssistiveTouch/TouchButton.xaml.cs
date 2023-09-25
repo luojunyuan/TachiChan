@@ -12,7 +12,7 @@ public partial class TouchButton
 {
     public static TimeSpan MenuTransistDuration { get; } = TimeSpan.FromMilliseconds(200);
 
-    public bool IsTouchMenuOpend { get; set; }
+    public bool IsTouchMenuOpened { get; set; }
     public event EventHandler? TouchMenuClosed;
     public void RaiseMenuClosedEvent(object sender) => TouchMenuClosed?.Invoke(sender, new());
     public event EventHandler? Clicked;
@@ -28,7 +28,7 @@ public partial class TouchButton
     private const double ButtonSpace = 2;
 
     // The diameter of button use for mouse releasing
-    public const double TouchSize = 80; // used 60, 100, 75
+    public static double TouchSize = 80; // used 60, 100, 75
     private double _distance;
     private double _halfDistance;
     private double _oneThirdDistance;
@@ -131,7 +131,7 @@ public partial class TouchButton
         // Fade out
         var throttle = new Throttle(OpacityChangeDuration, () =>
         {
-            if (isMoving == false && IsTouchMenuOpend == false)
+            if (isMoving == false && IsTouchMenuOpened == false)
             {
                 Dispatcher.Invoke(() => BeginAnimation(OpacityProperty, FadeOpacityAnimation));
             }

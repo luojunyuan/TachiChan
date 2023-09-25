@@ -63,7 +63,7 @@ namespace TouchChan.AssistiveTouch
                 TouchMenuItem.ClickLocked = true;
                 Visibility = Visibility.Visible;
                 mainWindow.Touch.Visibility = Visibility.Hidden;
-                mainWindow.Touch.IsTouchMenuOpend = _isOpened = isAnimating = true;
+                mainWindow.Touch.IsTouchMenuOpened = _isOpened = isAnimating = true;
 
                 _menuMainPage.Visibility = Visibility.Visible;
                 _menuGamePage.Visibility = Visibility.Collapsed;
@@ -110,7 +110,7 @@ namespace TouchChan.AssistiveTouch
                 // FIXEME: after window size change the touch position 
                 if (MovementStoryboard.AutoReverse == true)
                 {
-                    mainWindow.Touch.IsTouchMenuOpend = _isOpened = isAnimating = false;
+                    mainWindow.Touch.IsTouchMenuOpened = _isOpened = isAnimating = false;
                     MovementStoryboard.AutoReverse = false;
                     mainWindow.Touch.Visibility = Visibility.Visible;
                     mainWindow.Touch.RaiseMenuClosedEvent(this);

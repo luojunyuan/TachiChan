@@ -37,9 +37,9 @@ if (!File.Exists(gamePath))
 #endregion
 
 var stream = typeof(Program).Assembly.GetManifestResourceStream("TouchChan.assets.klee.png")!;
-var splash = new SplashScreen(96 * 
-    (args.Contains("--small-device") ? 2 : 
-    RegistryModifier.IsSmallDevice() ? 2 : 1), stream);
+var splash = new SplashScreen(
+    args.Contains("--small-device") ? 144 : 
+    RegistryModifier.IsSmallDevice() ? 144 : 96, stream);
 new Thread(() => PreProcessing(args.Contains("-le"), gamePath, splash)).Start();
 
 splash.Run();
@@ -167,7 +167,8 @@ static void Run(Process game, SplashScreen? splash = null)
         splash = null;
     });
 
-    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : "--no-dpi";
+    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : " --no-dpi";
+    var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? " --small-device" : string.Empty;
 
     Environment.CurrentDirectory = AppContext.BaseDirectory;
     while (!game.HasExited)
@@ -199,7 +200,7 @@ static void Run(Process game, SplashScreen? splash = null)
 #else
                 FileName = "TouchChan.AssistiveTouch.exe",
 #endif
-                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + ' ' + oldStyleTouch,
+                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + oldStyleTouch + smallDevice,
                 UseShellExecute = false,
             }
         };

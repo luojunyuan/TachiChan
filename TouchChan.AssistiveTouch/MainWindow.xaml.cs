@@ -25,6 +25,7 @@ public partial class MainWindow : Window
         Dpi = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
         Loaded += (_, _) => ForceSetForegroundWindow(App.GameWindowHandle);
+        //Loaded += (_, _) => {Console.WriteLine($"Old style: {App.OldStyleTouch}");Console.WriteLine($"Small device: {Environment.GetCommandLineArgs().Contains("--small-device")}");Console.WriteLine($"Dpi: {Dpi}");Console.WriteLine($"Window: ({Width}, {Height})");Console.WriteLine($"Touch: ({Touch.ActualWidth}, {Touch.ActualHeight})");};
         ContentRendered += (_, _) =>
         {
             // Final chance to check window handle, due to some games has a launcher window 
@@ -55,7 +56,6 @@ public partial class MainWindow : Window
             Loaded += (_, _) =>
             {
                 ((GamePage)Menu.GameMenu.Content).FullScreenSwitcher.Disable();
-                ((GamePage)Menu.GameMenu.Content).CloseGame.Disable();
                 ((GamePage)Menu.GameMenu.Content).MoveGame.Disable();
             };
             var hooker = new GameWindowHookerOld();

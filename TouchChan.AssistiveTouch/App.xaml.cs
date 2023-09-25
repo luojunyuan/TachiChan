@@ -29,6 +29,9 @@ public partial class App : Application
 
         GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
+        if (e.Args.Contains("--small-device"))
+            TouchButton.TouchSize = 100;
+
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
         TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 
