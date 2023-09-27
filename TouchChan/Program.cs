@@ -167,7 +167,8 @@ static void Run(Process game, SplashScreen? splash = null)
         splash = null;
     });
 
-    var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : " --no-dpi";
+    // TODO: Get game Enviroment __COMPAT_LAYER HighDpiAware or
+    //var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : " --no-dpi-compatible";
     var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? " --small-device" : string.Empty;
 
     Environment.CurrentDirectory = AppContext.BaseDirectory;
@@ -200,7 +201,7 @@ static void Run(Process game, SplashScreen? splash = null)
 #else
                 FileName = "TouchChan.AssistiveTouch.exe",
 #endif
-                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + oldStyleTouch + smallDevice,
+                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + smallDevice,
                 UseShellExecute = false,
             }
         };

@@ -81,7 +81,7 @@ public partial class App : Application
             Engine.TBD;
         if (GameEngine == Engine.Shinario // Can not be tapped after menu opened
             || GameEngine == Engine.Kirikiri // The hole window is blocked (game さめ)
-            || e.Args.Contains("--no-dpi") // No dpi compatible set
+            || e.Args.Contains("--no-dpi-compatible") // No dpi compatible set
             || File.Exists(Path.Combine(dir, "pixel.windows.exe")) )
             OldStyleTouch = true;
     }

@@ -14,11 +14,6 @@ internal static class AppLauncher
 
         var gameFolder = Path.GetDirectoryName(gamePath);
 
-        if (!RegistryModifier.IsDpiCompatibilitySet(gamePath))
-        {
-            RegistryModifier.SetDPICompatibilityAsApplication(gamePath);
-        }
-
         if (leEnable)
         {
             var lePath = RegistryModifier.LEPathInRegistry();
@@ -31,24 +26,29 @@ internal static class AppLauncher
                 throw new InvalidOperationException();
 
             // NOTE: LE may throw AccessViolationException which can not be caught
-            return Process.Start(new ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = lePath,
                 UseShellExecute = false,
                 Arguments = File.Exists(gamePath + ".le.config")
                     ? $"-run \"{gamePath}\""
-                    : $"\"{gamePath}\""
-            });
+                    : $"\"{gamePath}\"",
+            };
+            startInfo.EnvironmentVariables["__COMPAT_LAYER"] = "HighDpiAware";
+            // for delay kill le
+            return Process.Start(startInfo);
         }
         else
         {
             var isUrlFile = Path.GetExtension(gamePath).Equals(".url", StringComparison.OrdinalIgnoreCase);
-            Process.Start(new ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = gamePath,
                 UseShellExecute = isUrlFile,
                 WorkingDirectory = gameFolder
-            });
+            };
+            startInfo.EnvironmentVariables["__COMPAT_LAYER"] = "HighDpiAware";
+            Process.Start(startInfo);
             return null;
         }
     }
