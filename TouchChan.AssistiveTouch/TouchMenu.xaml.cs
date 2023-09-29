@@ -153,7 +153,7 @@ namespace TouchChan.AssistiveTouch
         {
             MaxSize = touchSize * 5;
             EndureEdgeHeight = MaxSize / 10;
-            XamlResource.SetAssistiveTouchItemSize(touchSize / 2);
+            XamlResource.SetAssistiveTouchItemSize(touchSize * 3 / 4);
             UpdateMenuSize(Application.Current.MainWindow.Height);
 
             // Update width height animation
