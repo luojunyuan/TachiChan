@@ -55,11 +55,7 @@ public static class TouchConversionHooker
                 Task.Run(() =>
                 {
                     User32.SetCursorPos(info.pt.X, info.pt.Y);
-                    User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, info.pt.X, info.pt.Y, 0, IntPtr.Zero);
-                    Thread.Sleep(UserTimerMinimum);
-                    User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, info.pt.X, info.pt.Y, 0, IntPtr.Zero);
-                    // I didn't get it
-                    // Simulate.Click(Simulate.ButtonCode.Left, UserTimerMinimum);
+                    Simulate.Click(Simulate.ButtonCode.Left, UserTimerMinimum);
                 });
                 break;
             case 0x205:

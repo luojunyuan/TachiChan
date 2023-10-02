@@ -132,7 +132,7 @@ namespace TouchChan.AssistiveTouch.NativeMethods
             switch (This)
             {
                 case ButtonCode.Left:
-                    ret = MOUSEEVENTF.MIDDLEUP;
+                    ret = MOUSEEVENTF.LEFTUP;
                     break;
                 case ButtonCode.Right:
                     ret = MOUSEEVENTF.RIGHTUP;
