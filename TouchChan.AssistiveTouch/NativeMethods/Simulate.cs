@@ -50,6 +50,13 @@
             }
         }
 
+        public static void Click(ButtonCode key, int delay = 0)
+        {
+            ButtonDown(key);
+            if (delay > 0) Thread.Sleep(delay);
+            ButtonUp(key);
+        }
+
         public static void Scroll(ButtonCode code, ButtonScrollDirection direction)
         {
             var offset = (int)direction * DefaultScrollOffset;
