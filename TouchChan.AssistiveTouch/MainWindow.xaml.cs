@@ -37,7 +37,7 @@ public partial class MainWindow : Window
             IpcRenderer.Send("Loaded");
         };
 
-        if (!App.OldStyleTouch)
+        if (App.TouchStyle == TouchStyle.New)
         {
             HwndTools.RemovePopupAddChildStyle(Handle);
             User32.SetParent(Handle, App.GameWindowHandle);
@@ -55,7 +55,7 @@ public partial class MainWindow : Window
             HwndTools.HideWindowInAltTab(Handle);
             Loaded += (_, _) =>
             {
-                ((GamePage)Menu.GameMenu.Content).FullScreenSwitcher.Disable();
+                // ((GamePage)Menu.GameMenu.Content).FullScreenSwitcher.Disable();
                 ((GamePage)Menu.GameMenu.Content).MoveGame.Disable();
             };
             var hooker = new GameWindowHookerOld();

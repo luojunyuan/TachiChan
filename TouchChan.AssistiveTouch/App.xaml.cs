@@ -19,6 +19,8 @@ public partial class App : Application
 
     public static Engine GameEngine { get; private set; }
 
+    public static TouchStyle TouchStyle { get; private set; }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
@@ -83,10 +85,8 @@ public partial class App : Application
             || GameEngine == Engine.Kirikiri // The hole window is blocked (game さめ)
             || e.Args.Contains("--no-dpi-compatible") // No dpi compatible set
             || File.Exists(Path.Combine(dir, "pixel.windows.exe")) )
-            OldStyleTouch = true;
+            TouchStyle = TouchStyle.Old;
     }
-
-    public static bool OldStyleTouch { get; private set; }
 
     private static void DisableWPFTabletSupport()
     {
@@ -129,4 +129,10 @@ public enum Engine
     Kirikiri, // SoftHouse-Seal extrans.dll krmovie.dll protect.dll.exe.x64.x86 sound.xp3 video.xp3 wuvorbis.dll
     AtelierKaguya,
     SiglusEngine,
+}
+
+public enum TouchStyle
+{
+    New,
+    Old
 }

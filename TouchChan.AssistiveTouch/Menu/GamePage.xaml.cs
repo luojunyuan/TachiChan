@@ -136,27 +136,38 @@ namespace TouchChan.AssistiveTouch.Menu
         private const int UIMinimumResponseTime = 50;
         private async void FullScreenSwitcherOnClickEvent(object sender, EventArgs e)
         {
-            switch (App.GameEngine)
+            if (TouchStyle.New == App.TouchStyle)
             {
-                case Engine.AtelierKaguya:
-                    if (Fullscreen.GameInFullscreen)
-                    {
-                        User32.SetCursorPos(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN) - 5, User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN) - 5);
-                        Simulate.Click(Simulate.ButtonCode.Right);
-                        Simulate.Click(Simulate.KeyCode.Up);
+                switch (App.GameEngine)
+                {
+                    case Engine.AtelierKaguya:
+                        if (Fullscreen.GameInFullscreen)
+                        {
+                            User32.SetCursorPos(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN) - 5, User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN) - 5);
+                            Simulate.Click(Simulate.ButtonCode.Right);
+                            Simulate.Click(Simulate.KeyCode.Up);
+                            await Task.Delay(UIMinimumResponseTime);
+                            Simulate.Click(Simulate.KeyCode.E, Simulate.KeyCode.W);
+                        }
+                        else User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
+                        break;
+                    default:
+                        HwndTools.WindowLostFocus(MainWindow.Handle, true);
+                        Simulate.Hold(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
                         await Task.Delay(UIMinimumResponseTime);
-                        Simulate.Click(Simulate.KeyCode.E, Simulate.KeyCode.W);
-                    }
-                    else User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
-                    break;
-                default:
-                    HwndTools.WindowLostFocus(MainWindow.Handle, true);
-                    Simulate.Hold(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
-                    await Task.Delay(UIMinimumResponseTime);
-                    Simulate.Release(Simulate.KeyCode.Enter, Simulate.KeyCode.Alt);
-                    HwndTools.WindowLostFocus(MainWindow.Handle, false);
-                    break;
+                        Simulate.Release(Simulate.KeyCode.Enter, Simulate.KeyCode.Alt);
+                        HwndTools.WindowLostFocus(MainWindow.Handle, false);
+                        break;
+                }
             }
+            else
+            {
+                User32.BringWindowToTop(App.GameWindowHandle);
+                Simulate.Hold(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
+                await Task.Delay(UIMinimumResponseTime);
+                Simulate.Release(Simulate.KeyCode.Enter, Simulate.KeyCode.Alt);
+            }
+           
         }
 
         private readonly DoubleAnimation _fadeOutAnimation = AnimationTool.FadeOutAnimation;
@@ -171,22 +182,27 @@ namespace TouchChan.AssistiveTouch.Menu
         private void BackOnClick(object sender, EventArgs e) => PageChanged?.Invoke(this, new(TouchMenuPageTag.GameBack));
 
         private const int MenuTransitsDuration = 200;
-        private async void CloseGameOnClick(object sender, EventArgs e)
+        private void CloseGameOnClick(object sender, EventArgs e)
         {
-            if (!App.OldStyleTouch)
+            var CloseGameImplementation = new Dictionary<TouchStyle, Action>
             {
-                ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
-                await Task.Delay(MenuTransitsDuration);
-                Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
-            }
-            else
-            {
-                ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
-                User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND,
-                // ReSharper disable once RedundantArgumentDefaultValue
-                (IntPtr)User32.SysCommand.SC_CLOSE);
-                // User32.BringWindowToTop(App.GameWindowHandle); // Shrink the menu
-            }
+                { TouchStyle.New, async () => 
+                {
+                    await Task.Delay(MenuTransitsDuration);
+                    Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
+                } },
+                { TouchStyle.Old, () => 
+                {
+                    User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND,
+                    // ReSharper disable once RedundantArgumentDefaultValue
+                    (IntPtr)User32.SysCommand.SC_CLOSE);
+                    // User32.BringWindowToTop(App.GameWindowHandle); // Shrink the menu
+                } },
+            };
+
+            ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
+
+            CloseGameImplementation[App.TouchStyle]();
         }
     }
 }
