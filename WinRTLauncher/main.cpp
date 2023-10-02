@@ -37,12 +37,13 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
     auto argv = CommandLineToArgvW(GetCommandLineW(), &argc);
     std::wstring commandLine = GetCommandLineW();
 
-    if (argc == 1)
+    if (argc == 1) // this means no command arguments passed
     {
         MessageBox(nullptr, L"won't happen", L"WinRTLauncher", MB_OK);
         return 0;
     }
 
+    // UWP-SelectProcess: Enumerate processes
     if (commandLine.find(L"--channel") != std::wstring::npos)
     {
         auto sss = FilterProcessService::Filter();
@@ -59,6 +60,33 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
         winrt::Windows::Foundation::Collections::ValueSet set;
         set.Insert(L"result", PropertyValue::CreateString(sss));
         connection.SendMessageAsync(set).get();
+    }
+    // UWP-SelectProcess: Attach to target process 
+    else if (commandLine.find(L"--process-id") != std::wstring::npos)
+    {
+        wchar_t buffer[MAX_PATH];
+        GetModuleFileName(nullptr, buffer, MAX_PATH);
+        auto launcherPath = wstring(buffer);
+        std::filesystem::path programPathRelative = L"..\\TouchChan\\TouchChan.exe";
+        std::wstring programPath = std::filesystem::canonical(
+            std::filesystem::path(launcherPath).parent_path() / programPathRelative);
+        std::wstring programArgs = argv[4]; // winrt.exe TouchChan.exe pkgArg1 --process-id 1111
+
+        programArgs = programPath + L" " + programArgs;
+
+        STARTUPINFOW startupInfo = { sizeof(startupInfo) };
+        PROCESS_INFORMATION processInfo;
+
+        if (CreateProcessW(programPath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
+
+            CloseHandle(processInfo.hProcess);
+            CloseHandle(processInfo.hThread);
+        }
+        else {
+            DWORD errorCode = GetLastError();
+            std::wstring errorMessage = L"プログラムの起動に失敗しました。エラーコード: " + std::to_wstring(errorCode);
+            MessageBox(nullptr, errorMessage.c_str(), L"WinRTLauncher", MB_OK);
+        }
     }
     else if (commandLine.find(L"--path") != std::wstring::npos)
     {
@@ -90,32 +118,6 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
         }
         else {
             // プログラムの起動に失敗した場合 
-            DWORD errorCode = GetLastError();
-            std::wstring errorMessage = L"プログラムの起動に失敗しました。エラーコード: " + std::to_wstring(errorCode);
-            MessageBox(nullptr, errorMessage.c_str(), L"WinRTLauncher", MB_OK);
-        }
-    }
-    else if (commandLine.find(L"--process-id") != std::wstring::npos)
-    {
-        wchar_t buffer[MAX_PATH];
-        GetModuleFileName(nullptr, buffer, MAX_PATH);
-        auto launcherPath = wstring(buffer);
-        std::filesystem::path programPathRelative = L"..\\TouchChan\\TouchChan.exe";
-        std::wstring programPath = std::filesystem::canonical(
-            std::filesystem::path(launcherPath).parent_path() / programPathRelative);
-        std::wstring programArgs = argv[4]; // winrt.exe TouchChan.exe pkgArg1 --process-id 1111
-
-        programArgs = programPath + L" " + programArgs;
-
-        STARTUPINFOW startupInfo = { sizeof(startupInfo) };
-        PROCESS_INFORMATION processInfo;
-
-        if (CreateProcessW(programPath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
-
-            CloseHandle(processInfo.hProcess);
-            CloseHandle(processInfo.hThread);
-        }
-        else {
             DWORD errorCode = GetLastError();
             std::wstring errorMessage = L"プログラムの起動に失敗しました。エラーコード: " + std::to_wstring(errorCode);
             MessageBox(nullptr, errorMessage.c_str(), L"WinRTLauncher", MB_OK);
