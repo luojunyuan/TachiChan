@@ -122,16 +122,16 @@ namespace TouchChan.AssistiveTouch.Menu
         }
 
         private void VolumeDownOnClickEvent(object sender, EventArgs e) =>
-            Simulate.Click(Simulate.KeyCode.VolumeDown);
+            Simulate.Pretend(Simulate.KeyCode.VolumeDown);
 
         private void VolumeUpOnClickEvent(object sender, EventArgs e) =>
-            Simulate.Click(Simulate.KeyCode.VolumeUp);
+            Simulate.Pretend(Simulate.KeyCode.VolumeUp);
 
         private void ActionCenterOnClickEvent(object sender, EventArgs e) =>
-            Simulate.ClickChord(Simulate.KeyCode.LWin, Simulate.KeyCode.A);
+            Simulate.Pretend(Simulate.KeyCode.LWin, Simulate.KeyCode.A);
 
         private void TaskViewOnClickEvent(object sender, EventArgs e) =>
-            Simulate.ClickChord(Simulate.KeyCode.LWin, Simulate.KeyCode.Tab);
+            Simulate.Pretend(Simulate.KeyCode.LWin, Simulate.KeyCode.Tab);
 
         private Rectangle? _screenMask;
         private DoubleAnimation? _fadeout;
@@ -141,14 +141,14 @@ namespace TouchChan.AssistiveTouch.Menu
             ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
             if (Config.ScreenShotTradition)
             {
-                Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.PrintScreen);
+                Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.PrintScreen);
                 ((Grid)(Application.Current.MainWindow.Content)).Children.Add(_screenMask);
                 _screenMask!.BeginAnimation(OpacityProperty, _fadeout);
             }
             else
             {
                 await Task.Delay(WaitForScreenShot);
-                Simulate.ClickChord(Simulate.KeyCode.LWin, Simulate.KeyCode.Shift, Simulate.KeyCode.S);
+                Simulate.Pretend(Simulate.KeyCode.LWin, Simulate.KeyCode.Shift, Simulate.KeyCode.S);
             }
         }
 
@@ -159,6 +159,6 @@ namespace TouchChan.AssistiveTouch.Menu
         }
 
         private void BackToDesktopOnClickEvent(object sender, EventArgs e) =>
-            Simulate.ClickChord(Simulate.KeyCode.LWin, Simulate.KeyCode.D);
+            Simulate.Pretend(Simulate.KeyCode.LWin, Simulate.KeyCode.D);
     }
 }

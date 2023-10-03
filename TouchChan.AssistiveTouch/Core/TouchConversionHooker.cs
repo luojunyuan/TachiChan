@@ -52,23 +52,15 @@ public static class TouchConversionHooker
         switch ((int)wParam)
         {
             case 0x202:
-                Task.Run(() =>
-                {
-                    User32.SetCursorPos(info.pt.X, info.pt.Y);
-                    Simulate.Click(Simulate.ButtonCode.Left, UserTimerMinimum);
-                });
+                User32.SetCursorPos(info.pt.X, info.pt.Y);
+                Simulate.Pretend(Simulate.ButtonCode.Left);
                 break;
-            case 0x205:
-                Task.Run(() =>
-                {
-                    User32.SetCursorPos(info.pt.X, info.pt.Y);
-                    Simulate.Click(Simulate.ButtonCode.Right, UserTimerMinimum);
-                });
+            // case 0x203: Simulate.Up(Simulate.ButtonCode.Left); break;
+            case 0x205: // only
+                Simulate.Pretend(Simulate.ButtonCode.Right);
                 break;
         }
 
         return User32.CallNextHookEx(_hookId!, nCode, wParam, lParam);
     }
-
-    private const int UserTimerMinimum = 0x0000000A;
 }

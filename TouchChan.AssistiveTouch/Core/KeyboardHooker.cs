@@ -33,18 +33,15 @@ namespace TouchChan.AssistiveTouch.Core
             if (info.vkCode == (uint)Config.MappingKey && User32.GetForegroundWindow() == _gameWindowHandle)
             {
                 const int WM_KEYUP = 0x0101;
-                const int KEYBOARDMANAGER_SINGLEKEY_FLAG = 0x11;
-                var keyEventList = new Simulate.INPUT[1];
                 if ((int)wParam == WM_KEYUP)
                 {
-                    Simulate.SetKeyEvent(0, keyEventList, Simulate.KeyCode.Return, Simulate.KeyboardFlag.KeyUp, KEYBOARDMANAGER_SINGLEKEY_FLAG);
+                    Simulate.Up(Simulate.KeyCode.Return);
                 }
                 else
                 {
-                    Simulate.SetKeyEvent(0, keyEventList, Simulate.KeyCode.Return, 0, KEYBOARDMANAGER_SINGLEKEY_FLAG);
+                    Simulate.Down(Simulate.KeyCode.Return);
                 }
 
-                Simulate.SendInput(1, keyEventList, Simulate.INPUT.Size);
                 return new IntPtr(1);
             }
 

@@ -144,18 +144,19 @@ namespace TouchChan.AssistiveTouch.Menu
                         if (Fullscreen.GameInFullscreen)
                         {
                             User32.SetCursorPos(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN) - 5, User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN) - 5);
-                            Simulate.Click(Simulate.ButtonCode.Right);
-                            Simulate.Click(Simulate.KeyCode.Up);
+                            Simulate.Pretend(Simulate.ButtonCode.Right);
                             await Task.Delay(UIMinimumResponseTime);
-                            Simulate.Click(Simulate.KeyCode.E, Simulate.KeyCode.W);
+                            Simulate.Pretend(Simulate.KeyCode.Up);
+                            await Task.Delay(UIMinimumResponseTime);
+                            Simulate.Pretend(Simulate.KeyCode.E);
+                            await Task.Delay(UIMinimumResponseTime);
+                            Simulate.Pretend(Simulate.KeyCode.W);
                         }
                         else User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND, (IntPtr)User32.SysCommand.SC_MAXIMIZE);
                         break;
                     default:
                         HwndTools.WindowLostFocus(MainWindow.Handle, true);
-                        Simulate.Hold(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
-                        await Task.Delay(UIMinimumResponseTime);
-                        Simulate.Release(Simulate.KeyCode.Enter, Simulate.KeyCode.Alt);
+                        Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
                         HwndTools.WindowLostFocus(MainWindow.Handle, false);
                         break;
                 }
@@ -163,9 +164,7 @@ namespace TouchChan.AssistiveTouch.Menu
             else
             {
                 User32.BringWindowToTop(App.GameWindowHandle);
-                Simulate.Hold(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
-                await Task.Delay(UIMinimumResponseTime);
-                Simulate.Release(Simulate.KeyCode.Enter, Simulate.KeyCode.Alt);
+                Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
             }
            
         }
@@ -189,7 +188,7 @@ namespace TouchChan.AssistiveTouch.Menu
                 { TouchStyle.New, async () => 
                 {
                     await Task.Delay(MenuTransitsDuration);
-                    Simulate.ClickChord(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
+                    Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
                 } },
                 { TouchStyle.Old, () => 
                 {

@@ -7,55 +7,27 @@
     {
         // Keyboard 
 
-        public static void Click(params KeyCode[] keys)
-        {
-            foreach (var item in keys)
-            {
-                KeyDown(item);
-                KeyUp(item);
-            }
-        }
+        public static void Down(KeyCode key) => KeyDown(key);
+        public static void Up(KeyCode key) => KeyUp(key);
 
+        // For only one trigger situation
         // Alt(down) Enter(down) Enter(Up) Alt(Up)
-        public static void ClickChord(params KeyCode[] keys)
+        public static void Pretend(params KeyCode[] keys)
         {
-            foreach (var item in keys)
-                KeyDown(item);
-
-            foreach (var item in keys.Reverse())
-                KeyUp(item);
+            Task.Run(async () =>
+            {
+                foreach (var item in keys)
+                    KeyDown(item);
+                await Task.Delay(UserTimerMinimum);
+                foreach (var item in keys.Reverse())
+                    KeyUp(item);
+            });
         }
-
-        public static void Hold(params KeyCode[] keys)
-        {
-            foreach (var item in keys)
-                KeyDown(item);
-        }
-
-        public static void Release(params KeyCode[] keys)
-        {
-            foreach (var item in keys)
-                KeyUp(item);
-        }
-
 
         // Mouse
 
-        public static void Click(params ButtonCode[] keys)
-        {
-            foreach (var item in keys)
-            {
-                ButtonDown(item);
-                ButtonUp(item);
-            }
-        }
-
-        public static void Click(ButtonCode key, int delay = 0)
-        {
-            ButtonDown(key);
-            if (delay > 0) Thread.Sleep(delay);
-            ButtonUp(key);
-        }
+        public static void Down(ButtonCode key) => ButtonDown(key);
+        public static void Up(ButtonCode key) => ButtonUp(key);
 
         public static void Scroll(ButtonCode code, ButtonScrollDirection direction)
         {
@@ -66,6 +38,15 @@
             SendInput((uint)inputs.Length, inputs, INPUT.Size);
         }
 
+        public static void Pretend(ButtonCode key)
+        {
+            Task.Run(async () =>
+            {
+                ButtonDown(key);
+                await Task.Delay(UserTimerMinimum);
+                ButtonUp(key);
+            });
+        }
 
 
         // Behind
@@ -100,7 +81,7 @@
             SendInput(1, keyEventList, INPUT.Size);
         }
 
-        public static void SetKeyEvent(int i, INPUT[] keyEventArray, KeyCode keyCode, KeyboardFlag flags, nuint extraInfo)
+        private static void SetKeyEvent(int i, INPUT[] keyEventArray, KeyCode keyCode, KeyboardFlag flags, nuint extraInfo)
         {
             keyEventArray[i].Type = InputType.Keyboard;
             keyEventArray[i].Data.Keyboard.KeyCode = keyCode;

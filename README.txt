@@ -19,14 +19,19 @@ Release -> Package -> "Publish Application"
 ##### Find My Future
 More test on different devices
 首次运行引导（不使用游戏进行说明，使用自己的截图或者动图全屏进行说明）(720p screenshot embed?)
-考虑重写winform的虚拟键盘（考虑是属于game[曾经]还是属于function）
-尝试添加手柄检测，如Ctrl键，Select按键对应透明面板，Start打开Menu
+(MASSIVE)考虑重写winform的虚拟键盘（考虑是属于game[曾经]还是属于function）
+(MASSIVE)尝试添加手柄检测，如Ctrl键，Select按键对应透明面板，Start打开Menu（与虚拟键盘一样，一定是独立进程更好，为了减轻touch重量）
 unpackage net8 native with winrt without winrt.(for fun)
 
 > 使用多进程结构的理由
 1. 仅在AssistiveTouch启动时读入用户配置，Preference对配置进行编辑。（AssistiveTouch结束时存储按钮位置是个例外）
 2. Child window的结构会让touch随着游戏窗口的销毁而销毁，部分游戏存在启动器销毁，全屏切换销毁window handle的情景。所以需要常驻一个main进程（TouchChan）来重启AssistiveTouch。因为game handle改变了，必须重新查找handle。这部分逻辑也是依赖入口点进程，AssistiveTouch中依赖的game main handle为只读。
-3. Gesture 为模块化，保证功能独立性故与wpf项目分离，AssistiveTouch.Core下的功能已经够多了。
+Extensions
+3. Gesture lifetime with AssistiveTouch. 模块化，保证功能独立性故与wpf项目分离，AssistiveTouch.Core下的功能已经够多了。自己实现鼠标键盘钩子没有回调的必要？
+4. Virtual Keyboard lifetime 由 AssistiveTouch 控制 确实没有回调Touch模拟键盘按下的必要
+5. GameController lifetime with AssistiveTouch 所有功能独立，仅接入断开由AssistiveTouch提示。(不要SharpDX太重了) 也许需要XInput1_4.dll 所以不要支持win7
+6. Pure danmaku (with textractor inject automatic behind)
+UI 怎么办全由自己想办法winform直接画？ 先实现必要可用方便的功能，再考虑优化代码和用户体验本身。还是这个思路。
 
 > .editorconfig changes
 1.DllImport (不使用LibraryImport的理由：1.会引入unsafe。2.无法与net472兼容需用宏编译分离两套代码)

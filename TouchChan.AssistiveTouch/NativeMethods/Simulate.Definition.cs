@@ -5,7 +5,8 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 {
     internal partial class Simulate
     {
-        const int KEYBOARDMANAGER_SINGLEKEY_FLAG = 0x11;
+        private const int UserTimerMinimum = 0xA;
+        private const int KEYBOARDMANAGER_SINGLEKEY_FLAG = 0x11;
 
         [DllImport("user32.dll")]
         public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
