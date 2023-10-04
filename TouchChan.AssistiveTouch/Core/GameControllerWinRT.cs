@@ -2,11 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using TouchChan.AssistiveTouch.NativeMethods;
-#if !NET472
-using Windows.Gaming.Input;
-#else
 using SharpDX.XInput;
-#endif
 
 namespace TouchChan.AssistiveTouch.Core;
 
@@ -16,29 +12,22 @@ public class GameControllerWinRT
 
     public GameControllerWinRT()
     {
-#if !NET472
-        var controller = Gamepad.Gamepads.FirstOrDefault();
-        if (controller == null)
-            return;
-        previousReading = controller.GetCurrentReading();
-#else
+        //// always null
+        //var controller = Gamepad.Gamepads.FirstOrDefault();
+        //if (controller == null)
+        //    return;
+        //previousReading = controller.GetCurrentReading();
+
         var controller = new Controller(UserIndex.One);
         if (!controller.IsConnected)
             return;
+        
         previousState = controller.GetState().Gamepad;
-#endif
+
         _timer = new System.Timers.Timer(33.33);
         _timer.Elapsed += (_, _) => StartGamepadMonitoring();
         _timer.AutoReset = true;
         _timer.Start();
-
-
-        // Gamepad.GamepadAdded += (sender, args) =>
-        // {
-        // };
-        // Gamepad.GamepadRemoved += (sender, args) =>
-        // {
-        // };
     }
 
 
@@ -52,58 +41,15 @@ public class GameControllerWinRT
         CornerRadius = new(8),
     };
 
-#if !NET472
-    private GamepadReading previousReading;
-#else
+    //private GamepadReading previousReading;
     private Gamepad previousState;
-#endif
 
     private const int UserTimerMinimum = 0x0000000A;
 
 
     private void StartGamepadMonitoring()
     {
-#if !NET472
-        var controller = Gamepad.Gamepads[0];
-        var reading = controller.GetCurrentReading();
-        if (reading.Buttons.HasFlag(GamepadButtons.A) && !previousReading.Buttons.HasFlag(GamepadButtons.A))
-            Simulate.Down(Simulate.KeyCode.Enter);
-        if (!reading.Buttons.HasFlag(GamepadButtons.A) && previousReading.Buttons.HasFlag(GamepadButtons.A))
-            Simulate.Up(Simulate.KeyCode.Enter);
-
-        if (reading.Buttons.HasFlag(GamepadButtons.B) && !previousReading.Buttons.HasFlag(GamepadButtons.B))
-            Simulate.Down(Simulate.KeyCode.Space);
-        if (!reading.Buttons.HasFlag(GamepadButtons.B) && previousReading.Buttons.HasFlag(GamepadButtons.B))
-            Simulate.Up(Simulate.KeyCode.Space);
-
-        if (reading.Buttons.HasFlag(GamepadButtons.RightShoulder) && !previousReading.Buttons.HasFlag(GamepadButtons.RightShoulder))
-            Simulate.Down(Simulate.KeyCode.Control);
-        if (!reading.Buttons.HasFlag(GamepadButtons.RightShoulder) && previousReading.Buttons.HasFlag(GamepadButtons.RightShoulder))
-            Simulate.Up(Simulate.KeyCode.Control);
-
-        if (reading.Buttons.HasFlag(GamepadButtons.DPadUp) && !reading.Buttons.HasFlag(GamepadButtons.DPadUp))
-            Simulate.Down(Simulate.KeyCode.Up);
-        if (!reading.Buttons.HasFlag(GamepadButtons.DPadUp) && previousReading.Buttons.HasFlag(GamepadButtons.DPadUp))
-            Simulate.Up(Simulate.KeyCode.Up);
-
-        if (reading.Buttons.HasFlag(GamepadButtons.DPadDown) && !previousReading.Buttons.HasFlag(GamepadButtons.DPadDown))
-            Simulate.Down(Simulate.KeyCode.Down);
-        if (!reading.Buttons.HasFlag(GamepadButtons.DPadDown) && previousReading.Buttons.HasFlag(GamepadButtons.DPadDown))
-            Simulate.Up(Simulate.KeyCode.Down);
-
-        if (reading.Buttons.HasFlag(GamepadButtons.DPadLeft) && !previousReading.Buttons.HasFlag(GamepadButtons.DPadLeft))
-            Simulate.Down(Simulate.KeyCode.Left);
-        if (!reading.Buttons.HasFlag(GamepadButtons.DPadLeft) && previousReading.Buttons.HasFlag(GamepadButtons.DPadLeft))
-            Simulate.Up(Simulate.KeyCode.Left);
-
-        if (reading.Buttons.HasFlag(GamepadButtons.DPadRight) && !previousReading.Buttons.HasFlag(GamepadButtons.DPadRight))
-            Simulate.Down(Simulate.KeyCode.Right);
-        if (!reading.Buttons.HasFlag(GamepadButtons.DPadRight) && previousReading.Buttons.HasFlag(GamepadButtons.DPadRight))
-            Simulate.Up(Simulate.KeyCode.Right);
-
-        previousReading = reading;
-#else
-    var controller = new Controller(UserIndex.One);
+        var controller = new Controller(UserIndex.One);
 
         var state = controller.GetState().Gamepad;
 
@@ -178,20 +124,44 @@ public class GameControllerWinRT
         // if (!state.Buttons.HasFlag(GamepadButtonFlags.RightThumb) && previousState.Buttons.HasFlag(GamepadButtonFlags.RightThumb))
 
         previousState = state;
-#endif
-
-
-        // pbLeftThumbstickX.Value = reading.LeftThumbstickX;
-        // pbLeftThumbstickY.Value = reading.LeftThumbstickY;
-
-        // pbRightThumbstickX.Value = reading.RightThumbstickX;
-        // pbRightThumbstickY.Value = reading.RightThumbstickY;
-
-        // pbRightThumbstickY.Value = reading.RightThumbstickY;
-
-        // pbLeftTrigger.Value = reading.LeftTrigger;
-        // pbRightTrigger.Value = reading.RightTrigger;
-
         //https://msdn.microsoft.com/en-us/library/windows/apps/windows.gaming.input.gamepadbuttons.aspx
     }
 }
+//var controller = Gamepad.Gamepads[0];
+//var reading = controller.GetCurrentReading();
+//if (reading.Buttons.HasFlag(GamepadButtons.A) && !previousReading.Buttons.HasFlag(GamepadButtons.A))
+//    Simulate.Down(Simulate.KeyCode.Enter);
+//if (!reading.Buttons.HasFlag(GamepadButtons.A) && previousReading.Buttons.HasFlag(GamepadButtons.A))
+//    Simulate.Up(Simulate.KeyCode.Enter);
+
+//if (reading.Buttons.HasFlag(GamepadButtons.B) && !previousReading.Buttons.HasFlag(GamepadButtons.B))
+//    Simulate.Down(Simulate.KeyCode.Space);
+//if (!reading.Buttons.HasFlag(GamepadButtons.B) && previousReading.Buttons.HasFlag(GamepadButtons.B))
+//    Simulate.Up(Simulate.KeyCode.Space);
+
+//if (reading.Buttons.HasFlag(GamepadButtons.RightShoulder) && !previousReading.Buttons.HasFlag(GamepadButtons.RightShoulder))
+//    Simulate.Down(Simulate.KeyCode.Control);
+//if (!reading.Buttons.HasFlag(GamepadButtons.RightShoulder) && previousReading.Buttons.HasFlag(GamepadButtons.RightShoulder))
+//    Simulate.Up(Simulate.KeyCode.Control);
+
+//if (reading.Buttons.HasFlag(GamepadButtons.DPadUp) && !reading.Buttons.HasFlag(GamepadButtons.DPadUp))
+//    Simulate.Down(Simulate.KeyCode.Up);
+//if (!reading.Buttons.HasFlag(GamepadButtons.DPadUp) && previousReading.Buttons.HasFlag(GamepadButtons.DPadUp))
+//    Simulate.Up(Simulate.KeyCode.Up);
+
+//if (reading.Buttons.HasFlag(GamepadButtons.DPadDown) && !previousReading.Buttons.HasFlag(GamepadButtons.DPadDown))
+//    Simulate.Down(Simulate.KeyCode.Down);
+//if (!reading.Buttons.HasFlag(GamepadButtons.DPadDown) && previousReading.Buttons.HasFlag(GamepadButtons.DPadDown))
+//    Simulate.Up(Simulate.KeyCode.Down);
+
+//if (reading.Buttons.HasFlag(GamepadButtons.DPadLeft) && !previousReading.Buttons.HasFlag(GamepadButtons.DPadLeft))
+//    Simulate.Down(Simulate.KeyCode.Left);
+//if (!reading.Buttons.HasFlag(GamepadButtons.DPadLeft) && previousReading.Buttons.HasFlag(GamepadButtons.DPadLeft))
+//    Simulate.Up(Simulate.KeyCode.Left);
+
+//if (reading.Buttons.HasFlag(GamepadButtons.DPadRight) && !previousReading.Buttons.HasFlag(GamepadButtons.DPadRight))
+//    Simulate.Down(Simulate.KeyCode.Right);
+//if (!reading.Buttons.HasFlag(GamepadButtons.DPadRight) && previousReading.Buttons.HasFlag(GamepadButtons.DPadRight))
+//    Simulate.Up(Simulate.KeyCode.Right);
+
+//previousReading = reading;
