@@ -3,12 +3,23 @@ Code Name: TouchChan
 
 ———— TachiChan，一个为Galgame触控生态而生的辅助软件，专为平板电脑，串流，掌机设备以及手柄操控而打造。
 
-### build
-* Universal Windows Platform Devolopment (about 12gb) (plus windows sdk 1809 about 2gb)
-Preference (UWP)
-TouchChanPackage
-* C++ Desktop Devolopment (MSVC v14* C++ x86/x64/arm64 build tools about 3gb)
-WinRTLauncher
+### build (Visual Studio Installer)
+Workload
+* .Net Desktop Devolopment
+* C++ Desktop Devolopment
+* Universal Windows Platform Desktop
+Additional
+* Windows 10 SDK (10.0.18362.0) // for compatibal to win10 1903
+* MSVC v14* C++ Arm64/Arm64EC build tools (latest) // for WinRTLauncher and .net native compile 
+
+Minimal compile
+If you only wanna build net472, you can use dotnet cli, run build472.bat. Or install .Net Desktop Devolopment.
+If you need to test UWP and net8 vertion. Select
+* .Net Desktop Devolopment (inherit `.NET Profile tool` `Blend for Visual Studio` `MSIX Packaging Tools`) (2.23GB)
+* C++ Desktop Devolopment (inherit `Windows 11 SDK (10.0.22xxx.0)`)
+  - MSVC v14* C++ x64/x86 build tools (latest) (2.2GB)
+* Universal Windows Platform Desktop (11.05GB)
+Then you can compile hole project to do test. (total 15.48GB)
 
 ### debug
 Debug -> x64 -> Package -> "Run"
