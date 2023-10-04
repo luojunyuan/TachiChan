@@ -68,16 +68,19 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
         GetModuleFileName(nullptr, buffer, MAX_PATH);
         auto launcherPath = wstring(buffer);
         std::filesystem::path programPathRelative = L"..\\TouchChan\\TouchChan.exe";
-        std::wstring programPath = std::filesystem::canonical(
+        std::wstring touchchanExecutablePath = std::filesystem::canonical(
             std::filesystem::path(launcherPath).parent_path() / programPathRelative);
-        std::wstring programArgs = argv[4]; // winrt.exe TouchChan.exe pkgArg1 --process-id 1111
 
-        programArgs = programPath + L" " + programArgs;
+        //std::wstring programArgs argv[4]; // winrt.exe TouchChan.exe pkgArg1 --process-id 1111
+        // winrt.exe Program File\...\TouchChan.exe pkgArg1 --process-id 1111
+        std::wstring gamePid = commandLine.substr(commandLine.rfind(L" ") + 1);
+
+        std::wstring programArgs = L"\"" + touchchanExecutablePath + L"\" " + gamePid;
 
         STARTUPINFOW startupInfo = { sizeof(startupInfo) };
         PROCESS_INFORMATION processInfo;
 
-        if (CreateProcessW(programPath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
+        if (CreateProcessW(touchchanExecutablePath.c_str(), const_cast<LPWSTR>(programArgs.c_str()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
 
             CloseHandle(processInfo.hProcess);
             CloseHandle(processInfo.hThread);
