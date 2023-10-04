@@ -167,7 +167,8 @@ static void Run(Process game, SplashScreen? splash = null)
         splash = null;
     });
 
-    // TODO: Get game Enviroment __COMPAT_LAYER HighDpiAware or
+    // TODO: For attach situation set --no-dpi-compatible
+    // Get game Environment __COMPAT_LAYER HighDpiAware or
     //var oldStyleTouch = RegistryModifier.IsDpiCompatibilitySet(game.MainModule!.FileName) ? string.Empty : " --no-dpi-compatible";
     var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? " --small-device" : string.Empty;
 

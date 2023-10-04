@@ -36,7 +36,7 @@ public partial class App : Application
 
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
-        //new Core.GameControllerWinRT();
+        new Core.GameControllerWinRT();
         
         // Engine.Kirikiri did not work
         TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 

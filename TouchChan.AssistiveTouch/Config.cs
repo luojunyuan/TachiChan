@@ -11,7 +11,7 @@ namespace TouchChan.AssistiveTouch
         private static readonly string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private static readonly string ConfigFolder = Path.Combine(RoamingPath, "TouchChan");
 
-        private static string ConfigFilePath = null!;
+        private static string? ConfigFilePath;
 
         public static bool UseEnterKeyMapping { get; private set; }
 
@@ -31,8 +31,8 @@ namespace TouchChan.AssistiveTouch
         public static async void Load()
         {
             Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
-            Windows.Storage.IStorageItem item = await roamingFolder.TryGetItemAsync("Config.ini");
-            ConfigFilePath = item.Path;
+            var item = await roamingFolder.TryGetItemAsync("Config.ini");
+            ConfigFilePath = item?.Path;
 #else
         public static void Load()
         {
@@ -59,6 +59,10 @@ namespace TouchChan.AssistiveTouch
 
         public static void SaveAssistiveTouchPosition(string pos)
         {
+            // UWP config.ini has not initialize yet;
+            if (ConfigFilePath == null)
+                return;
+
             // First time create folder and ini file
             if (!Directory.Exists(ConfigFolder))
                 Directory.CreateDirectory(ConfigFolder);
