@@ -30,9 +30,6 @@ Release -> Package -> "Publish Application"
 ##### Find My Future
 More test on different devices
 首次运行引导（不使用游戏进行说明，使用自己的截图或者动图全屏进行说明）(720p screenshot embed?)
-(MASSIVE)考虑重写winform的虚拟键盘（考虑是属于game[曾经]还是属于function）
-(MASSIVE)尝试添加手柄检测，如Ctrl键，Select按键对应透明面板，Start打开Menu（与虚拟键盘一样，一定是独立进程更好，为了减轻touch重量）
-unpackage net8 native with winrt without winrt.(for fun)
 
 > 使用多进程结构的理由
 1. 仅在AssistiveTouch启动时读入用户配置，Preference对配置进行编辑。（AssistiveTouch结束时存储按钮位置是个例外）
@@ -61,3 +58,12 @@ UI 怎么办全由自己想办法winform直接画？ 先实现必要可用方便
 2. 在小于6寸的设备上1.5倍整体缩放UI
 3. 通过环境变量设置游戏的Dpi缩放兼容性，不再写入注册表。
 4. (fix) 修复 v1.2.0.1(nightly) 触摸转点击失效的问题
+
+(MASSIVE-Back)Magnifier, I remove these things cause I dont satisfied with them.
+(MASSIVE)尝试添加手柄检测，如Ctrl键，Select按键对应透明面板，Start打开Menu（与虚拟键盘一样，一定是独立进程更好，为了减轻touch重量）
+(MASSIVE)考虑重写winform的虚拟键盘（考虑是属于game[曾经]还是属于function）
+(for fun)unpackage net8 native with winrt without winrt.
+(for fun-Silent)No Touch showed and start other key function. (If select start toast)
+* Touch->Click
+* GameHandlerSupport
+* s(Danmaku)

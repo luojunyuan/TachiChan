@@ -60,8 +60,8 @@
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <PackageCertificateKeyFile>TouchChanPackage_TemporaryKey.pfx</PackageCertificateKeyFile>
@@ -154,6 +154,9 @@
     <Content Include="Images\Wide310x150Logo.scale-150.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
+    <Content Include="TouchChan.ShellMenuHandler.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TouchChanPackage_TemporaryKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
