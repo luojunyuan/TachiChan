@@ -7,7 +7,6 @@
 #include <Shellapi.h>
 #include <Strsafe.h>
 #include <string>
-//#include <pathcch.h>
 
 using namespace Microsoft::WRL;
 
