@@ -32,6 +32,7 @@ More test on different devices
 首次运行引导（不使用游戏进行说明，使用自己的截图或者动图全屏进行说明）(720p screenshot embed?)
 
 > 使用多进程结构的理由
+0. 因为WPF使用了DWM管控的TransparentWindow，实在没法控制内存爆增过高，因无法忍受内存大小故，使用多进程有效缓解这个现状，因为让wpf更独立性。如果不使用wpf在考虑单TOUCH进程
 1. 仅在AssistiveTouch启动时读入用户配置，Preference对配置进行编辑。（AssistiveTouch结束时存储按钮位置是个例外）
 2. Child window的结构会让touch随着游戏窗口的销毁而销毁，部分游戏存在启动器销毁，全屏切换销毁window handle的情景。所以需要常驻一个main进程（TouchChan）来重启AssistiveTouch。因为game handle改变了，必须重新查找handle。这部分逻辑也是依赖入口点进程，AssistiveTouch中依赖的game main handle为只读。
 Extensions
