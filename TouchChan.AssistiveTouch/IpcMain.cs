@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.IO.Pipes;
 using System.Windows;
+using System.Windows.Controls;
+using TouchChan.AssistiveTouch.Core.Extend;
 using TouchChan.AssistiveTouch.Core.Startup;
 using TouchChan.AssistiveTouch.NativeMethods;
 
@@ -32,7 +34,7 @@ namespace TouchChan.AssistiveTouch
                     // GamePad
                     if (rawInput == "OpenMenu")
                     {
-                        MessageBox.Show("Menu");
+                        GameController.InteractTip();
                         continue;
                     }
 

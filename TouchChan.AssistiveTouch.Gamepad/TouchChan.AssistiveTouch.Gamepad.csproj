@@ -1,15 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Platforms>ARM64</Platforms>
+    <Platforms>ARM64;x64;x86</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
   </ItemGroup>
-
+  <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 </Project>

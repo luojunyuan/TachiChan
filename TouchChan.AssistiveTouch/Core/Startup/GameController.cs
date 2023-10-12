@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using TouchChan.AssistiveTouch.Core.Extend;
 
 namespace TouchChan.AssistiveTouch.Core.Startup;
 
@@ -32,5 +35,41 @@ internal class GameController
                 "TachiChan");
             return;
         }
+    }
+
+    public static void InteractTip()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            if (Opened)
+            {
+                ((Grid)(Application.Current.MainWindow.Content)).Children.Remove(ANoInteractTipBorder);
+            }
+            else
+            {
+                ((Grid)(Application.Current.MainWindow.Content)).Children.Add(ANoInteractTipBorder);
+            }
+        });
+
+        Opened = !Opened;
+    }
+
+    private static bool Opened { get; set; }
+
+    private static Border ANoInteractTipBorder { get; set; } = Init();
+
+    private static Border Init()
+    {
+        var text = new TextBlock() { Text = "Default Config" };
+
+        var grid = new Grid();
+        grid.Children.Add(text);
+
+        var border = new Border()
+        {
+            Background = new SolidColorBrush() { Color = Colors.Black, Opacity = 0.6 },
+            Child = grid,
+        };
+        return border;
     }
 }
