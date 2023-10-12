@@ -9,10 +9,7 @@ namespace TouchChan.AssistiveTouch
 {
     internal static class Config
     {
-        private static readonly string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        private static readonly string ConfigFolder = Path.Combine(RoamingPath, "TouchChan");
-
-        private static string? ConfigFilePath;
+        private static string ConfigFilePath = string.Empty;
 
         public static bool UseEnterKeyMapping { get; private set; }
 
@@ -28,16 +25,15 @@ namespace TouchChan.AssistiveTouch
 
         public static bool UseModernSleep { get; private set; }
 
-#if !NET472
-        public static async void Load()
-        {
-            Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
-            // release error
-            var item = await roamingFolder.TryGetItemAsync("Config.ini");
-            ConfigFilePath = item?.Path;
-#else
         public static void Load()
         {
+#if !NET472
+            Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
+            var item = roamingFolder.TryGetItemAsync("Config.ini").GetResults();// recommend not await for winrt async function
+            ConfigFilePath = item?.Path ?? string.Empty;
+#else
+            string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string ConfigFolder = Path.Combine(RoamingPath, "TouchChan");
             ConfigFilePath = Path.Combine(RoamingPath, "TouchChan", "Config.ini");
 #endif
             // First time start
@@ -61,12 +57,12 @@ namespace TouchChan.AssistiveTouch
         public static void SaveAssistiveTouchPosition(string pos)
         {
             // UWP config.ini has not initialize yet;
-            if (ConfigFilePath == null)
+            if (ConfigFilePath == string.Empty)
                 return;
 
             // First time create folder and ini file
-            if (!Directory.Exists(ConfigFolder))
-                Directory.CreateDirectory(ConfigFolder);
+            if (!File.Exists(ConfigFilePath))
+                Directory.CreateDirectory(Path.GetDirectoryName(ConfigFilePath)!);
 
             var myIni = new IniFile(ConfigFilePath);
             myIni.Write(nameof(AssistiveTouchPosition), pos);
