@@ -33,7 +33,7 @@ namespace TouchChan.AssistiveTouch
                     if (rawInput == "OpenMenu")
                     {
                         MessageBox.Show("Menu");
-                        return;
+                        continue;
                     }
 
                     // Gesture

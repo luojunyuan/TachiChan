@@ -1,11 +1,8 @@
 using SharpDX.XInput;
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TouchChan.AssistiveTouch.NativeMethods;
-using static System.Collections.Specialized.BitVector32;
 
-namespace TouchChan.AssistiveTouch.Core.Extend;
+namespace TouchChan.AssistiveTouch.Gamepad;
 
 public class GameController
 {
@@ -39,6 +36,7 @@ public class GameController
             return;
         IsConnected = true;
 
+        _controller = controller;
         previousState = controller.GetState().Gamepad;
 
         _timer = new System.Timers.Timer(33.33);
@@ -46,7 +44,7 @@ public class GameController
         _timer.AutoReset = true;
     }
 
-    private Gamepad previousState;
+    private SharpDX.XInput.Gamepad previousState;
 
     private Dictionary<GamepadButtonFlags, Simulate.KeyCode> ActionMapping = new() // default 
         {
@@ -61,33 +59,24 @@ public class GameController
             { GamepadButtonFlags.LeftShoulder, Simulate.KeyCode.None },
             { GamepadButtonFlags.RightShoulder, Simulate.KeyCode.Control },
             { GamepadButtonFlags.Start, Simulate.KeyCode.None },
+            { GamepadButtonFlags.Back, Simulate.KeyCode.None },
             { GamepadButtonFlags.LeftThumb, Simulate.KeyCode.None },
             { GamepadButtonFlags.RightThumb, Simulate.KeyCode.None },
         };
 
-    private readonly GamepadButtonFlags[] _pollingButtons =
-    [
-        GamepadButtonFlags.A, GamepadButtonFlags.B, GamepadButtonFlags.X, GamepadButtonFlags.Y,
-        GamepadButtonFlags.DPadDown, GamepadButtonFlags.DPadUp, 
-        GamepadButtonFlags.DPadRight, GamepadButtonFlags.DPadDown,
-        GamepadButtonFlags.LeftShoulder, GamepadButtonFlags.RightShoulder, 
-        GamepadButtonFlags.LeftThumb, GamepadButtonFlags.RightThumb,
-        GamepadButtonFlags.Start, GamepadButtonFlags.Back 
-    ];
-
+    private readonly Controller? _controller;
     private void StartGamepadMonitoring()
     {
-        var controller = new Controller(UserIndex.One);
-        var state = controller.GetState().Gamepad;
+        var state = _controller!.GetState().Gamepad;
 
-        foreach (var btn in _pollingButtons)
+        foreach (var btn in ActionMapping.Keys)
         {
             if (state.Buttons.HasFlag(btn) && !previousState.Buttons.HasFlag(btn))
             {
                 ActionDownImplement(btn);
             }
             else if (!state.Buttons.HasFlag(btn) && previousState.Buttons.HasFlag(btn))
-            { 
+            {
                 ActionUpImplement(btn);
             }
         }
@@ -101,7 +90,7 @@ public class GameController
     {
         var key = ActionMapping[btn];
         if (key != Simulate.KeyCode.None && IsGameWindow())
-            Simulate.Up(key);
+            Simulate.Down(key);
     }
     private void ActionUpImplement(GamepadButtonFlags btn)
     {
@@ -116,6 +105,7 @@ public class GameController
             Simulate.Up(key);
     }
 
+
     private static bool IsGameWindow() => GetForegroundWindow() == GameWindowHandle;
 
     [DllImport("user32.dll")]
@@ -123,27 +113,6 @@ public class GameController
 
 }
 
-
-enum ActionConfig
-{
-    Undefine,
-    Enter,
-    Space,
-    X,
-    Y,
-    Up,
-    Down,
-    Left,
-    Right,
-    Start,
-    OpenMenu,
-    L1,
-    Control,
-    L2,
-    R2,
-    L3,
-    R3,
-}
 
 //https://msdn.microsoft.com/en-us/library/windows/apps/windows.gaming.input.gamepadbuttons.aspx
 

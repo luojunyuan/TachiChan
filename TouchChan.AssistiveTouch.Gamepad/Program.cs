@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
-using TouchChan.AssistiveTouch.Core.Extend;
+using TouchChan.AssistiveTouch.Gamepad;
 
 var pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, args[0]);
 var parent = Process.GetProcessById(int.Parse(args[1]));
@@ -21,6 +21,7 @@ aegleseeker.Start();
 using var sw = new StreamWriter(pipeClient);
 sw.AutoFlush = true;
 aegleseeker.OpenMenu += (_, e) => sw.WriteLine("OpenMenu");
+
 
 while (GetMessage(out var msg, IntPtr.Zero, 0, 0) != false)
 {
