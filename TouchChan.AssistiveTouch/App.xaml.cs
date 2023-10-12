@@ -6,7 +6,6 @@ using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
 using TouchChan.AssistiveTouch.Core.Extend;
-using TouchChan.AssistiveTouch.Core.Startup;
 using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch;
@@ -43,35 +42,29 @@ public partial class App : Application
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
         // Engine.Kirikiri did not work
-        TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(),
-#if !NET472
-            Environment.ProcessId
-#else
-            Process.GetCurrentProcess().Id
-#endif
-            );
+        Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
 
         AdminNotification();
 
-        Config.Load();
+        //Config.Load();
 
-        if (Config.UseEnterKeyMapping)
-            KeyboardHooker.Install(GameWindowHandle);
+        //if (Config.UseEnterKeyMapping)
+        //    KeyboardHooker.Install(GameWindowHandle);
 
-        if (Config.UseModernSleep)
-            ModernSleepTimer.Start();
+        //if (Config.UseModernSleep)
+        //    ModernSleepTimer.Start();
 
-        DisableWPFTabletSupport();
+        //DisableWPFTabletSupport();
 
-        string dir = GetGameDirByHwnd();
-        GameEngine = DetermineEngine(dir);
-        if (noDpiCompatibleSet
-            // Can not be tapped after menu opened
-            || GameEngine == Engine.Shinario
-            // The hole window is blocked (game さめ)
-            || GameEngine == Engine.Kirikiri)
-            //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
-            TouchStyle = TouchStyle.Old;
+        //string dir = GetGameDirByHwnd();
+        //GameEngine = DetermineEngine(dir);
+        //if (noDpiCompatibleSet
+        //    // Can not be tapped after menu opened
+        //    || GameEngine == Engine.Shinario
+        //    // The hole window is blocked (game さめ)
+        //    || GameEngine == Engine.Kirikiri)
+        //    //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
+        //    TouchStyle = TouchStyle.Old;
     }
 
     private static Engine DetermineEngine(string dir) => 

@@ -6,14 +6,15 @@ namespace TouchChan.AssistiveTouch.Core.Startup;
 
 internal static class TouchGestureHooker
 {
-    public static void Start(string pipeHandle, int pid)
+    public static void Start(string pipeHandle)
     {
 #if !NET472
         var gestureHooker = "..\\TouchChan.AssistiveTouch.Gesture\\TouchChan.AssistiveTouch.Gesture.exe";
+        var pid = Environment.ProcessId;
 #else
         var gestureHooker = "TouchChan.AssistiveTouch.Gesture.exe";
+        var pid = Process.GetCurrentProcess().Id;
 #endif
-
         try
         {
             Process.Start(new ProcessStartInfo()
