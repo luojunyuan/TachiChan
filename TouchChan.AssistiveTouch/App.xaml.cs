@@ -54,17 +54,17 @@ public partial class App : Application
         //if (Config.UseModernSleep)
         //    ModernSleepTimer.Start();
 
-        //DisableWPFTabletSupport();
+        DisableWPFTabletSupport();
 
-        //string dir = GetGameDirByHwnd();
-        //GameEngine = DetermineEngine(dir);
-        //if (noDpiCompatibleSet
-        //    // Can not be tapped after menu opened
-        //    || GameEngine == Engine.Shinario
-        //    // The hole window is blocked (game さめ)
-        //    || GameEngine == Engine.Kirikiri)
-        //    //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
-        //    TouchStyle = TouchStyle.Old;
+        string dir = GetGameDirByHwnd();
+        GameEngine = DetermineEngine(dir);
+        if (noDpiCompatibleSet
+            // Can not be tapped after menu opened
+            || GameEngine == Engine.Shinario
+            // The hole window is blocked (game さめ)
+            || GameEngine == Engine.Kirikiri)
+            //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
+            TouchStyle = TouchStyle.Old;
     }
 
     private static Engine DetermineEngine(string dir) => 
