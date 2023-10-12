@@ -28,7 +28,16 @@ namespace TouchChan.AssistiveTouch
                 var sr = new StreamReader(_serverIn);
                 while (true)
                 {
-                    var input = (sr.ReadLine() ?? "Undefine {X=0,Y=0}").Split(' ');
+                    var rawInput = sr.ReadLine();
+                    // GamePad
+                    if (rawInput == "OpenMenu")
+                    {
+                        MessageBox.Show("Menu");
+                        return;
+                    }
+
+                    // Gesture
+                    var input = (rawInput ?? "Undefine {X=0,Y=0}").Split(' ');
 #if !NET472
                     var channel = Enum.Parse<ChannelName>(input[0]);
 #else

@@ -41,8 +41,9 @@ public partial class App : Application
         // I18N
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
-        // Engine.Kirikiri did not work
+        // Kirikiri not go with that
         Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
+        Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
 
         AdminNotification();
 
