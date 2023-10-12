@@ -19,6 +19,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.AssistiveTouch", "TouchChan.AssistiveTouch\TouchChan.AssistiveTouch.csproj", "{CFEF209C-5F08-4F5F-A8C2-3ED986EBAC9C}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "TouchChanPackage", "TouchChanPackage\TouchChanPackage.wapproj", "{EC0BAC97-CFA1-452E-9419-4AA2F80555FB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52C55070-013B-4FBE-8D94-90E513417DC1} = {52C55070-013B-4FBE-8D94-90E513417DC1}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouchChan.AssistiveTouch.Gesture", "TouchChan.AssistiveTouch.Gesture\TouchChan.AssistiveTouch.Gesture.csproj", "{7EA74551-4AB0-4E60-925C-EAC24424E0D9}"
 EndProject
@@ -166,7 +169,9 @@ Global
 		{AD72B6AA-DFA6-4E34-93E2-1177D2C3C6AE}.Release|ARM64.ActiveCfg = Release|ARM64
 		{AD72B6AA-DFA6-4E34-93E2-1177D2C3C6AE}.Release|ARM64.Build.0 = Release|ARM64
 		{AD72B6AA-DFA6-4E34-93E2-1177D2C3C6AE}.Release|x64.ActiveCfg = Release|ARM64
+		{AD72B6AA-DFA6-4E34-93E2-1177D2C3C6AE}.Release|x64.Build.0 = Release|ARM64
 		{AD72B6AA-DFA6-4E34-93E2-1177D2C3C6AE}.Release|x86.ActiveCfg = Release|ARM64
+		{AD72B6AA-DFA6-4E34-93E2-1177D2C3C6AE}.Release|x86.Build.0 = Release|ARM64
 		{149E7A34-0AD9-44FE-BAE0-C6B96179E7FE}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{149E7A34-0AD9-44FE-BAE0-C6B96179E7FE}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{149E7A34-0AD9-44FE-BAE0-C6B96179E7FE}.Debug|x64.ActiveCfg = Debug|Any CPU
