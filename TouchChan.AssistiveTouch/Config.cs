@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -31,6 +32,7 @@ namespace TouchChan.AssistiveTouch
         public static async void Load()
         {
             Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
+            // release error
             var item = await roamingFolder.TryGetItemAsync("Config.ini");
             ConfigFilePath = item?.Path;
 #else
@@ -54,7 +56,6 @@ namespace TouchChan.AssistiveTouch
             UseEdgeTouchMask = bool.Parse(myIni.Read(nameof(UseEdgeTouchMask)) ?? "false");
             EnableMagTouchMapping = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
             UseModernSleep = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
-            // Touch size
         }
 
         public static void SaveAssistiveTouchPosition(string pos)

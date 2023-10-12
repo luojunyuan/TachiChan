@@ -46,13 +46,13 @@ public partial class App : Application
 
         AdminNotification();
 
-        //Config.Load();
+        Config.Load();
 
-        //if (Config.UseEnterKeyMapping)
-        //    KeyboardHooker.Install(GameWindowHandle);
+        if (Config.UseEnterKeyMapping)
+            KeyboardHooker.Install(GameWindowHandle);
 
-        //if (Config.UseModernSleep)
-        //    ModernSleepTimer.Start();
+        if (Config.UseModernSleep)
+            ModernSleepTimer.Start();
 
         DisableWPFTabletSupport();
 
