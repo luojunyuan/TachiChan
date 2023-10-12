@@ -33,7 +33,7 @@ public class GameController
 
     public GameController(int handle)
     {
-        GameWindowHandle = handle;
+        GameWindowHandle = (IntPtr)handle;
         var controller = new Controller(UserIndex.One);
         if (!controller.IsConnected)
             return;

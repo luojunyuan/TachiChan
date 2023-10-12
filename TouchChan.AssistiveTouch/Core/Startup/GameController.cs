@@ -11,7 +11,7 @@ internal class GameController
         var gamepad = "..\\TouchChan.AssistiveTouch.Gamepad\\TouchChan.AssistiveTouch.Gamepad.exe";
         var pid = Environment.ProcessId;
 #else
-        var gestureHooker = "TouchChan.AssistiveTouch.Gesture.exe";
+        var gamepad = "TouchChan.AssistiveTouch.Gamepad.exe";
         var pid = Process.GetCurrentProcess().Id;
 #endif
         try

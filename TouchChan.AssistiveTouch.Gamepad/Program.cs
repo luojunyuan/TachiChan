@@ -22,7 +22,6 @@ using var sw = new StreamWriter(pipeClient);
 sw.AutoFlush = true;
 aegleseeker.OpenMenu += (_, e) => sw.WriteLine("OpenMenu");
 
-
 while (GetMessage(out var msg, IntPtr.Zero, 0, 0) != false)
 {
     TranslateMessage(msg);

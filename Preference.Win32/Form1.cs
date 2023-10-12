@@ -106,13 +106,16 @@ public partial class Form1 : Form
             const string PreferArm64Key = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\";
             const string exe1 = PreferArm64Key + "TouchChan.exe";
             const string exe2 = PreferArm64Key + "TouchChan.AssistiveTouch.exe";
-            const string exe3 = PreferArm64Key + "TouchChan.AssistiveTouch.Gesture.exe";
+            const string exe3 = PreferArm64Key + "TouchChan.AssistiveTouch.Gamepad.exe";
+            const string exe4 = PreferArm64Key + "TouchChan.AssistiveTouch.Gesture.exe";
             const string exe6 = PreferArm64Key + "Preference.exe";
             using var key1 = Registry.LocalMachine.CreateSubKey(exe1, true);
             key1.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
             using var key2 = Registry.LocalMachine.CreateSubKey(exe2, true);
             key2.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
             using var key3 = Registry.LocalMachine.CreateSubKey(exe3, true);
+            key2.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
+            using var key4 = Registry.LocalMachine.CreateSubKey(exe4, true);
             key3.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
             using var key6 = Registry.LocalMachine.CreateSubKey(exe6, true);
             key6.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
