@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Diagnostics;
 
-namespace TouchChan.AssistiveTouch.Core;
+namespace TouchChan.AssistiveTouch.Core.Extend;
 
 public static class TouchConversionHooker
 {
@@ -35,7 +35,7 @@ public static class TouchConversionHooker
         var extraInfo = (uint)info.dwExtraInfo;
         if ((extraInfo & MOUSEEVENTF_FROMTOUCH) != MOUSEEVENTF_FROMTOUCH)
             return User32.CallNextHookEx(_hookId!, nCode, wParam, lParam);
-        
+
         var isGameWindow = User32.GetForegroundWindow() == App.GameWindowHandle;
         if (!isGameWindow)
             return User32.CallNextHookEx(_hookId!, nCode, wParam, lParam);
@@ -45,7 +45,7 @@ public static class TouchConversionHooker
         User32.MapWindowPoints(MainWindow.Handle, IntPtr.Zero, ref winOrigin);
         var relativePoint = new Point((info.pt.X - winOrigin.X) / win.Dpi, (info.pt.Y - winOrigin.Y) / win.Dpi);
         // Hit test if its touchchan itself
-        if (VisualTreeHelper.HitTest((Grid)win.Content, relativePoint) != null 
+        if (VisualTreeHelper.HitTest((Grid)win.Content, relativePoint) != null
             || relativePoint.Y < 0)
             return User32.CallNextHookEx(_hookId!, nCode, wParam, lParam);
 

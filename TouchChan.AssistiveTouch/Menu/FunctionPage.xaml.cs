@@ -1,9 +1,9 @@
-﻿using TouchChan.AssistiveTouch.Core;
-using TouchChan.AssistiveTouch.Helper;
+﻿using TouchChan.AssistiveTouch.Helper;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using TouchChan.AssistiveTouch.Core.Extend;
 
 namespace TouchChan.AssistiveTouch.Menu
 {

@@ -19,14 +19,8 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
   </ItemGroup>
 
-
-  <ItemGroup Condition="'$(targetframework)' == 'net472'">
-    <!--<PackageReference Include="SharpDX.XInput" Version="4.2.0" />-->
-  </ItemGroup>
-    
   <ItemGroup Condition="'$(targetframework)' != 'net472'">
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
 	<!--  Transitive packages which not the newist -->

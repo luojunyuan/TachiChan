@@ -5,7 +5,8 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
-using TouchChan.AssistiveTouch.Core;
+using TouchChan.AssistiveTouch.Core.Extend;
+using TouchChan.AssistiveTouch.Core.Startup;
 using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch;
@@ -23,6 +24,8 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        // TouchConversion, Gesture, Gamepad, KeyMapping (non-interact functions)
+
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
         _ = new IpcRenderer(_pipeClient);
 
@@ -34,18 +37,59 @@ public partial class App : Application
         if (e.Args.Contains("--small-device"))
             TouchButton.TouchSize = 120;
 
+        var noDpiCompatibleSet = e.Args.Contains("--no-dpi-compatible");
+
+        // I18N
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
-        new Core.GameControllerWinRT();
-        
         // Engine.Kirikiri did not work
-        TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(), 
+        TouchGestureHooker.Start(pipeServer.GetClientHandleAsString(),
 #if !NET472
             Environment.ProcessId
 #else
             Process.GetCurrentProcess().Id
 #endif
             );
+
+        AdminNotification();
+
+        Config.Load();
+
+        if (Config.UseEnterKeyMapping)
+            KeyboardHooker.Install(GameWindowHandle);
+
+        if (Config.UseModernSleep)
+            ModernSleepTimer.Start();
+
+        DisableWPFTabletSupport();
+
+        string dir = GetGameDirByHwnd();
+        GameEngine = DetermineEngine(dir);
+        if (noDpiCompatibleSet
+            // Can not be tapped after menu opened
+            || GameEngine == Engine.Shinario
+            // The hole window is blocked (game さめ)
+            || GameEngine == Engine.Kirikiri)
+            //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
+            TouchStyle = TouchStyle.Old;
+    }
+
+    private static Engine DetermineEngine(string dir) => 
+        File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
+        File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
+        File.Exists(Path.Combine(dir, "char.xp3")) ? Engine.Kirikiri : // data.xp3 ?
+        File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
+        Engine.TBD;
+
+    private static string GetGameDirByHwnd()
+    {
+        User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
+        var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
+        return dir;
+    }
+
+    private static void AdminNotification()
+    {
 
 #if !NET472
         // TODO: net8 Environment.IsPrivilegedProcess
@@ -66,29 +110,6 @@ public partial class App : Application
             Task.Run(() => MessageBox.Show(Helper.XamlResource.GetString("Notification_Admin")));
         }
 #endif
-
-        Config.Load();
-
-        if (Config.UseEnterKeyMapping)
-            KeyboardHooker.Install(GameWindowHandle);
-
-        if (Config.UseModernSleep)
-            ModernSleepTimer.Start();
-
-        DisableWPFTabletSupport();
-
-        User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
-        var dir = Path.GetDirectoryName(Process.GetProcessById((int)pid).MainModule!.FileName)!;
-        GameEngine = File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
-            File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
-            File.Exists(Path.Combine(dir, "char.xp3")) ? Engine.Kirikiri : // data.xp3 ?
-            File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
-            Engine.TBD;
-        if (GameEngine == Engine.Shinario // Can not be tapped after menu opened
-            || GameEngine == Engine.Kirikiri // The hole window is blocked (game さめ)
-            || e.Args.Contains("--no-dpi-compatible") // No dpi compatible set
-            || File.Exists(Path.Combine(dir, "pixel.windows.exe")) )
-            TouchStyle = TouchStyle.Old;
     }
 
     private static void DisableWPFTabletSupport()

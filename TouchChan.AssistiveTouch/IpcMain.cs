@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Pipes;
 using System.Windows;
-using TouchChan.AssistiveTouch.Core;
+using TouchChan.AssistiveTouch.Core.Startup;
 using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch

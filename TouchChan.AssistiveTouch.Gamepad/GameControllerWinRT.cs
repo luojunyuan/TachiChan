@@ -1,10 +1,7 @@
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using TouchChan.AssistiveTouch.NativeMethods;
 using SharpDX.XInput;
+using TouchChan.AssistiveTouch.NativeMethods;
 
-namespace TouchChan.AssistiveTouch.Core;
+namespace TouchChan.AssistiveTouch.Core.Extend;
 
 public class GameControllerWinRT
 {
@@ -21,7 +18,7 @@ public class GameControllerWinRT
         var controller = new Controller(UserIndex.One);
         if (!controller.IsConnected)
             return;
-        
+
         previousState = controller.GetState().Gamepad;
 
         _timer = new System.Timers.Timer(33.33);
@@ -31,15 +28,15 @@ public class GameControllerWinRT
     }
 
 
-    private Border _center { get; set; } = new Border()
-    {
-        Background = new SolidColorBrush() { Color = Colors.Red, Opacity = 0.6 },
-        VerticalAlignment = VerticalAlignment.Center,
-        HorizontalAlignment = HorizontalAlignment.Center,
-        Width = 160,
-        Height = 160,
-        CornerRadius = new(8),
-    };
+    //private Border _center { get; set; } = new Border()
+    //{
+    //    Background = new SolidColorBrush() { Color = Colors.Red, Opacity = 0.6 },
+    //    VerticalAlignment = VerticalAlignment.Center,
+    //    HorizontalAlignment = HorizontalAlignment.Center,
+    //    Width = 160,
+    //    Height = 160,
+    //    CornerRadius = new(8),
+    //};
 
     //private GamepadReading previousReading;
     private Gamepad previousState;
