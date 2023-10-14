@@ -8,6 +8,10 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using TouchChan.AssistiveTouch.Core.Extend;
+using System.Reflection.Metadata;
+using System.Runtime.Intrinsics.Arm;
+using System.Windows.Shell;
+using System.Windows.Interop;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -222,10 +226,63 @@ namespace TouchChan.AssistiveTouch.Menu
 
         private void BrightnessDownOnClick(object sender, EventArgs e)
         {
+            if (BrightnessMaskWindow == null)
+            {
+                BrightnessMaskWindow = InitBrightnessMaskWindow();
+            }
+            else
+            {
+                BrightnessMaskWindow.Opacity += 0.1;
+                BrightnessUp.Visibility = Visibility.Visible;
+            }
         }
 
-        private void KeyboardBrightness(object sender, EventArgs e)
+        private void BrightnessUpOnClick(object sender, EventArgs e)
         {
+            BrightnessMaskWindow!.Opacity -= 0.1;
+            if (BrightnessMaskWindow.Opacity == 0) 
+            {
+                BrightnessMaskWindow.Close();
+                BrightnessMaskWindow = null;
+                BrightnessUp.Visibility = Visibility.Collapsed;
+            }
         }
+
+        private Window? BrightnessMaskWindow { get; set; }
+        private Window InitBrightnessMaskWindow()
+        {
+            var chromeWindow = new Window()
+            { 
+                Opacity = 0.1,
+                Topmost = true,
+                ShowInTaskbar = false,
+            };
+            WindowChrome.SetWindowChrome(chromeWindow, new WindowChrome()
+            {
+                GlassFrameThickness = new(-1),
+                CaptionHeight = 0
+            });
+            var handle = new WindowInteropHelper(chromeWindow).EnsureHandle();
+            HwndTools.HideWindowInAltTab(handle);
+            var hooker = new GameWindowHookerOld();
+            var dpi = ((MainWindow)Application.Current.MainWindow).Dpi;
+            void SizeDelegate(object? sender, GameWindowHookerOld.WindowPosition pos)
+            {
+                chromeWindow.Height = pos.Height / dpi;
+                chromeWindow.Width = pos.Width / dpi;
+                chromeWindow.Left = pos.Left / dpi;
+                chromeWindow.Top = pos.Top / dpi;
+            }
+            hooker.WindowPositionChanged += SizeDelegate;
+            hooker.UpdatePosition(handle);
+            chromeWindow.Closed += (_, _) =>
+            {
+                hooker.WindowPositionChanged -= SizeDelegate;
+                hooker = null;
+            };
+
+            return chromeWindow;
+        }
+
     }
 }

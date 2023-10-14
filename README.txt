@@ -76,6 +76,7 @@ UI 怎么办全由自己想办法winform直接画？ 先实现必要可用方便
 2. 完成引导——基本就是可以面向人到处安利了。（解说双击touch和手势两个功能，或者像powertoys另开个解说应用？）
 3. i18n handle完善，实在不想弄了
 4. fix some warnings of handle
+5. 游戏分辨率切换或系统分辨率、dpi切换导致的大小不合适问题
 
 ---- 一些关于Child window的症状
 1.Touch transparent 跟不存在一样，轻触直接穿透（待考证）
