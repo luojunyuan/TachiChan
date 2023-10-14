@@ -84,7 +84,7 @@ namespace TouchChan.AssistiveTouch.Menu
             _moveGameMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, moveGameTransform.Y);
             _backMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, backTransform.X);
             _closeGameMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, closeGameTransform.X);
-            _brightnessDownMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.X);
+            _brightnessDownMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.Y);
             _brightnessUpMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessUpTransform.X);
             _brightnessUpMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessUpTransform.Y);
 
@@ -122,7 +122,7 @@ namespace TouchChan.AssistiveTouch.Menu
             AnimationTool.BindingAnimation(_transitionInStoryboard, _moveGameMoveYAnimation, MoveGame, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _backMoveAnimation, Back, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _closeGameMoveAnimation, CloseGame, AnimationTool.XProperty);
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveAnimation, BrightnessDown, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveAnimation, BrightnessDown, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessUpMoveXAnimation, BrightnessUp, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessUpMoveYAnimation, BrightnessUp, AnimationTool.YProperty);
 
