@@ -62,24 +62,31 @@ namespace TouchChan.AssistiveTouch.Menu
             XamlResource.SetAssistiveTouchItemBackground(Brushes.Transparent);
 
             var keyboardTransform = AnimationTool.TopOneTransform(moveDistance);
-            var fullscreenTransform = AnimationTool.RightOneTopOneTransform(moveDistance);
+            var fullScreenTransform = AnimationTool.RightOneTopOneTransform(moveDistance);
             var moveGameTransform = AnimationTool.RightTwoTopOneTransform(moveDistance);
             var backTransform = AnimationTool.RightOneTransform(moveDistance);
             var closeGameTransform = AnimationTool.RightTwoTransform(moveDistance);
+            var brightnessDownTransform = AnimationTool.LeftOneBottomOneTransform(moveDistance);
+            var brightnessUpTransform = AnimationTool.BottomTwoTransform(moveDistance);
 
             VirtualKeyboard.SetCurrentValue(RenderTransformProperty, keyboardTransform);
-            FullScreenSwitcher.SetCurrentValue(RenderTransformProperty, fullscreenTransform);
+            FullScreenSwitcher.SetCurrentValue(RenderTransformProperty, fullScreenTransform);
             MoveGame.SetCurrentValue(RenderTransformProperty, moveGameTransform);
             Back.SetCurrentValue(RenderTransformProperty, backTransform);
             CloseGame.SetCurrentValue(RenderTransformProperty, closeGameTransform);
+            BrightnessDown.SetCurrentValue(RenderTransformProperty, brightnessDownTransform);
+            BrightnessUp.SetCurrentValue(RenderTransformProperty, brightnessUpTransform);
 
             _keyboardAnimation.SetCurrentValue(DoubleAnimation.FromProperty, keyboardTransform.Y);
-            _fullscreenMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, fullscreenTransform.X);
-            _fullscreenMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, fullscreenTransform.Y);
+            _fullScreenMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, fullScreenTransform.X);
+            _fullScreenMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, fullScreenTransform.Y);
             _moveGameMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, moveGameTransform.X);
             _moveGameMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, moveGameTransform.Y);
             _backMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, backTransform.X);
             _closeGameMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, closeGameTransform.X);
+            _brightnessDownMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.X);
+            _brightnessDownMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.Y);
+            _BrightnessUpMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessUpTransform.Y);
 
             _transitionInStoryboard.Begin();
         }
@@ -94,24 +101,30 @@ namespace TouchChan.AssistiveTouch.Menu
 
         private readonly Storyboard _transitionInStoryboard = new();
         private readonly DoubleAnimation _keyboardAnimation = AnimationTool.TransformMoveToZeroAnimation;
-        private readonly DoubleAnimation _fullscreenMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
-        private readonly DoubleAnimation _fullscreenMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _fullScreenMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _fullScreenMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _moveGameMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _moveGameMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _backMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _closeGameMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _brightnessDownMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _brightnessDownMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _BrightnessUpMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
 
         private void InitializeAnimation()
         {
             AnimationTool.BindingAnimation(_transitionInStoryboard, AnimationTool.FadeInAnimation, this, new(OpacityProperty), true);
 
             AnimationTool.BindingAnimation(_transitionInStoryboard, _keyboardAnimation, VirtualKeyboard, AnimationTool.YProperty);
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _fullscreenMoveXAnimation, FullScreenSwitcher, AnimationTool.XProperty);
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _fullscreenMoveYAnimation, FullScreenSwitcher, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _fullScreenMoveXAnimation, FullScreenSwitcher, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _fullScreenMoveYAnimation, FullScreenSwitcher, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _moveGameMoveXAnimation, MoveGame, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _moveGameMoveYAnimation, MoveGame, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _backMoveAnimation, Back, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _closeGameMoveAnimation, CloseGame, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveXAnimation, BrightnessDown, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveYAnimation, BrightnessDown, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _BrightnessUpMoveAnimation, BrightnessUp, AnimationTool.YProperty);
 
             _transitionInStoryboard.Completed += (_, _) =>
             {
@@ -124,6 +137,8 @@ namespace TouchChan.AssistiveTouch.Menu
                     MoveGame.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     Back.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     CloseGame.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    BrightnessDown.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    BrightnessUp.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                 }
                 else
                 {

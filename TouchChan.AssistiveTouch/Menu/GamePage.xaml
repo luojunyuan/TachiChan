@@ -59,7 +59,7 @@
             Text="{DynamicResource AssistiveTouch_BrightnessDown}" />
 
         <help:TouchMenuItem x:Name="BrightnessUp"
-            Grid.Row="2" Grid.Column="1"
+            Grid.Row="2" Grid.Column="1" Visibility="Collapsed"
             Symbol="KeyboardBrightness" Click="BrightnessUpOnClick"
             Text="{DynamicResource AssistiveTouch_BrightnessUp}" />
     </Grid>
