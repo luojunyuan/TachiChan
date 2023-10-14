@@ -75,3 +75,13 @@ UI 怎么办全由自己想办法winform直接画？ 先实现必要可用方便
 1. 想要在 1903 上也简单实现右键菜单。（uap似乎不太行，暂时没有可靠的思路）
 2. 完成引导——基本就是可以面向人到处安利了。（解说双击touch和手势两个功能，或者像powertoys另开个解说应用？）
 3. i18n handle完善，实在不想弄了
+4. fix some warnings of handle
+
+---- 一些关于Child window的症状
+1.Touch transparent 跟不存在一样，轻触直接穿透（待考证）
+2.Touch transparent 与部分游戏表现一样，双击或滑动才能点击
+3.全屏不显示 4.阻碍整个窗口的输入
+5.Click transparent
+
+Child window | Normal window
+
