@@ -28,7 +28,7 @@
 
         <help:TouchMenuItem x:Name="FullScreenSwitcher"
             d:Text="{DynamicResource AssistiveTouch_Fullscreen}"
-            d:Symbol="Fullscreen"
+            d:Symbol="FullScreen"
             Grid.Row="0" Grid.Column="1"
             Click="FullScreenSwitcherOnClickEvent" 
             ToolTip="Alt + Enter"/>
@@ -52,5 +52,15 @@
             Symbol="TouchPointer"
             Text="{DynamicResource AssistiveTouch_TouchToMouse}"
             ToolTip="{DynamicResource AssistiveTouch_TouchToMouseTip}" />
+
+        <help:TouchMenuItem x:Name="BrightnessDown"
+            Grid.Row="2" Grid.Column="0"
+            Click="BrightnessDownOnClick" Symbol="KeyboardLowerBrightness"
+            Text="{DynamicResource AssistiveTouch_BrightnessDown}" />
+
+        <help:TouchMenuItem x:Name="BrightnessUp"
+            Grid.Row="2" Grid.Column="1"
+            Symbol="KeyboardBrightness" Click="BrightnessUpOnClick"
+            Text="{DynamicResource AssistiveTouch_BrightnessUp}" />
     </Grid>
 </Page>

@@ -33,12 +33,12 @@ namespace TouchChan.AssistiveTouch.Menu
                 };
             }
 
-            void SetFullscreenSwitcher(bool inFullscreen) =>
-                (FullScreenSwitcher.Symbol, FullScreenSwitcher.Text) = inFullscreen ?
+            void SetFullScreenSwitcher(bool inFullScreen) =>
+                (FullScreenSwitcher.Symbol, FullScreenSwitcher.Text) = inFullScreen ?
                     (Symbol.BackToWindow, XamlResource.GetString("AssistiveTouch_Window")) :
-                    (Symbol.Fullscreen, XamlResource.GetString("AssistiveTouch_Fullscreen"));
-            SetFullscreenSwitcher(Fullscreen.UpdateFullscreenStatus());
-            Fullscreen.FullscreenChanged += (_, isFullscreen) => SetFullscreenSwitcher(isFullscreen);
+                    (Symbol.FullScreen, XamlResource.GetString("AssistiveTouch_FullScreen"));
+            SetFullScreenSwitcher(Fullscreen.UpdateFullscreenStatus());
+            Fullscreen.FullscreenChanged += (_, isFullScreen) => SetFullScreenSwitcher(isFullScreen);
 
             TouchToMouse.Toggled += (_, _) =>
             {
@@ -203,6 +203,14 @@ namespace TouchChan.AssistiveTouch.Menu
             ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
 
             CloseGameImplementation[App.TouchStyle]();
+        }
+
+        private void BrightnessDownOnClick(object sender, EventArgs e)
+        {
+        }
+
+        private void KeyboardBrightness(object sender, EventArgs e)
+        {
         }
     }
 }

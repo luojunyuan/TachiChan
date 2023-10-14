@@ -13,7 +13,7 @@
         Attach = 0xE723,
         Back = 0xE72B,
         BackToWindow = 0xE73F,
-        Fullscreen = 0xE740,
+        FullScreen = 0xE740,
         KeyboardClassic = 0xE765,
         Volume = 0xE767,
         Trim = 0xE78A,
@@ -31,6 +31,8 @@
         Cloud = 0xE753,
         DictionaryCloud = 0xEBC3,
         LowerBrightness = 0xEC8A,
+        KeyboardBrightness = 0xED39,
+        KeyboardLowerBrightness = 0xED3A,
         Touchpad = 0xEFA5,
         Speech = 0xEFA9,
 

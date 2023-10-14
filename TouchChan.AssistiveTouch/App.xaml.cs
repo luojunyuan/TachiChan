@@ -60,7 +60,7 @@ public partial class App : Application
         string dir = GetGameDirByHwnd();
         GameEngine = DetermineEngine(dir);
         if (noDpiCompatibleSet
-            // Can not be tapped after menu opened
+            // Can not be normally tapped after menu opened
             || GameEngine == Engine.Shinario
             // The hole window is blocked (game さめ)
             || GameEngine == Engine.Kirikiri)

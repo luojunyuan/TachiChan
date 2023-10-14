@@ -11,11 +11,13 @@
 
     <system:String x:Key="AssistiveTouch_Keyboard">キーボード</system:String>
     <system:String x:Key="AssistiveTouch_Window">ウィンドウズ</system:String>
-    <system:String x:Key="AssistiveTouch_Fullscreen">フルスクリーン</system:String>
+    <system:String x:Key="AssistiveTouch_FullScreen">フルスクリーン</system:String>
     <system:String x:Key="AssistiveTouch_MoveGame">ウィンドウズ移動</system:String>
     <system:String x:Key="AssistiveTouch_CloseGame">終了</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouse">タップ・ザ・クリック</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouseTip">タップしたら前回タップした位置がクリックされる</system:String>
+    <system:String x:Key="AssistiveTouch_BrightnessDown">輝度さらに下げる</system:String>
+    <system:String x:Key="AssistiveTouch_BrightnessUp">輝度上げる</system:String>
 
     <system:String x:Key="AssistiveTouch_VolumeDecrease">音量ダウン</system:String>
     <system:String x:Key="AssistiveTouch_VolumeIncrease">音量アップ</system:String>
