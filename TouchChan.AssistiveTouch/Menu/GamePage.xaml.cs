@@ -46,6 +46,8 @@ namespace TouchChan.AssistiveTouch.Menu
                 else TouchConversionHooker.UnInstall();
             };
 
+            BrightnessUp.IsEnabledEx = false;
+
             // For second inside menu
             _fadeOutAnimation.Completed += (_, _) =>
             {
@@ -226,19 +228,24 @@ namespace TouchChan.AssistiveTouch.Menu
             {
                 BrightnessMaskWindow = new TransparentChromeWindow();
                 BrightnessMaskWindow.Show();
-                BrightnessUp.Visibility = Visibility.Visible;
+                BrightnessUp.IsEnabledEx = true;
                 return;
             }
 
-            if (BrightnessMaskWindow.Opacity < 0.7)
-                BrightnessMaskWindow.Opacity += 0.1;
+            BrightnessMaskWindow.Opacity += 0.1;
+            if (BrightnessMaskWindow.Opacity > 0.7)
+            {
+                BrightnessDown.IsEnabledEx = false;
+                BrightnessUp.IsEnabledEx = true;
+            }
         }
 
         private void BrightnessUpOnClick(object sender, EventArgs e)
         {
             BrightnessMaskWindow!.Close();
             BrightnessMaskWindow = null;
-            BrightnessUp.Visibility = Visibility.Collapsed;
+            BrightnessUp.IsEnabledEx = false;
+            BrightnessDown.IsEnabledEx = true;
         }
 
         private Window? BrightnessMaskWindow { get; set; }

@@ -55,15 +55,14 @@ namespace TouchChan.AssistiveTouch.Helper
             InitializeComponent();
         }
 
-        public void Disable()
+        public bool IsEnabledEx
         {
-            SetItemForegroundColor(Brushes.Gray);
-            TouchEnter -= ItemOnPreviewMouseLeftButtonDown;
-            TouchLeave -= ItemOnPreviewMouseLeave;
-            TouchUp -= ItemOnTouchUp;
-            ItemPanel.MouseLeave -= ItemOnPreviewMouseLeave;
-            ItemPanel.PreviewMouseLeftButtonDown -= ItemOnPreviewMouseLeftButtonDown;
-            ItemPanel.PreviewMouseLeftButtonUp -= ItemOnPreviewMouseLeftButtonUp;
+            get => IsEnabled;
+            set
+            {
+                IsEnabled = value;
+                SetItemForegroundColor(value ? Brushes.White : Brushes.Gray);
+            }
         }
 
         private static readonly Brush ItemPressedColor = new SolidColorBrush(Color.FromArgb(255, 111, 196, 241));
@@ -73,12 +72,17 @@ namespace TouchChan.AssistiveTouch.Helper
             if (!ClickLocked) SetItemForegroundColor(ItemPressedColor);
         }
 
-        private void ItemOnPreviewMouseLeave(object? sender, InputEventArgs e) =>
-            SetItemForegroundColor(Brushes.White);
+        private void ItemOnPreviewMouseLeave(object? sender, InputEventArgs e)
+        {
+            if (IsEnabled)
+            {
+                SetItemForegroundColor(Brushes.White);
+            }
+        }
 
         private void ItemOnPreviewMouseLeftButtonUp(object? sender, InputEventArgs e)
         {
-            if (ItemIcon.Foreground != Brushes.White && !ClickLocked)
+            if (IsEnabled && ItemIcon.Foreground != Brushes.White && !ClickLocked)
             {
                 SetItemForegroundColor(Brushes.White);
 
@@ -88,7 +92,7 @@ namespace TouchChan.AssistiveTouch.Helper
 
         private void ItemOnTouchUp(object? sender, TouchEventArgs e)
         {
-            if (!ClickLocked) Click?.Invoke(this, e);
+            if (IsEnabled && !ClickLocked) Click?.Invoke(this, e);
         }
 
         private void SetItemForegroundColor(Brush color) => ItemIcon.Foreground = ItemText.Foreground = color;
