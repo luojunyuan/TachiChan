@@ -15,8 +15,11 @@ internal class GameWindowHookerOld : IDisposable
 
     private readonly GCHandle _gcSafetyHandle;
 
-    public GameWindowHookerOld()
+    private readonly Action WinClose;
+
+    public GameWindowHookerOld(Action closeCallback)
     {
+        WinClose = closeCallback;
         var targetThreadId = User32.GetWindowThreadProcessId(App.GameWindowHandle, out var pid);
 
         User32.WinEventProc winEventDelegate = WinEventCallback;
@@ -60,7 +63,7 @@ internal class GameWindowHookerOld : IDisposable
             hWnd == App.GameWindowHandle &&
             idObject == OBJID_WINDOW && idChild == SWEH_CHILDID_SELF)
         {
-            System.Windows.Application.Current.MainWindow.Close();
+            WinClose();
         }
     }
 

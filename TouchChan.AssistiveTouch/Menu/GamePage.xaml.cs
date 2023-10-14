@@ -1,17 +1,13 @@
-﻿using TouchChan.AssistiveTouch.Core;
-using TouchChan.AssistiveTouch.Helper;
-using TouchChan.AssistiveTouch.NativeMethods;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using TouchChan.AssistiveTouch.Core;
 using TouchChan.AssistiveTouch.Core.Extend;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.Arm;
-using System.Windows.Shell;
-using System.Windows.Interop;
+using TouchChan.AssistiveTouch.Helper;
+using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -70,8 +66,8 @@ namespace TouchChan.AssistiveTouch.Menu
             var moveGameTransform = AnimationTool.RightTwoTopOneTransform(moveDistance);
             var backTransform = AnimationTool.RightOneTransform(moveDistance);
             var closeGameTransform = AnimationTool.RightTwoTransform(moveDistance);
-            var brightnessDownTransform = AnimationTool.LeftOneBottomOneTransform(moveDistance);
-            var brightnessUpTransform = AnimationTool.BottomTwoTransform(moveDistance);
+            var brightnessDownTransform = AnimationTool.BottomOneTransform(moveDistance);
+            var brightnessUpTransform = AnimationTool.RightOneBottomOneTransform(moveDistance);
 
             VirtualKeyboard.SetCurrentValue(RenderTransformProperty, keyboardTransform);
             FullScreenSwitcher.SetCurrentValue(RenderTransformProperty, fullScreenTransform);
@@ -88,9 +84,9 @@ namespace TouchChan.AssistiveTouch.Menu
             _moveGameMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, moveGameTransform.Y);
             _backMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, backTransform.X);
             _closeGameMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, closeGameTransform.X);
-            _brightnessDownMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.X);
-            _brightnessDownMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.Y);
-            _BrightnessUpMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessUpTransform.Y);
+            _brightnessDownMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessDownTransform.X);
+            _brightnessUpMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessUpTransform.X);
+            _brightnessUpMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, brightnessUpTransform.Y);
 
             _transitionInStoryboard.Begin();
         }
@@ -111,9 +107,9 @@ namespace TouchChan.AssistiveTouch.Menu
         private readonly DoubleAnimation _moveGameMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _backMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _closeGameMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
-        private readonly DoubleAnimation _brightnessDownMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
-        private readonly DoubleAnimation _brightnessDownMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
-        private readonly DoubleAnimation _BrightnessUpMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _brightnessDownMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _brightnessUpMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _brightnessUpMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
 
         private void InitializeAnimation()
         {
@@ -126,9 +122,9 @@ namespace TouchChan.AssistiveTouch.Menu
             AnimationTool.BindingAnimation(_transitionInStoryboard, _moveGameMoveYAnimation, MoveGame, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _backMoveAnimation, Back, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _closeGameMoveAnimation, CloseGame, AnimationTool.XProperty);
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveXAnimation, BrightnessDown, AnimationTool.XProperty);
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveYAnimation, BrightnessDown, AnimationTool.YProperty);
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _BrightnessUpMoveAnimation, BrightnessUp, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessDownMoveAnimation, BrightnessDown, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessUpMoveXAnimation, BrightnessUp, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _brightnessUpMoveYAnimation, BrightnessUp, AnimationTool.YProperty);
 
             _transitionInStoryboard.Completed += (_, _) =>
             {
@@ -186,7 +182,7 @@ namespace TouchChan.AssistiveTouch.Menu
                 User32.BringWindowToTop(App.GameWindowHandle);
                 Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
             }
-           
+
         }
 
         private readonly DoubleAnimation _fadeOutAnimation = AnimationTool.FadeOutAnimation;
@@ -205,12 +201,12 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             var CloseGameImplementation = new Dictionary<TouchStyle, Action>
             {
-                { TouchStyle.New, async () => 
+                { TouchStyle.New, async () =>
                 {
                     await Task.Delay(MenuTransitsDuration);
                     Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
                 } },
-                { TouchStyle.Old, () => 
+                { TouchStyle.Old, () =>
                 {
                     User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND,
                     // ReSharper disable once RedundantArgumentDefaultValue
@@ -228,61 +224,23 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             if (BrightnessMaskWindow == null)
             {
-                BrightnessMaskWindow = InitBrightnessMaskWindow();
-            }
-            else
-            {
-                BrightnessMaskWindow.Opacity += 0.1;
+                BrightnessMaskWindow = new TransparentChromeWindow();
+                BrightnessMaskWindow.Show();
                 BrightnessUp.Visibility = Visibility.Visible;
+                return;
             }
+
+            if (BrightnessMaskWindow.Opacity < 0.7)
+                BrightnessMaskWindow.Opacity += 0.1;
         }
 
         private void BrightnessUpOnClick(object sender, EventArgs e)
         {
-            BrightnessMaskWindow!.Opacity -= 0.1;
-            if (BrightnessMaskWindow.Opacity == 0) 
-            {
-                BrightnessMaskWindow.Close();
-                BrightnessMaskWindow = null;
-                BrightnessUp.Visibility = Visibility.Collapsed;
-            }
+            BrightnessMaskWindow!.Close();
+            BrightnessMaskWindow = null;
+            BrightnessUp.Visibility = Visibility.Collapsed;
         }
 
         private Window? BrightnessMaskWindow { get; set; }
-        private Window InitBrightnessMaskWindow()
-        {
-            var chromeWindow = new Window()
-            { 
-                Opacity = 0.1,
-                Topmost = true,
-                ShowInTaskbar = false,
-            };
-            WindowChrome.SetWindowChrome(chromeWindow, new WindowChrome()
-            {
-                GlassFrameThickness = new(-1),
-                CaptionHeight = 0
-            });
-            var handle = new WindowInteropHelper(chromeWindow).EnsureHandle();
-            HwndTools.HideWindowInAltTab(handle);
-            var hooker = new GameWindowHookerOld();
-            var dpi = ((MainWindow)Application.Current.MainWindow).Dpi;
-            void SizeDelegate(object? sender, GameWindowHookerOld.WindowPosition pos)
-            {
-                chromeWindow.Height = pos.Height / dpi;
-                chromeWindow.Width = pos.Width / dpi;
-                chromeWindow.Left = pos.Left / dpi;
-                chromeWindow.Top = pos.Top / dpi;
-            }
-            hooker.WindowPositionChanged += SizeDelegate;
-            hooker.UpdatePosition(handle);
-            chromeWindow.Closed += (_, _) =>
-            {
-                hooker.WindowPositionChanged -= SizeDelegate;
-                hooker = null;
-            };
-
-            return chromeWindow;
-        }
-
     }
 }

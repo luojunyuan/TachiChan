@@ -56,6 +56,13 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
             public static readonly LASTINPUTINFO Default = new() { cbSize = (uint)Marshal.SizeOf(typeof(LASTINPUTINFO)) };
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct STYLESTRUCT
+        {
+            public WindowStylesEx styleOld;
+            public WindowStylesEx styleNew;
+        }
     }
 
     internal partial class User32
@@ -95,6 +102,8 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         [Flags]
         public enum WindowStylesEx : uint
         {
+            WS_EX_TRANSPARENT = 0x00000020,
+            WS_EX_LAYERED = 0x00080000,
             WS_EX_NOACTIVATE = 0x08000000,
         }
 
@@ -129,6 +138,7 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
         public enum WindowMessage
         {
+            WM_STYLECHANGING = 0x007C,
             WM_SYSCOMMAND = 0x0112,
         }
 

@@ -58,7 +58,7 @@ public partial class MainWindow : Window
                 // ((GamePage)Menu.GameMenu.Content).FullScreenSwitcher.Disable();
                 ((GamePage)Menu.GameMenu.Content).MoveGame.Disable();
             };
-            var hooker = new GameWindowHookerOld();
+            var hooker = new GameWindowHookerOld(Close);
             hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
             hooker.WindowPositionChanged += (_, pos) =>
             {
