@@ -80,9 +80,27 @@ UI 怎么办全由自己想办法winform直接画？ 先实现必要可用方便
 
 ---- 一些关于Child window的症状
 1.Touch transparent 跟不存在一样，轻触直接穿透（待考证）
-2.Touch transparent 与部分游戏表现一样，双击或滑动才能点击
+2.Touch transparent through 与部分游戏表现一样，双击或滑动才能点击，在Touch窗口上滑动也同样会较容易穿，但是如果只是普通触控double tap并不容易触发。
 3.全屏不显示 4.阻碍整个窗口的输入
-5.Click transparent
-
+5.Click through ——（鼠标点击Touch会穿透，与.2同时出现）
 Child window | Normal window
 
+(Touch要解决的问题的原点，触控消息奇怪的窗口——触摸转点击)
+2与5的原因和这类窗口相关，特殊形态的child window在这类窗口上鼠标直接就穿透了，视若无物。
+对于这样的窗口，双指缩小是滚轮向下，放大是滚轮向上。但是并不完全是，如果是维持缩小手势不动会有Ctrl的效果，但是在log页面只会被当作一次滚轮。
+（测试有些游戏是对left click down反应有些是up才反应，这个不是原因，但是这个影响了轻触滑动后是否需要释放才能前进游戏）
+双击，轻触+滑动(+释放)，长按+滑动(+释放)，都会把第一次轻触的位置视作左右键消息的位置。
+
+触摸消息测试记录 (base16)
+// Normal tap: 200 201 202
+// Double tap: 200 201 202 200 201 202
+// Tap + Slide (+ Release): 200 200 201 200...200 (202)
+// Hold(Long tap): None
+// Hode + Release: 200 204 205
+// Hold + Slide (+ Release): 200 200 204 200...200 (205)
+202 是Up 我模拟Click的时机
+205 是Hold Up 模拟Right Click的时机
+
+推断，这类窗口必须要收到 
+200 201 200 这样的触摸消息时才会判定为左键
+200 204 200 205 这样才会被视作右键
