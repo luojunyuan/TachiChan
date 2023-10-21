@@ -1,0 +1,15 @@
+1. Target at win11 only (cause I dont know how to make shell entry on win10)
+    else try uap and Process.Start() again.
+2. Disable battery item if there is no battery.
+3. Tips of double click and touch Gesture. (Use a readme or record a video is easist way)
+4. Download gesturesign to test on some windows. (a three points touch with enter key)
+    似乎是不能很好处理触摸的窗口都无效。
+    用tachichan在不同游戏窗口上测试上滑下滑。
+5. Strech window function.
+
+6. performance. 
+    shell c++ warning, 
+    comment startup MessageBox, and we need all function distrubuit with
+    gamecontroller 直接去依赖sharpdx xinput源码用更小的依赖替换xinput https://github1s.com/sharpdx/SharpDX/blob/HEAD/Source/SharpDX.XInput/XInput13.cs
+
+7. No Touch.Menu with 1.touch, 2.controller 3.touch convertion(optional)
