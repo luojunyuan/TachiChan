@@ -37,8 +37,8 @@ namespace TouchChan.AssistiveTouch.Menu
                 (FullScreenSwitcher.Symbol, FullScreenSwitcher.Text) = inFullScreen ?
                     (Symbol.BackToWindow, XamlResource.GetString("AssistiveTouch_Window")) :
                     (Symbol.FullScreen, XamlResource.GetString("AssistiveTouch_FullScreen"));
-            SetFullScreenSwitcher(Fullscreen.UpdateFullscreenStatus());
-            Fullscreen.FullscreenChanged += (_, isFullScreen) => SetFullScreenSwitcher(isFullScreen);
+            SetFullScreenSwitcher(FullScreen.UpdateFullscreenStatus());
+            FullScreen.FullscreenChanged += (_, isFullScreen) => SetFullScreenSwitcher(isFullScreen);
 
             TouchToMouse.Toggled += (_, _) =>
             {
@@ -159,7 +159,7 @@ namespace TouchChan.AssistiveTouch.Menu
                 switch (App.GameEngine)
                 {
                     case Engine.AtelierKaguya:
-                        if (Fullscreen.GameInFullscreen)
+                        if (FullScreen.GameInFullscreen)
                         {
                             User32.SetCursorPos(User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN) - 5, User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN) - 5);
                             Simulate.Pretend(Simulate.ButtonCode.Right);

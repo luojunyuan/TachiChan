@@ -23,7 +23,9 @@ public partial class MainWindow : Window
         InitializeComponent();
         Handle = new WindowInteropHelper(this).EnsureHandle();
         Dpi = VisualTreeHelper.GetDpi(this).DpiScaleX;
-
+        // the dpi set of game may take effect of touch child window 
+        // depends on if the game do the scale
+        
         Loaded += (_, _) => ForceSetForegroundWindow(App.GameWindowHandle);
         //Loaded += (_, _) => {Console.WriteLine($"Old style: {App.OldStyleTouch}");Console.WriteLine($"Small device: {Environment.GetCommandLineArgs().Contains("--small-device")}");Console.WriteLine($"Dpi: {Dpi}");Console.WriteLine($"Window: ({Width}, {Height})");Console.WriteLine($"Touch: ({Touch.ActualWidth}, {Touch.ActualHeight})");};
         ContentRendered += (_, _) =>
@@ -45,7 +47,7 @@ public partial class MainWindow : Window
             User32.SetWindowPos(Handle, IntPtr.Zero, 0, 0, rectClient.Width, rectClient.Height, User32.SetWindowPosFlags.SWP_NOZORDER);
 
             var hooker = new GameWindowHooker(Handle);
-            hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
+            hooker.SizeChanged += (_, _) => FullScreen.UpdateFullscreenStatus();
             hooker.GameWindowLostFocus += (_, _) => { if (Menu.IsOpened) Menu.ManualClose(); };
         }
         else
@@ -53,13 +55,8 @@ public partial class MainWindow : Window
             Topmost = true;
             ShowInTaskbar = false;
             HwndTools.HideWindowInAltTab(Handle);
-            Loaded += (_, _) =>
-            {
-                // ((GamePage)Menu.GameMenu.Content).FullScreenSwitcher.Disable();
-                ((GamePage)Menu.GameMenu.Content).MoveGame.IsEnabledEx = false;
-            };
             var hooker = new GameWindowHookerOld(Close);
-            hooker.SizeChanged += (_, _) => Fullscreen.UpdateFullscreenStatus();
+            hooker.SizeChanged += (_, _) => FullScreen.UpdateFullscreenStatus();
             hooker.WindowPositionChanged += (_, pos) =>
             {
                 Height = pos.Height / Dpi;
@@ -72,7 +69,7 @@ public partial class MainWindow : Window
 
         if (Config.UseEdgeTouchMask)
         {
-            Fullscreen.MaskForScreen(this);
+            FullScreen.MaskForScreen(this);
         }
     }
 

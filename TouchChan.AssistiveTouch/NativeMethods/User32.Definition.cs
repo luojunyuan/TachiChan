@@ -74,6 +74,7 @@ namespace TouchChan.AssistiveTouch.NativeMethods
             SWP_NOSIZE = 0x0001,
             SWP_NOZORDER = 0x0004,
             SWP_SHOWWINDOW = 0x0040,
+            SWP_FRAMECHANGED = 0x0020,
         }
 
         [Flags]

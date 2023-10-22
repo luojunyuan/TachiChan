@@ -74,7 +74,10 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetCursorPos(out System.Drawing.Point lpPoint);
 
-        // For Fullscreen
+        // For FullScreen
+
+        [DllImport(User32Dll, SetLastError = true)]
+        public static extern int SHQueryUserNotificationState(out int state);
 
         [DllImport(User32Dll, ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -115,5 +118,14 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);
+
+        // Stretch window
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetMenu(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetMenu(IntPtr hWnd, IntPtr hMenu);
+
     }
 }

@@ -6,7 +6,7 @@ using System.Windows.Media.Animation;
 
 namespace TouchChan.AssistiveTouch.Core;
 
-internal class Fullscreen
+internal class FullScreen
 {
     public static bool GameInFullscreen { get; private set; }
 
@@ -14,20 +14,21 @@ internal class Fullscreen
 
     public static bool UpdateFullscreenStatus()
     {
-        var isFullscreen = IsWindowFullscreen(App.GameWindowHandle);
-        if (GameInFullscreen != isFullscreen)
-            FullscreenChanged?.Invoke(null, isFullscreen);
-        return GameInFullscreen = isFullscreen;
+        var isFullScreen = IsWindowFullScreen(App.GameWindowHandle);
+        if (GameInFullscreen != isFullScreen)
+            FullscreenChanged?.Invoke(null, isFullScreen);
+        return GameInFullscreen = isFullScreen;
     }
 
     // See: http://www.msghelp.net/showthread.php?tid=67047&pid=740345
-    private static bool IsWindowFullscreen(IntPtr hwnd)
+    private static bool IsWindowFullScreen(IntPtr hwnd)
     {
         User32.GetWindowRect(hwnd, out var rect);
         return rect.left < 50 && rect.top < 50 &&
             rect.Width >= User32.GetSystemMetrics(User32.SystemMetric.SM_CXSCREEN) &&
             rect.Height >= User32.GetSystemMetrics(User32.SystemMetric.SM_CYSCREEN);
     }
+    // https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ne-shellapi-query_user_notification_state
 
     public static void MaskForScreen(Window window)
     {
@@ -45,9 +46,9 @@ internal class Fullscreen
             Opacity = 0.002
         };
         ((Grid)window.Content).Children.Add(EdgeMask);
-        void AddMask(object? _, bool fullscreen)
+        void AddMask(object? _, bool fullScreen)
         {
-            if (fullscreen)
+            if (fullScreen)
             {
                 EdgeMask.Visibility = Visibility.Visible;
                 EdgeMask.BeginAnimation(UIElement.OpacityProperty, FadeInAnimation);

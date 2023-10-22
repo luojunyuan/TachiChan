@@ -17,6 +17,7 @@
         KeyboardClassic = 0xE765,
         Volume = 0xE767,
         Trim = 0xE78A,
+        AspectRatio = 0xE799,
         TaskView = 0xE7C4,
         TouchPointer = 0xE7C9,
         Game = 0xE7FC,
