@@ -31,7 +31,7 @@ public class GameController
     public GameController(int handle)
     {
         GameWindowHandle = (IntPtr)handle;
-        var controller = new Controller(UserIndex.One);
+        var controller = new Controller(SharpDX.Win32.UserIndex.One);
         if (!controller.IsConnected)
             return;
         IsConnected = true;
