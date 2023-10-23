@@ -63,7 +63,7 @@ namespace TouchChan.AssistiveTouch.Helper
                     if (msg == (int)User32.WindowMessage.WM_STYLECHANGING &&
                         wParam == (long)User32.WindowLongFlags.GWL_EXSTYLE)
                     {
-                        var styleStruct = (User32.STYLESTRUCT)Marshal.PtrToStructure(lParam, typeof(User32.STYLESTRUCT));
+                        var styleStruct = Marshal.PtrToStructure<User32.STYLESTRUCT>(lParam);
                         styleStruct.styleNew |=
                             User32.WindowStylesEx.WS_EX_LAYERED | User32.WindowStylesEx.WS_EX_TRANSPARENT;
                         Marshal.StructureToPtr(styleStruct, lParam, false);

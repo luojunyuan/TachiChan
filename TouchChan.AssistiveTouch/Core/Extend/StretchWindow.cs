@@ -19,7 +19,7 @@ namespace TouchChan.AssistiveTouch.Core.Extend
         public static void Stretch(IntPtr window)
         {
             SetWindowBorderVisible(window, false);
-
+            
             User32.GetWindowRect(window, out OriginalRectangle);
             var win = (MainWindow)Application.Current.MainWindow;
             var monitorWidth = SystemParameters.PrimaryScreenWidth * win.Dpi;
@@ -79,18 +79,10 @@ namespace TouchChan.AssistiveTouch.Core.Extend
         private static void SetWindowBorderVisible(IntPtr window, bool visible)
         {
             const int WS_OVERLAPPEDWINDOW = 0x00CF0000;
-            const int WS_EX_OVERLAPPEDWINDOW = 0x00000300;
 
             var style = User32.GetWindowLong(window, User32.WindowLongFlags.GWL_STYLE);
             style = visible == false ? (style & ~WS_OVERLAPPEDWINDOW) : style | WS_OVERLAPPEDWINDOW;
             User32.SetWindowLong(window, User32.WindowLongFlags.GWL_STYLE, style);
-
-            if (visible == false)
-            {
-                var exStyle = User32.GetWindowLong(window, User32.WindowLongFlags.GWL_EXSTYLE);
-                exStyle &= ~WS_EX_OVERLAPPEDWINDOW;
-                _ = User32.SetWindowLong(window, User32.WindowLongFlags.GWL_EXSTYLE, exStyle);
-            }
 
             User32.SetWindowPos(window, IntPtr.Zero, 0, 0, 0, 0,
                 User32.SetWindowPosFlags.SWP_NOACTIVATE | User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOSIZE);
