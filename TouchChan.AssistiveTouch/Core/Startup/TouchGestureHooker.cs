@@ -26,11 +26,9 @@ internal static class TouchGestureHooker
 #endif
             });
         }
-        catch (SystemException ex)
+        catch (SystemException)
         {
-            MessageBox.Show($"Error while Launching TouchChan.AssistiveTouch.Gesture.exe{Environment.NewLine}" +
-                ex.Message,
-                "TachiChan");
+            //MessageBox.Show($"Error while Launching TouchChan.AssistiveTouch.Gesture.exe{Environment.NewLine}" + ex.Message, "TachiChan");
             return;
         }
     }
