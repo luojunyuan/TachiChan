@@ -60,16 +60,20 @@ internal class GameController
 
     private static Border Init()
     {
-        var text = new TextBlock() { Text = "Default Config" };
-
-        var grid = new Grid();
-        grid.Children.Add(text);
-
-        var border = new Border()
+        Border border = null!;
+        Application.Current.Dispatcher.Invoke(() =>
         {
-            Background = new SolidColorBrush() { Color = Colors.Black, Opacity = 0.6 },
-            Child = grid,
-        };
+            var text = new TextBlock() { Text = "Default Config" };
+
+            var grid = new Grid();
+            grid.Children.Add(text);
+
+            border = new Border()
+            {
+                Background = new SolidColorBrush() { Color = Colors.Black, Opacity = 0.6 },
+                Child = grid,
+            };
+        });
         return border;
     }
 }
