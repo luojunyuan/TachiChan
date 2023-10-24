@@ -1,15 +1,32 @@
-1. Target at win11 only (cause I dont know how to make shell entry on win10)
+*. Target at win11 only (cause I dont know how to make shell entry on win10)
     else try uap and Process.Start() again.
 2. Disable battery item if there is no battery.
-3. Tips of double click and touch Gesture. (Use a readme or record a video is easist way)
-4. Download gesturesign to test on some windows. (a three points touch with enter key)
-    似乎是不能很好处理触摸的窗口都无效。
-    用tachichan在不同游戏窗口上测试上滑下滑。
-5. Strech window function.
+*. Tips of double click and touch Gesture. (Use a readme or record a video is easist way)
+-. 触控手势在一些游戏上不能很好的工作，比如さめ，hulutto全家桶
+*. Strech window function.
 
 6. performance. 
     shell c++ warning, 
-    comment startup MessageBox, and we need all function distrubuit with
-    gamecontroller 直接去依赖sharpdx xinput源码用更小的依赖替换xinput https://github1s.com/sharpdx/SharpDX/blob/HEAD/Source/SharpDX.XInput/XInput13.cs
+    *. comment startup MessageBox, and we need all function distrubuit with需要自备所有功能
+    *. gamecontroller 直接去依赖sharpdx xinput源码用更小的依赖替换xinput 
+7. No Touch.Menu with 1.gesture, 2.controller 3.touch convertion(optional)
+    在修好了触摸手势后再来弄把
 
-7. No Touch.Menu with 1.touch, 2.controller 3.touch convertion(optional)
+README.txt
+双击小白点：打开系统虚拟触摸板
+双指触摸游戏：鼠标右击
+三指触摸游戏：键盘空格键
+一只指头按住另一个手指上滑：滚轮下滑
+一只指头按住另一个手指下滑：滚轮上滑
+---
+Double tap white point: Open the system TouchPad
+Double tap in game: Right click
+Three fingers tap: Keyboard space key
+One finger pressed and one finger slides up: Scroll wheel slides down
+One finger pressed and one finger slides down: Scroll wheel slides up
+---
+ホワイトポイントをダブルタップ：システムバーチャルタッチパッドを開く
+2本指タップ：マウスの右クリック
+3本指タップ：キーボードのスペースキー
+一本指を押しながらも一本指が上にスライドする： 下にスクロール
+一本指を押しながらも一本指が下にスライドする： 上にスクロール
