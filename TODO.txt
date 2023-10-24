@@ -3,6 +3,7 @@
 2. Disable battery item if there is no battery.
 *. Tips of double click and touch Gesture. (Use a readme or record a video is easist way)
 -. 触控手势在一些游戏上不能很好的工作，比如さめ，hulutto全家桶
+    这可能是因为普通的触摸阻断了模拟的按键发射
 *. Strech window function.
 
 6. performance. 
