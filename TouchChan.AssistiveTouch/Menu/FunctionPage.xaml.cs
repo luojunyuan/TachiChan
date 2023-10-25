@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using TouchChan.AssistiveTouch.Core.Extend;
+using System.Globalization;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -93,6 +94,16 @@ namespace TouchChan.AssistiveTouch.Menu
             }
         }
 
+        private static string RecoveryString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "恢复中" : "Recovering";
+        private static string ChargingString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "充电中" : "Charging";
+        private static string WattString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "瓦" : "W";
+        private static string MWhString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "毫瓦时" : "mWh";
+        private static string RealTimeString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "实时" : "real-time";
+        private static string PredictString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "预计" : "predict";
+        private static string AverageString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "平均值" : "average";
+        private static string minString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "分" : "m";
+        private static string secString = CultureInfo.CurrentCulture.Name == "zh-CN" ? "秒" : "s";
+
         private static System.Timers.Timer CreateTimer(TextBlock a, TextBlock b, TextBlock c, TextBlock d, TextBlock e)
         {
             var timer = new System.Timers.Timer
@@ -119,7 +130,7 @@ namespace TouchChan.AssistiveTouch.Menu
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        a.Text = "Charging";
+                        a.Text = ChargingString;
                         b.Text = c.Text = d.Text = e.Text = string.Empty;
                     });
                     countRateAlteration = 0;
@@ -138,7 +149,7 @@ namespace TouchChan.AssistiveTouch.Menu
                     timer.Stop();
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        a.Text = "Recovering";
+                        a.Text = RecoveryString;
                         b.Text = c.Text = d.Text = e.Text = string.Empty;
                     });
                     Thread.Sleep(10000);
@@ -182,11 +193,11 @@ namespace TouchChan.AssistiveTouch.Menu
                 // duration2
                 var durationPredict = (displayCapacity - percent7) / -averageRate * 3600.0;
 
-                var aa = $"{Math.Round(-info.DischargeRate / 1000.0, 2)} W ({countRateAlteration}s)";
-                var bb = (info.CurrentCapacity / (double)info.FullChargeCapacity).ToString("P0") + " (real-time)";
-                var cc = $"{displayCapacity:f1}mWh, {duration / 60}m{duration % 60}s";
-                var dd = $"{Math.Round(-averageRate / 1000.0, 2)} W (average)";
-                var ee = $"{totalSeconds / 60}:{totalSeconds % 60}-{(int)durationPredict / 60}:{(int)durationPredict % 60} (predict)";
+                var aa = $"{Math.Round(-info.DischargeRate / 1000.0, 2)} {WattString} ({countRateAlteration}{secString})";
+                var bb = (info.CurrentCapacity / (double)info.FullChargeCapacity).ToString("P0") + $" ({RealTimeString})";
+                var cc = $"{displayCapacity:f1}{MWhString}, {duration / 60}{minString}{duration % 60}{secString}";
+                var dd = $"{Math.Round(-averageRate / 1000.0, 2)} {WattString} ({AverageString})";
+                var ee = $"{totalSeconds / 60}:{totalSeconds % 60}-{(int)durationPredict / 60}:{(int)durationPredict % 60} ({PredictString})";
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
