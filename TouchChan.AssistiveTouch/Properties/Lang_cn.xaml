@@ -17,7 +17,7 @@
     <system:String x:Key="AssistiveTouch_TouchToMouse">触摸转点击</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouseTip">当你触控操作时，触摸的位置将模拟鼠标点击</system:String>
     <system:String x:Key="AssistiveTouch_BrightnessDown">进一步降低亮度</system:String>
-    <system:String x:Key="AssistiveTouch_BrightnessUp">增加亮度</system:String>
+    <system:String x:Key="AssistiveTouch_BrightnessUp">恢复亮度</system:String>
 
     <system:String x:Key="AssistiveTouch_VolumeDecrease">音量降低</system:String>
     <system:String x:Key="AssistiveTouch_VolumeIncrease">音量增加</system:String>

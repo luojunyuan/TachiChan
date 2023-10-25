@@ -17,7 +17,7 @@
     <system:String x:Key="AssistiveTouch_TouchToMouse">タップ・ザ・クリック</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouseTip">タップしたら前回タップした位置がクリックされる</system:String>
     <system:String x:Key="AssistiveTouch_BrightnessDown">輝度さらに下げる</system:String>
-    <system:String x:Key="AssistiveTouch_BrightnessUp">輝度上げる</system:String>
+    <system:String x:Key="AssistiveTouch_BrightnessUp">輝度を戻す</system:String>
 
     <system:String x:Key="AssistiveTouch_VolumeDecrease">音量ダウン</system:String>
     <system:String x:Key="AssistiveTouch_VolumeIncrease">音量アップ</system:String>

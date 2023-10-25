@@ -226,11 +226,11 @@ namespace TouchChan.AssistiveTouch
             }
 
             var cur = XamlResource.MenuItemTextVisible;
-            if (cur == Visibility.Visible && newGameWindowHeight < 300) 
+            if (cur == Visibility.Visible && newGameWindowHeight < 450) 
             {
                 XamlResource.MenuItemTextVisible = Visibility.Collapsed;
             }
-            else if (cur == Visibility.Collapsed && newGameWindowHeight >= 300)
+            else if (cur == Visibility.Collapsed && newGameWindowHeight >= 450)
             {
                 XamlResource.MenuItemTextVisible = Visibility.Visible;
             }

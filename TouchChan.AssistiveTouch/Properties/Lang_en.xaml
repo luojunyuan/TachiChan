@@ -17,7 +17,7 @@
     <system:String x:Key="AssistiveTouch_TouchToMouse">Tap the Click</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouseTip">When you tap, the previous tapped position will be clicked</system:String>
     <system:String x:Key="AssistiveTouch_BrightnessDown">Reduce Brightness</system:String>
-    <system:String x:Key="AssistiveTouch_BrightnessUp">Brightness Up</system:String>
+    <system:String x:Key="AssistiveTouch_BrightnessUp">Brightness Back</system:String>
 
     <system:String x:Key="AssistiveTouch_VolumeDecrease">Volume Down</system:String>
     <system:String x:Key="AssistiveTouch_VolumeIncrease">Volume Up</system:String>
