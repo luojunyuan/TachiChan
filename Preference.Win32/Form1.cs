@@ -114,9 +114,9 @@ public partial class Form1 : Form
             using var key2 = Registry.LocalMachine.CreateSubKey(exe2, true);
             key2.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
             using var key3 = Registry.LocalMachine.CreateSubKey(exe3, true);
-            key2.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
-            using var key4 = Registry.LocalMachine.CreateSubKey(exe4, true);
             key3.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
+            using var key4 = Registry.LocalMachine.CreateSubKey(exe4, true);
+            key4.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
             using var key6 = Registry.LocalMachine.CreateSubKey(exe6, true);
             key6.SetValue("PreferredMachine", 0xAA64, RegistryValueKind.DWord);
         }
