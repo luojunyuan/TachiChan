@@ -19,18 +19,21 @@
 
 README.txt
 双击小白点：打开系统虚拟触摸板
+（手势模拟不支持kirikiri引擎的游戏）
 双指触摸游戏：鼠标右击
 三指触摸游戏：键盘空格键
 一只指头按住另一个手指上滑：滚轮下滑
 一只指头按住另一个手指下滑：滚轮上滑
 ---
 Double tap white point: Open the system TouchPad
+(Gesture not be supported of kirikiri engine games)
 Double tap in game: Right click
 Three fingers tap: Keyboard space key
 One finger pressed and one finger slides up: Scroll wheel slides down
 One finger pressed and one finger slides down: Scroll wheel slides up
 ---
 ホワイトポイントをダブルタップ：システムバーチャルタッチパッドを開く
+(以下吉里吉里ゲームには起用しない)
 2本指タップ：マウスの右クリック
 3本指タップ：キーボードのスペースキー
 一本指を押しながらも一本指が上にスライドする： 下にスクロール
