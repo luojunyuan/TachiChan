@@ -11,7 +11,7 @@
 
     <system:String x:Key="AssistiveTouch_Keyboard">Keyboard</system:String>
     <system:String x:Key="AssistiveTouch_Window">Windows</system:String>
-    <system:String x:Key="AssistiveTouch_Fullscreen">Fullscreen</system:String>
+    <system:String x:Key="AssistiveTouch_FullScreen">Fullscreen</system:String>
     <system:String x:Key="AssistiveTouch_MoveGame">Move Windows</system:String>
     <system:String x:Key="AssistiveTouch_CloseGame">Close Game</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouse">Tap the Click</system:String>

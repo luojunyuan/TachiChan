@@ -61,15 +61,29 @@ internal class GameController
         Border border = null!;
         Application.Current.Dispatcher.Invoke(() =>
         {
-            var text = new TextBlock() { Text = "Default Config" };
+            var engine = new TextBlock() { Text = $"Engine: {App.GameEngine}" };
+            var padLeft = new TextBlock() { Text = "DPad Left: ←" };
+            var padUp = new TextBlock() { Text = "DPad Up: ↑" };
+            var padRight = new TextBlock() { Text = "DPad Right: →" };
+            var padDown = new TextBlock() { Text = "DPad Down: ↓" };
+            var r1 = new TextBlock() { Text = "R1: Ctrl" };
+            var a = new TextBlock() { Text = "A: Enter" };
+            var b = new TextBlock() { Text = "B: Space" };
 
-            var grid = new Grid();
-            grid.Children.Add(text);
+            var stackPanel = new StackPanel();
+            stackPanel.Children.Add(engine);
+            stackPanel.Children.Add(padLeft);
+            stackPanel.Children.Add(padUp);
+            stackPanel.Children.Add(padRight);
+            stackPanel.Children.Add(padDown);
+            stackPanel.Children.Add(r1);
+            stackPanel.Children.Add(a);
+            stackPanel.Children.Add(b);
 
             border = new Border()
             {
-                Background = new SolidColorBrush() { Color = Colors.Black, Opacity = 0.6 },
-                Child = grid,
+                Background = new SolidColorBrush() { Color = Colors.White, Opacity = 0.6 },
+                Child = stackPanel,
             };
         });
         return border;

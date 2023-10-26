@@ -11,7 +11,7 @@
 
     <system:String x:Key="AssistiveTouch_Keyboard">键盘</system:String>
     <system:String x:Key="AssistiveTouch_Window">窗口</system:String>
-    <system:String x:Key="AssistiveTouch_Fullscreen">全屏</system:String>
+    <system:String x:Key="AssistiveTouch_FullScreen">全屏</system:String>
     <system:String x:Key="AssistiveTouch_MoveGame">移动窗口</system:String>
     <system:String x:Key="AssistiveTouch_CloseGame">结束</system:String>
     <system:String x:Key="AssistiveTouch_TouchToMouse">触摸转点击</system:String>
