@@ -41,9 +41,13 @@ public partial class App : Application
         // I18N
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
-        // Kirikiri not go with that
-        Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
-        Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+        string dir = GetGameDirByHwnd();
+        GameEngine = DetermineEngine(dir);
+        if (Engine.Kirikiri != GameEngine)
+        {
+            Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
+            Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+        }
 
         AdminNotification();
 
@@ -57,12 +61,10 @@ public partial class App : Application
 
         DisableWPFTabletSupport();
 
-        string dir = GetGameDirByHwnd();
-        GameEngine = DetermineEngine(dir);
         if (noDpiCompatibleSet
             // Can not be normally tapped after menu opened
             || GameEngine == Engine.Shinario
-            // The hole window is blocked (game さめ)
+            // The hole window or part content would be blocked
             || GameEngine == Engine.Kirikiri)
             //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
             TouchStyle = TouchStyle.Old;
@@ -71,7 +73,7 @@ public partial class App : Application
     private static Engine DetermineEngine(string dir) => 
         File.Exists(Path.Combine(dir, "RIO.INI")) ? Engine.Shinario :
         File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
-        File.Exists(Path.Combine(dir, "char.xp3")) ? Engine.Kirikiri : // data.xp3 ?
+        File.Exists(Path.Combine(dir, "data.xp3")) ? Engine.Kirikiri :
         File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
         Engine.TBD;
 
