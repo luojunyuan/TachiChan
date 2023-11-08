@@ -7,6 +7,7 @@
 #include <Shellapi.h>
 #include <Strsafe.h>
 #include <string>
+#include <sysinfoapi.h>
 
 using namespace Microsoft::WRL;
 
@@ -71,12 +72,19 @@ public:
     IFACEMETHODIMP GetCanonicalName(_Out_ GUID* guidCommandName) { *guidCommandName = GUID_NULL;  return S_OK; }
     IFACEMETHODIMP GetState(_In_opt_ IShellItemArray* selection, _In_ BOOL okToBeSlow, _Out_ EXPCMDSTATE* cmdState)
     {
-        if (selection && okToBeSlow)
+#pragma warning(disable : 4996)
+        OSVERSIONINFOEX osvi = { sizeof(OSVERSIONINFOEX) };
+        DWORD buildNumber = GetVersionExW(reinterpret_cast<OSVERSIONINFO*>(&osvi)) ? osvi.dwBuildNumber : 0;
+
+        if (buildNumber >= 22000)
+        {
+            *cmdState = ECS_HIDDEN;
+        }
+        else
         {
             *cmdState = ECS_ENABLED;
             return S_OK;
         }
-        *cmdState = ECS_HIDDEN;
     }
 
     IFACEMETHODIMP Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*) noexcept try
@@ -96,7 +104,7 @@ public:
                 std::wstring quotedFilePath = L"\"" + std::wstring(filePath) + L"\"";
 
                 std::wstring executablePath = GetModulePath() + L"TouchChan\\TouchChan.exe";
-                            
+
                 SHELLEXECUTEINFO sei = { 0 };
                 sei.cbSize = sizeof(SHELLEXECUTEINFO);
                 sei.fMask = SEE_MASK_DEFAULT;
