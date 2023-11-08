@@ -105,3 +105,5 @@ Child window | Normal window
 200 201 200 (202) 这样的触摸消息时才会判定为左键
 200 204 200 (205) 这样才会被视作右键，括号里的是释放的触摸消息
 WM_MOUSEMOVE 200 WM_LBUTTONDOWN 201 WM_LBUTTONUP 202 WM_RBUTTONDOWN 204 WM_RBUTTONUP 205
+
+x86 pacakge 放弃 最后版本 19041
