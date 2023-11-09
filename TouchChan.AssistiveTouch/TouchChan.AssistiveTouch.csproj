@@ -8,7 +8,7 @@
 		<UseWPF>true</UseWPF>
 		<ApplicationManifest>..\app.manifest</ApplicationManifest>
 		<Platforms>ARM64;x64;x86</Platforms>
-		<LangVersion>latest</LangVersion> <!--For array initialize gramer-->
+		<LangVersion>preview</LangVersion> <!--For array initialize gramer-->
 	</PropertyGroup>
 
 	<Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
