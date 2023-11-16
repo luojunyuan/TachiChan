@@ -2,13 +2,12 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows10.0.18362.0</TargetFramework>
+		<TargetFramework>net8.0-windows10.0.18362.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<ApplicationManifest>..\app.manifest</ApplicationManifest>
 		<Platforms>ARM64;x64;x86</Platforms>
-		<LangVersion>latest</LangVersion> <!--For array initialize gramer-->
 	</PropertyGroup>
 
 	<Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
@@ -21,8 +20,9 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
+	
 	<ItemGroup Condition="'$(targetframework)' != 'net472'">
+        <RuntimeHostConfigurationOption Include="Switch.System.Windows.Media.EnableHardwareAccelerationInRdp" Value="true" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
 		<!--  Transitive packages which not the newist -->
 		<!-- from Microsoft.Toolkit.Uwp.Notifications -->
