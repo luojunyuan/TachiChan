@@ -17,8 +17,7 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            // TODO: Check the value on AC device, maybe empty?
-            // using Windows.Devices.Power;
+            // TODO: NET472 improvement. Check the value on AC device, maybe empty?
 #if !NET472            
             if (Windows.Devices.Power.Battery.AggregateBattery.DeviceId != "AggregateBattery")
                 Battery.Disable();

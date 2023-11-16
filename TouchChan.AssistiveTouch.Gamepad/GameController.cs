@@ -14,7 +14,6 @@ public class GameController
 
     public void LoadConfig(string engine)
     {
-        // TODO
         if (engine == "default")
             return;
 

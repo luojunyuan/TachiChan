@@ -88,8 +88,7 @@ public partial class App : Application
     {
 
 #if !NET472
-        // TODO: net8 Environment.IsPrivilegedProcess
-        if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+        if (Environment.IsPrivilegedProcess)
         {
             new Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder()
                 .AddText(Helper.XamlResource.GetString("Notification_Admin"))
