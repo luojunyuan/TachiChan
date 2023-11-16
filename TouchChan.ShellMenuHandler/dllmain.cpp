@@ -244,6 +244,11 @@ public:
 
         if (buildNumber >= 22000)
         {
+            if (selection && okToBeSlow)
+            {
+                *cmdState = ECS_ENABLED;
+                return S_OK;
+            }
             *cmdState = ECS_HIDDEN;
         }
         else
