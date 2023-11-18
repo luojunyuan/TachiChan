@@ -23,8 +23,6 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        // TouchConversion, Gesture, Gamepad, KeyMapping (non-interact functions)
-
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
         _ = new IpcRenderer(_pipeClient);
 
@@ -49,8 +47,6 @@ public partial class App : Application
 
         AdminNotification();
 
-        Config.Load();
-
         if (Config.UseEnterKeyMapping)
             KeyboardHooker.Install(GameWindowHandle);
 
@@ -66,6 +62,52 @@ public partial class App : Application
             || GameEngine == Engine.Kirikiri)
             //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
             TouchStyle = TouchStyle.Old;
+    }
+
+    public App()
+    {
+        Config.Load();
+        if (!Config.DisableTouch)
+            return;
+        // TouchConversion, Gesture, Gamepad, KeyMapping (non-interact functions)
+
+        var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, Environment.GetCommandLineArgs()[1]);
+        _ = new IpcRenderer(_pipeClient);
+
+        var pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+        _ = new IpcMain(pipeServer);
+
+        GameWindowHandle = (IntPtr)int.Parse(Environment.GetCommandLineArgs()[2]);
+
+        string dir = GetGameDirByHwnd();
+        GameEngine = DetermineEngine(dir);
+        if (Engine.Kirikiri != GameEngine)
+        {
+            Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
+            Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+        }
+
+        if (Config.UseEnterKeyMapping)
+            KeyboardHooker.Install(GameWindowHandle);
+
+        if (Config.UseModernSleep)
+            ModernSleepTimer.Start();
+
+        Task.Factory.StartNew(() =>
+        {
+            _ = new Helper.GameWindowHookerOld(() => Environment.Exit(0));
+
+            IpcRenderer.Send("Loaded");
+
+            while (User32.GetMessage(out var msg, IntPtr.Zero, 0, 0) != false)
+            {
+                User32.TranslateMessage(msg);
+                User32.DispatchMessage(msg);
+            }
+        }, TaskCreationOptions.LongRunning);
+
+        Thread.Sleep(Timeout.Infinite);
+        Environment.Exit(0);
     }
 
     private static Engine DetermineEngine(string dir) => 

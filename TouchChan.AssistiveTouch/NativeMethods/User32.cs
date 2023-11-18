@@ -127,5 +127,12 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         [DllImport(User32Dll)]
         public static extern bool SetMenu(IntPtr hWnd, IntPtr hMenu);
 
+        // No touch solution
+        [DllImport(User32Dll)]
+        public static extern bool GetMessage(out IntPtr lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+        [DllImport(User32Dll)]
+        public static extern bool TranslateMessage(in IntPtr lpMsg);
+        [DllImport(User32Dll)]
+        public static extern IntPtr DispatchMessage(in IntPtr lpMsg);
     }
 }
