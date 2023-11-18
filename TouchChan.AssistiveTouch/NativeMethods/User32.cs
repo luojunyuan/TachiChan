@@ -32,7 +32,7 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         #endregion
 
         [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
 
         [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
         public static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventProc pfnWinEventProc, uint idProcess, uint idThread, WINEVENT dwFlags);
@@ -108,7 +108,7 @@ namespace TouchChan.AssistiveTouch.NativeMethods
 
         // Touch gesture action
 
-        [DllImport("user32.dll")]
+        [DllImport(User32Dll)]
         public static extern bool SetCursorPos(int X, int Y);
 
         // Sleep
@@ -116,15 +116,15 @@ namespace TouchChan.AssistiveTouch.NativeMethods
         [DllImport(User32Dll, SetLastError = false, ExactSpelling = true)]
         public static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
-        [DllImport("user32.dll")]
+        [DllImport(User32Dll)]
         public static extern int SendMessage(int hWnd, int hMsg, int wParam, int lParam);
 
         // Stretch window
 
-        [DllImport("user32.dll")]
+        [DllImport(User32Dll)]
         public static extern IntPtr GetMenu(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
+        [DllImport(User32Dll)]
         public static extern bool SetMenu(IntPtr hWnd, IntPtr hMenu);
 
     }

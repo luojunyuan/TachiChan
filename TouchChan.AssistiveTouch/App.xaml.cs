@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
@@ -36,8 +37,6 @@ public partial class App : Application
         if (e.Args.Contains("--small-device"))
             TouchButton.TouchSize = 120;
 
-        var noDpiCompatibleSet = e.Args.Contains("--no-dpi-compatible");
-
         // I18N
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
@@ -61,7 +60,7 @@ public partial class App : Application
 
         DisableWPFTabletSupport();
 
-        if (noDpiCompatibleSet
+        if (IsDpiUnware()
             // Can not be normally tapped after menu opened
             || GameEngine == Engine.Shinario
             // The hole window or part content would be blocked
@@ -76,6 +75,15 @@ public partial class App : Application
         File.Exists(Path.Combine(dir, "data.xp3")) ? Engine.Kirikiri :
         File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
         Engine.TBD;
+
+    private static bool IsDpiUnware()
+    {
+        User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
+        var handle = Process.GetProcessById(pid).Handle;
+        var result = ShCore.GetProcessDpiAwareness(handle, out var v);
+
+        return result == 0 && v == 0;
+    }
 
     private static string GetGameDirByHwnd()
     {

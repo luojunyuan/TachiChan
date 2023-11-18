@@ -8,7 +8,7 @@ using TouchChan;
 
 if (args.Length == 1 && int.TryParse(args[0], out var pid))
 {
-    Run(Process.GetProcessById(pid, null, true));
+    Run(Process.GetProcessById(pid));
     return;
 }
 
@@ -156,7 +156,7 @@ static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
     splash.Close();
 }
 
-static void Run(Process game, SplashScreen? splash = null, bool enableOldStyle = false)
+static void Run(Process game, SplashScreen? splash = null)
 {
     var pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
     _ = new IpcMain(pipeServer);
@@ -168,7 +168,6 @@ static void Run(Process game, SplashScreen? splash = null, bool enableOldStyle =
     });
 
     var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? " --small-device" : string.Empty;
-    var oldStyle = Environment.GetCommandLineArgs().Contains("--no-dpi-compatible") || enableOldStyle ? " --no-dpi-compatible" : string.Empty;
 
     Environment.CurrentDirectory = AppContext.BaseDirectory;
     while (!game.HasExited)
@@ -200,7 +199,7 @@ static void Run(Process game, SplashScreen? splash = null, bool enableOldStyle =
 #else
                 FileName = "TouchChan.AssistiveTouch.exe",
 #endif
-                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + smallDevice + oldStyle,
+                Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + smallDevice,
                 UseShellExecute = false,
             }
         };
