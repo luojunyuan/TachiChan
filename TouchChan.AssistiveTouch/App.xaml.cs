@@ -2,7 +2,6 @@
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
-using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Windows;
 using System.Windows.Input;
