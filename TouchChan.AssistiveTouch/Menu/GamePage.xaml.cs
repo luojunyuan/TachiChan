@@ -182,7 +182,7 @@ namespace TouchChan.AssistiveTouch.Menu
             else
             {
                 User32.BringWindowToTop(App.GameWindowHandle);
-                Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter);
+                Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.Enter); // mahoxroba not work
             }
 
         }
