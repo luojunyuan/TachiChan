@@ -48,7 +48,7 @@ public partial class App : Application
         AdminNotification();
 
         if (Config.UseEnterKeyMapping)
-            KeyboardHooker.Install(GameWindowHandle);
+            KeyMappingHooker.Install(GameWindowHandle);
 
         if (Config.UseModernSleep)
             ModernSleepTimer.Start();
@@ -88,7 +88,7 @@ public partial class App : Application
         }
 
         if (Config.UseEnterKeyMapping)
-            KeyboardHooker.Install(GameWindowHandle);
+            KeyMappingHooker.Install(GameWindowHandle);
 
         if (Config.UseModernSleep)
             ModernSleepTimer.Start();

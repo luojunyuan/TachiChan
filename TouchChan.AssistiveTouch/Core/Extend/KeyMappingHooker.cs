@@ -4,7 +4,7 @@ using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch.Core.Extend;
 
-internal class KeyboardHooker
+internal class KeyMappingHooker
 {
     private static nint _hookId;
     private static nint _gameWindowHandle;

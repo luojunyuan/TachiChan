@@ -1,10 +1,11 @@
-﻿using TouchChan.AssistiveTouch.Core;
-using TouchChan.AssistiveTouch.Helper;
-using TouchChan.AssistiveTouch.NativeMethods;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using TouchChan.AssistiveTouch.Menu;
+using TouchChan.AssistiveTouch.Core;
+using TouchChan.AssistiveTouch.Core.Extend;
+using TouchChan.AssistiveTouch.Helper;
+using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch;
 
@@ -25,17 +26,13 @@ public partial class MainWindow : Window
         Dpi = VisualTreeHelper.GetDpi(this).DpiScaleX;
         // the dpi set of game may take effect of touch child window 
         // depends on if the game do the scale
-        
+
         Loaded += (_, _) => ForceSetForegroundWindow(App.GameWindowHandle);
-        //Loaded += (_, _) => {Console.WriteLine($"Old style: {App.OldStyleTouch}");Console.WriteLine($"Small device: {Environment.GetCommandLineArgs().Contains("--small-device")}");Console.WriteLine($"Dpi: {Dpi}");Console.WriteLine($"Window: ({Width}, {Height})");Console.WriteLine($"Touch: ({Touch.ActualWidth}, {Touch.ActualHeight})");};
         ContentRendered += (_, _) =>
         {
             // Final chance to check window handle, due to some games has a launcher window 
             if (!User32.IsWindow(App.GameWindowHandle))
-            {
                 Close();
-                return;
-            }
             IpcRenderer.Send("Loaded");
         };
 
@@ -65,6 +62,22 @@ public partial class MainWindow : Window
                 Top = pos.Top / Dpi;
             };
             hooker.UpdatePosition(App.GameWindowHandle);
+
+            // Bring window to top and lost focus when full-screen
+            if (Engine.Shinario == App.GameEngine)
+            {
+                const int GameFullScreenStatusRefreshTime = 200;
+                System.Timers.Timer stayTopTimer = new(GameFullScreenStatusRefreshTime);
+                stayTopTimer.Elapsed += (_, _) => User32.BringWindowToTop(Handle);
+                void FullScreenChangedAction(object? _, bool isFullScreen)
+                {
+                    stayTopTimer.Enabled = isFullScreen;
+                    if (isFullScreen) HwndTools.WindowLostFocus(Handle, true);
+                    else HwndTools.WindowLostFocus(Handle, false);
+                }
+                FullScreen.FullscreenChanged += FullScreenChangedAction;
+                Loaded += (_, _) => FullScreenChangedAction(this, FullScreen.GameInFullscreen);
+            }
         }
 
         if (Config.UseEdgeTouchMask)
