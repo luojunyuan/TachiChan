@@ -39,10 +39,17 @@ public partial class App : Application
 
         string dir = GetGameDirByHwnd();
         GameEngine = DetermineEngine(dir);
-        if (Engine.Kirikiri != GameEngine)
+        switch (GameEngine)
         {
-            Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
-            Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+            case Engine.Kirikiri:
+                break;
+            case Engine.RenPy: // Gesture not for RenPy
+                Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+                break;
+            case Engine.TBD:
+                Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
+                Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+                break;
         }
 
         AdminNotification();
@@ -59,8 +66,8 @@ public partial class App : Application
             // Can not be normally tapped after menu opened
             || GameEngine == Engine.Shinario
             // The hole window or part content would be blocked
+            || GameEngine == Engine.RenPy
             || GameEngine == Engine.Kirikiri)
-            //|| File.Exists(Path.Combine(dir, "pixel.windows.exe")))
             TouchStyle = TouchStyle.Old;
     }
 
@@ -115,6 +122,7 @@ public partial class App : Application
         File.Exists(Path.Combine(dir, "message.dat")) ? Engine.AtelierKaguya :
         File.Exists(Path.Combine(dir, "data.xp3")) ? Engine.Kirikiri :
         File.Exists(Path.Combine(dir, "SiglusEngine.exe")) ? Engine.SiglusEngine :
+        Directory.Exists(Path.Combine(dir, "renpy")) ? Engine.RenPy :
         Engine.TBD;
 
     private static bool IsDpiUnware()
@@ -197,6 +205,7 @@ public enum Engine
     Kirikiri, // SoftHouse-Seal extrans.dll krmovie.dll protect.dll.exe.x64.x86 sound.xp3 video.xp3 wuvorbis.dll
     AtelierKaguya,
     SiglusEngine,
+    RenPy,
 }
 
 public enum TouchStyle

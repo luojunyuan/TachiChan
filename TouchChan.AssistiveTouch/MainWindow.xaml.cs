@@ -64,7 +64,8 @@ public partial class MainWindow : Window
             hooker.UpdatePosition(App.GameWindowHandle);
 
             // Bring window to top and lost focus when full-screen
-            if (Engine.Shinario == App.GameEngine)
+            if (Engine.Shinario == App.GameEngine ||
+                Engine.RenPy == App.GameEngine)
             {
                 const int GameFullScreenStatusRefreshTime = 200;
                 System.Timers.Timer stayTopTimer = new(GameFullScreenStatusRefreshTime);
