@@ -4,29 +4,35 @@ namespace TouchChan.AssistiveTouch.Core.Startup;
 
 internal class KeyboardProcess
 {
-    public static Process? Start()
+    public static async Task<Process?> StartAsync()
     {
+        Process? process = null;
+        await Task.Run(() => 
+        {
 #if !NET472
-        var keyboard = "..\\TouchChan.AssistiveTouch.VirtualKeyboard\\TouchChan.AssistiveTouch.VirtualKeyboard.exe";
-        var pid = Environment.ProcessId;
+            var keyboard = "..\\TouchChan.AssistiveTouch.VirtualKeyboard\\TouchChan.AssistiveTouch.VirtualKeyboard.exe";
+            var pid = Environment.ProcessId;
 #else
-        var keyboard = "TouchChan.AssistiveTouch.VirtualKeyboard.exe";
-        var pid = Process.GetCurrentProcess().Id;
+            var keyboard = "TouchChan.AssistiveTouch.VirtualKeyboard.exe";
+            var pid = Process.GetCurrentProcess().Id;
 #endif
-        try
-        {
-            return Process.Start(new ProcessStartInfo()
+            try
             {
-                FileName = keyboard,
-                Arguments = App.GameWindowHandle + " " + pid,
+                process = Process.Start(new ProcessStartInfo()
+                {
+                    FileName = keyboard,
+                    Arguments = App.GameWindowHandle + " " + pid,
 #if NET472
-                UseShellExecute = false // unless handle would fail
+                    UseShellExecute = false // unless handle would fail
 #endif
-            });
-        }
-        catch (SystemException)
-        {
-            return null;
-        }
+                });
+            }
+            catch (SystemException)
+            {
+                process = null;
+            }
+        });
+
+        return process;
     }
 }

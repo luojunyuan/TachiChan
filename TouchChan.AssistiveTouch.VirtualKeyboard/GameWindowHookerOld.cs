@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace TouchChan.AssistiveTouch.NativeMethods;
 
@@ -35,7 +36,7 @@ internal class GameWindowHookerOld : IDisposable
     private const User32.WINEVENT WinEventHookInternalFlags = User32.WINEVENT.WINEVENT_OUTOFCONTEXT |
                                                               User32.WINEVENT.WINEVENT_SKIPOWNPROCESS;
     private const uint EventObjectDestroy = 0x8001;
-    //private const uint EventObjectFocus = 0x8005;
+    private const uint EventObjectFocus = 0x8005;
     private const uint EventObjectLocationChange = 0x800B;
     private const long SWEH_CHILDID_SELF = 0;
     private const int OBJID_WINDOW = 0;
@@ -65,7 +66,14 @@ internal class GameWindowHookerOld : IDisposable
         {
             WinClose();
         }
+
+        if (eventType == EventObjectFocus)
+        {
+            User32.BringWindowToTop(_formHandle);
+        }
     }
+    private IntPtr _formHandle;
+    public void SetFormHandle(IntPtr handle) => _formHandle = handle;
 
     public void UpdatePosition(IntPtr hWnd)
     {

@@ -20,9 +20,9 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeAnimation();
 
             Process? keyboard = null;
-            VirtualKeyboard.Toggled += (_, _) =>
+            VirtualKeyboard.Toggled += async (_, _) =>
             {
-                if (VirtualKeyboard.IsOn) keyboard = KeyboardProcess.Start();
+                if (VirtualKeyboard.IsOn) keyboard = await KeyboardProcess.StartAsync();
                 else keyboard?.Kill();
             };
 

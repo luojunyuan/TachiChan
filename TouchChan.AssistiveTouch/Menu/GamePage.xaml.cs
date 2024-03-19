@@ -29,7 +29,9 @@ namespace TouchChan.AssistiveTouch.Menu
 
             BrightnessUp.IsEnabledEx = false;
 
-            // For second inside menu
+            if (App.TouchStyle == TouchStyle.Old)
+                MoveGame.Disable();
+            // For sub inside menu
             _fadeOutAnimation.Completed += (_, _) =>
             {
                 Visibility = Visibility.Hidden;

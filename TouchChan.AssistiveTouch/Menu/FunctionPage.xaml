@@ -45,11 +45,11 @@
             Toggled="BatteryOnToggledEvent" Symbol="VerticalBattery3"
             Text="{DynamicResource AssistiveTouch_Battery}" />
 
-        <help:ToggleTouchMenuItem x:Name="Gesture"
+        <help:TouchMenuItem x:Name="Gesture"
             Grid.Row="2" Grid.Column="1" Symbol="FingerInking"
             Text="Gesture (Enable)" />
 
-        <help:ToggleTouchMenuItem x:Name="GameHandler"
+        <help:TouchMenuItem x:Name="GameHandler"
             Grid.Row="2" Grid.Column="2" Symbol="Game"
             Text="Handler (Enable)" />
     </Grid>

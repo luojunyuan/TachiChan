@@ -19,7 +19,6 @@ var ctrlButton = new Button
     Text = "Ctrl",
     Width = 75,
     Height = 75,
-    Margin = new Padding(20, 40, 0, 0),
     BackColor = Color.White
 };
 ctrlButton.MouseDown += (_, args) => Simulate.Down(Simulate.KeyCode.Control);
@@ -32,16 +31,19 @@ var form = new ParamForm
     BackColor = Color.Green,
     FormBorderStyle = FormBorderStyle.None,
     TopMost = true,
-    ShowInTaskbar = false
+    ShowInTaskbar = false,
+    Height = 100,
+    Width = 100,
 };
 form.Controls.Add(ctrlButton);
 
 var hooker = new GameWindowHookerOld(gameHandle, form.Close);
+hooker.SetFormHandle(form.Handle);
 var dpi = form.CreateGraphics().DpiX / 96.0;
 void SizeDelegate(object? sender, GameWindowHookerOld.WindowPosition pos)
 {
-    form.Height = (int)(pos.Height / dpi);
-    form.Width = (int)(pos.Width / dpi);
+    //form.Height = (int)(pos.Height / dpi);
+    //form.Width = (int)(pos.Width / dpi);
     form.Left = (int)(pos.Left / dpi);            
     form.Top = (int)(pos.Top / dpi);
 }

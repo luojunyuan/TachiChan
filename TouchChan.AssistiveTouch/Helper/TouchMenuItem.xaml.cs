@@ -50,6 +50,17 @@ namespace TouchChan.AssistiveTouch.Helper
 
         public static bool ClickLocked { get; set; }
 
+        public void Disable()
+        {
+            SetItemForegroundColor(Brushes.Gray);
+            TouchEnter -= ItemOnPreviewMouseLeftButtonDown;
+            TouchLeave -= ItemOnPreviewMouseLeave;
+            TouchUp -= ItemOnTouchUp;
+            ItemPanel.MouseLeave -= ItemOnPreviewMouseLeave;
+            ItemPanel.PreviewMouseLeftButtonDown -= ItemOnPreviewMouseLeftButtonDown;
+            ItemPanel.PreviewMouseLeftButtonUp -= ItemOnPreviewMouseLeftButtonUp;
+        }
+
         public TouchMenuItem()
         {
             InitializeComponent();
