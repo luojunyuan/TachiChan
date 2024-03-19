@@ -40,6 +40,7 @@ internal static class AnimationTool
     public static TranslateTransform LeftOneBottomOneTransform(double distance) => new(distance, -distance);
     public static TranslateTransform LeftOneBottomTwoTransform(double distance) => new(distance, -distance * 2);
     public static TranslateTransform LeftOneTopOneTransform(double distance) => new(distance, distance);
+    public static TranslateTransform LeftTwoTopOneTransform(double distance) => new(distance * 2, distance);
     public static TranslateTransform LeftTwoBottomOneTransform(double distance) => new(distance * 2, -distance);
     public static TranslateTransform RightOneTopOneTransform(double distance) => new(-distance, distance);
     public static TranslateTransform RightOneBottomOneTransform(double distance) => new(-distance, -distance);

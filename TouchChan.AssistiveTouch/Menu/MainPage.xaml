@@ -26,7 +26,7 @@
 
         <help:TouchMenuItem x:Name="Game"
             Grid.Row="1" Grid.Column="0"
-            Click="GameOnClick" Symbol="Game" Text="{DynamicResource AssistiveTouch_Game}" />
+            Click="GameOnClick" Symbol="Favicon" Text="{DynamicResource AssistiveTouch_Game}" />
 
         <help:TouchMenuItem x:Name="Function"
             Grid.Row="1" Grid.Column="2"

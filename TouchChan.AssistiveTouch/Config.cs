@@ -25,7 +25,7 @@ namespace TouchChan.AssistiveTouch
 
         public static bool UseModernSleep { get; private set; }
 
-        public static bool DisableTouch { get; private set; }
+        public static bool DisableTouch { get; private set; } 
 
         public static bool EnforceOldTouchStyle { get; private set; }
 

@@ -37,9 +37,5 @@
             Grid.Row="2" Grid.Column="1"
             Symbol="ArrowDown8" Text=" " Click="DDDOnClick" />
 
-
-        <help:ToggleTouchMenuItem x:Name="Stretch"
-            Grid.Row="0" Grid.Column="2"
-            Symbol="AspectRatio" Text="Stretch Window" />
     </Grid>
 </Page>

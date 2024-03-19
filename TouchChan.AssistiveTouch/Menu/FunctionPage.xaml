@@ -21,6 +21,21 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <help:ToggleTouchMenuItem x:Name="VirtualKeyboard"
+            Text="{DynamicResource AssistiveTouch_Keyboard}"
+            Symbol="KeyboardClassic"
+            Grid.Row="0" Grid.Column="0" />
+
+        <help:ToggleTouchMenuItem x:Name="Stretch"
+            Grid.Row="0" Grid.Column="2"
+            Symbol="AspectRatio" Text="Stretch Window" />
+        
+        <help:ToggleTouchMenuItem x:Name="TouchToMouse"
+            Grid.Row="1" Grid.Column="0"
+            Symbol="TouchPointer"
+            Text="{DynamicResource AssistiveTouch_TouchToMouse}"
+            ToolTip="{DynamicResource AssistiveTouch_TouchToMouseTip}" />
+
         <help:TouchMenuItem x:Name="Back"
             Grid.Row="1" Grid.Column="1"
             Click="BackOnClickEvent" Symbol="Back" Text=" " />
@@ -30,5 +45,12 @@
             Toggled="BatteryOnToggledEvent" Symbol="VerticalBattery3"
             Text="{DynamicResource AssistiveTouch_Battery}" />
 
+        <help:ToggleTouchMenuItem x:Name="Gesture"
+            Grid.Row="2" Grid.Column="1" Symbol="FingerInking"
+            Text="Gesture (Enable)" />
+
+        <help:ToggleTouchMenuItem x:Name="GameHandler"
+            Grid.Row="2" Grid.Column="2" Symbol="Game"
+            Text="Handler (Enable)" />
     </Grid>
 </Page>

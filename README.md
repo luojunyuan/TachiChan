@@ -37,7 +37,7 @@ Then you can compile hole project to do test. (total 15.48GB)
 
 ### debug (recommand build >= 22000)
 Set AssistiveTouch OutputType->Exe, Console.ReadKey() to pause, attach to process in VS. Use System.Diagnostics.Debugger.Break() to debug
-Debug -> x64 -> Package -> just "Run"
+Debug -> x64 -> Package -> "Run"
 
 ### publish
 Release -> Package -> "Publish Application"

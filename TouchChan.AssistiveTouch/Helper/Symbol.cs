@@ -7,11 +7,13 @@
     public enum Symbol
     {
         Emoji = 0xE11D,
+        Keyboard = 0xE144,
         Tablet = 0xE70A,
         Brightness = 0xE706,
         Setting = 0xE713,
         Attach = 0xE723,
         Back = 0xE72B,
+        Favicon = 0xE737,
         BackToWindow = 0xE73F,
         FullScreen = 0xE740,
         KeyboardClassic = 0xE765,
@@ -34,6 +36,7 @@
         LowerBrightness = 0xEC8A,
         KeyboardBrightness = 0xED39,
         KeyboardLowerBrightness = 0xED3A,
+        FingerInking = 0xED5F,
         Touchpad = 0xEFA5,
         Speech = 0xEFA9,
 
@@ -41,8 +44,10 @@
         ArrowDown8 = 0xF0AE,
         ArrowRight8 = 0xF0AF,
         ArrowLeft8 = 0xF0B0,
+        Dpad = 0xF10E,
         StaplingLandscapeBottomRight = 0xF5A4,
         VerticalBattery3 = 0xF5F5,
+        WindowSnipping = 0xF7ED,
         SettingSolid = 0xF8B0,
         TBD = 0xFFFF
     }

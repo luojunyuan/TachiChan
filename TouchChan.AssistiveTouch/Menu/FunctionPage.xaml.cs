@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using TouchChan.AssistiveTouch.Core.Extend;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -17,8 +18,55 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
+            // if keyboard is a process
+            //var keyboardPath = Path.Combine(Directory.GetCurrentDirectory(), "TouchChan.VirtualKeyboard.exe");
+            //if (File.Exists(keyboardPath))
+            //{
+            //    VirtualKeyboard.Visibility = Visibility.Visible;
+            //    Process? keyboard = null;
+            //    Application.Current.Exit += (_, _) => keyboard?.Kill();
+            //    VirtualKeyboard.Toggled += (_, _) =>
+            //    {
+            //        if (VirtualKeyboard.IsOn) keyboard = Process.Start(keyboardPath, App.GameWindowHandle.ToString());
+            //        else keyboard?.Kill();
+            //    };
+            //}
+            VirtualKeyboard.Toggled += (_, _) =>
+            {
+                if (VirtualKeyboard.IsOn)
+                {
+
+                }
+                else
+                {
+
+                }
+            };
+
+            Stretch.Toggled += (_, _) =>
+            {
+                if (Stretch.IsOn) StretchWindow.Stretch(App.GameWindowHandle);
+                else StretchWindow.Restore(App.GameWindowHandle);
+            };
+
+            TouchToMouse.Toggled += (_, _) =>
+            {
+                if (TouchToMouse.IsOn) TouchConversionHooker.Install();
+                else TouchConversionHooker.UnInstall();
+            };
+
             if (!BatteryInfo.IsBatteryAvaliable())
                 Battery.Disable();
+
+            Gesture.Disable();
+            if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gesture").Length == 0)
+                Gesture.Text = "Gesture (Disable)";
+
+            GameHandler.Disable();
+            if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gamepad").Length == 0)
+                GameHandler.Text = "Handler (Disable)";
+
+            // Open another menu to check status
         }
 
         public void Show(double moveDistance)
@@ -27,9 +75,28 @@ namespace TouchChan.AssistiveTouch.Menu
 
             XamlResource.SetAssistiveTouchItemBackground(Brushes.Transparent);
 
+            var keyboardTransform = AnimationTool.LeftTwoTopOneTransform(moveDistance);
+            var stretchTransform = AnimationTool.TopOneTransform(moveDistance);
+            var touchToMouseTransform = AnimationTool.LeftTwoTransform(moveDistance);
             var backTransform = AnimationTool.LeftOneTransform(moveDistance);
+            var gestureTransform = AnimationTool.LeftOneBottomOneTransform(moveDistance);
+            var gameHandlerTransform = AnimationTool.BottomOneTransform(moveDistance);
+
+            VirtualKeyboard.SetCurrentValue(RenderTransformProperty, keyboardTransform);
+            Stretch.SetCurrentValue(RenderTransformProperty, stretchTransform);
+            TouchToMouse.SetCurrentValue(RenderTransformProperty, touchToMouseTransform);
             Back.SetCurrentValue(RenderTransformProperty, backTransform);
+            Gesture.SetCurrentValue(RenderTransformProperty, gestureTransform);
+            GameHandler.SetCurrentValue(RenderTransformProperty, gameHandlerTransform);
+
+            _keyboardMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, keyboardTransform.X);
+            _keyboardMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, keyboardTransform.Y);
+            _stretchMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, stretchTransform.Y);
+            _touchToMouseMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, touchToMouseTransform.X);
             _backMoveAnimation.SetCurrentValue(DoubleAnimation.FromProperty, backTransform.X);
+            _gestureMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, gestureTransform.X);
+            _gestureMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, gestureTransform.Y);
+            _gameHandlerMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, gameHandlerTransform.Y);
 
             _transitionInStoryboard.Begin();
         }
@@ -42,16 +109,30 @@ namespace TouchChan.AssistiveTouch.Menu
             _transitionInStoryboard.Seek(TouchButton.MenuTransistDuration);
         }
 
-        private void BackOnClickEvent(object sender, EventArgs e) => PageChanged?.Invoke(this, new(TouchMenuPageTag.FunctionBack));
-
         private readonly Storyboard _transitionInStoryboard = new();
+        private readonly DoubleAnimation _keyboardMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _keyboardMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _stretchMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _touchToMouseMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
         private readonly DoubleAnimation _backMoveAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _gestureMoveXAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _gestureMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+        private readonly DoubleAnimation _gameHandlerMoveYAnimation = AnimationTool.TransformMoveToZeroAnimation;
+
+        private void BackOnClickEvent(object sender, EventArgs e) => PageChanged?.Invoke(this, new(TouchMenuPageTag.FunctionBack));
 
         private void InitializeAnimation()
         {
             AnimationTool.BindingAnimation(_transitionInStoryboard, AnimationTool.FadeInAnimation, this, new(OpacityProperty), true);
 
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _keyboardMoveXAnimation, VirtualKeyboard, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _keyboardMoveYAnimation, VirtualKeyboard, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _stretchMoveYAnimation, Stretch, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _touchToMouseMoveXAnimation, TouchToMouse, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _backMoveAnimation, Back, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _gestureMoveXAnimation, Gesture, AnimationTool.XProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _gestureMoveYAnimation, Gesture, AnimationTool.YProperty);
+            AnimationTool.BindingAnimation(_transitionInStoryboard, _gameHandlerMoveYAnimation, GameHandler, AnimationTool.YProperty);
 
             _transitionInStoryboard.Completed += (_, _) =>
             {
@@ -59,7 +140,12 @@ namespace TouchChan.AssistiveTouch.Menu
 
                 if (!_transitionInStoryboard.AutoReverse)
                 {
+                    VirtualKeyboard.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    Stretch.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    TouchToMouse.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     Back.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    Gesture.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
+                    GameHandler.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                 }
                 else
                 {

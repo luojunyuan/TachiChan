@@ -20,31 +20,12 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            var keyboardPath = Path.Combine(Directory.GetCurrentDirectory(), "TouchChan.VirtualKeyboard.exe");
-            if (File.Exists(keyboardPath))
-            {
-                VirtualKeyboard.Visibility = Visibility.Visible;
-                Process? keyboard = null;
-                Application.Current.Exit += (_, _) => keyboard?.Kill();
-                VirtualKeyboard.Toggled += (_, _) =>
-                {
-                    if (VirtualKeyboard.IsOn) keyboard = Process.Start(keyboardPath, App.GameWindowHandle.ToString());
-                    else keyboard?.Kill();
-                };
-            }
-
             void SetFullScreenSwitcher(bool inFullScreen) =>
                 (FullScreenSwitcher.Symbol, FullScreenSwitcher.Text) = inFullScreen ?
                     (Symbol.BackToWindow, XamlResource.GetString("AssistiveTouch_Window")) :
                     (Symbol.FullScreen, XamlResource.GetString("AssistiveTouch_FullScreen"));
             SetFullScreenSwitcher(FullScreen.UpdateFullscreenStatus());
             FullScreen.FullscreenChanged += (_, isFullScreen) => SetFullScreenSwitcher(isFullScreen);
-
-            TouchToMouse.Toggled += (_, _) =>
-            {
-                if (TouchToMouse.IsOn) TouchConversionHooker.Install();
-                else TouchConversionHooker.UnInstall();
-            };
 
             BrightnessUp.IsEnabledEx = false;
 
@@ -63,7 +44,6 @@ namespace TouchChan.AssistiveTouch.Menu
 
             XamlResource.SetAssistiveTouchItemBackground(Brushes.Transparent);
 
-            var keyboardTransform = AnimationTool.TopOneTransform(moveDistance);
             var fullScreenTransform = AnimationTool.RightOneTopOneTransform(moveDistance);
             var moveGameTransform = AnimationTool.RightTwoTopOneTransform(moveDistance);
             var backTransform = AnimationTool.RightOneTransform(moveDistance);
@@ -71,7 +51,6 @@ namespace TouchChan.AssistiveTouch.Menu
             var brightnessDownTransform = AnimationTool.BottomOneTransform(moveDistance);
             var brightnessUpTransform = AnimationTool.RightOneBottomOneTransform(moveDistance);
 
-            VirtualKeyboard.SetCurrentValue(RenderTransformProperty, keyboardTransform);
             FullScreenSwitcher.SetCurrentValue(RenderTransformProperty, fullScreenTransform);
             MoveGame.SetCurrentValue(RenderTransformProperty, moveGameTransform);
             Back.SetCurrentValue(RenderTransformProperty, backTransform);
@@ -79,7 +58,6 @@ namespace TouchChan.AssistiveTouch.Menu
             BrightnessDown.SetCurrentValue(RenderTransformProperty, brightnessDownTransform);
             BrightnessUp.SetCurrentValue(RenderTransformProperty, brightnessUpTransform);
 
-            _keyboardAnimation.SetCurrentValue(DoubleAnimation.FromProperty, keyboardTransform.Y);
             _fullScreenMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, fullScreenTransform.X);
             _fullScreenMoveYAnimation.SetCurrentValue(DoubleAnimation.FromProperty, fullScreenTransform.Y);
             _moveGameMoveXAnimation.SetCurrentValue(DoubleAnimation.FromProperty, moveGameTransform.X);
@@ -117,7 +95,6 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             AnimationTool.BindingAnimation(_transitionInStoryboard, AnimationTool.FadeInAnimation, this, new(OpacityProperty), true);
 
-            AnimationTool.BindingAnimation(_transitionInStoryboard, _keyboardAnimation, VirtualKeyboard, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _fullScreenMoveXAnimation, FullScreenSwitcher, AnimationTool.XProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _fullScreenMoveYAnimation, FullScreenSwitcher, AnimationTool.YProperty);
             AnimationTool.BindingAnimation(_transitionInStoryboard, _moveGameMoveXAnimation, MoveGame, AnimationTool.XProperty);
@@ -134,7 +111,6 @@ namespace TouchChan.AssistiveTouch.Menu
 
                 if (!_transitionInStoryboard.AutoReverse)
                 {
-                    VirtualKeyboard.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     FullScreenSwitcher.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     MoveGame.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);
                     Back.SetCurrentValue(RenderTransformProperty, AnimationTool.ZeroTransform);

@@ -17,12 +17,6 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             InitializeComponent();
             InitializeAnimation();
-
-            Stretch.Toggled += (_, _) =>
-            {
-                if (Stretch.IsOn) StretchWindow.Stretch(App.GameWindowHandle);
-                else StretchWindow.Restore(App.GameWindowHandle);
-            };
         }
 
         public void Show(double moveDistance)

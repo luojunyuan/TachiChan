@@ -77,9 +77,10 @@ public partial class App : Application
         Config.Load();
 
         if (!Config.DisableTouch)
-            return;
+            return; // normally return
 
-        // TouchConversion, Gesture, Gamepad, KeyMapping (non-interact functions)
+        // Do not display AssistiveTouch still enable these functions
+        // TouchConversion, Gesture, Gamepad, KeyMapping
 
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, Environment.GetCommandLineArgs()[1]);
         _ = new IpcRenderer(_pipeClient);

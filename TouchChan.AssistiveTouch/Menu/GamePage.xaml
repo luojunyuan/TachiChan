@@ -21,11 +21,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <help:ToggleTouchMenuItem x:Name="VirtualKeyboard"
-            Text="{DynamicResource AssistiveTouch_Keyboard}"
-            Symbol="KeyboardClassic"
-            Grid.Row="0" Grid.Column="0" Visibility="Collapsed" />
-
         <help:TouchMenuItem x:Name="FullScreenSwitcher"
             d:Text="{DynamicResource AssistiveTouch_Fullscreen}"
             d:Symbol="FullScreen"
@@ -46,12 +41,6 @@
             Grid.Row="1" Grid.Column="2"
             Symbol="ChromeClose" Click="CloseGameOnClick"
             Text="{DynamicResource AssistiveTouch_CloseGame}" />
-
-        <help:ToggleTouchMenuItem x:Name="TouchToMouse"
-            Grid.Row="1" Grid.Column="0"
-            Symbol="TouchPointer"
-            Text="{DynamicResource AssistiveTouch_TouchToMouse}"
-            ToolTip="{DynamicResource AssistiveTouch_TouchToMouseTip}" />
 
         <help:TouchMenuItem x:Name="BrightnessDown"
             Grid.Row="2" Grid.Column="0"
