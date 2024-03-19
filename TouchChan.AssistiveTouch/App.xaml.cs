@@ -67,15 +67,18 @@ public partial class App : Application
             || GameEngine == Engine.Shinario
             // The hole window or part content would be blocked
             || GameEngine == Engine.RenPy
-            || GameEngine == Engine.Kirikiri)
+            || GameEngine == Engine.Kirikiri
+            || Config.EnforceOldTouchStyle)
             TouchStyle = TouchStyle.Old;
     }
 
     public App()
     {
         Config.Load();
+
         if (!Config.DisableTouch)
             return;
+
         // TouchConversion, Gesture, Gamepad, KeyMapping (non-interact functions)
 
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, Environment.GetCommandLineArgs()[1]);

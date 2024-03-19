@@ -27,6 +27,9 @@ namespace TouchChan.AssistiveTouch
 
         public static bool DisableTouch { get; private set; }
 
+        public static bool EnforceOldTouchStyle { get; private set; }
+
+
         public static void Load()
         {
 #if !NET472
@@ -55,6 +58,7 @@ namespace TouchChan.AssistiveTouch
             EnableMagTouchMapping = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
             UseModernSleep = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
             DisableTouch = bool.Parse(myIni.Read(nameof(DisableTouch)) ?? "false");
+            EnforceOldTouchStyle = bool.Parse(myIni.Read(nameof(EnforceOldTouchStyle)) ?? "false");
         }
 
         public static void SaveAssistiveTouchPosition(string pos)
