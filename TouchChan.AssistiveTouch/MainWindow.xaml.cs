@@ -2,10 +2,12 @@
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using TouchChan.AssistiveTouch.Core;
 using TouchChan.AssistiveTouch.Core.Extend;
 using TouchChan.AssistiveTouch.Helper;
 using TouchChan.AssistiveTouch.NativeMethods;
+using Windows.Services.Maps;
 
 namespace TouchChan.AssistiveTouch;
 
@@ -85,6 +87,11 @@ public partial class MainWindow : Window
         {
             FullScreen.MaskForScreen(this);
         }
+
+        FadeOutAnimation.Duration = TimeSpan.FromSeconds(2);
+        FadeOutAnimation.EasingFunction = new QuinticEase() { EasingMode = EasingMode.EaseIn };
+        FadeOutAnimation.Completed += (_, _) => GestureBubble.Opacity = 0;
+        FadeOutAnimation.Freeze();
     }
 
     private static void ForceSetForegroundWindow(IntPtr hWnd)
@@ -96,5 +103,13 @@ public partial class MainWindow : Window
         User32.AttachThreadInput(foreThread, appThread, true);
         User32.BringWindowToTop(hWnd);
         User32.AttachThreadInput(foreThread, appThread, false);
+    }
+
+    private readonly DoubleAnimation FadeOutAnimation = AnimationTool.FadeOutAnimation;
+    public void StartBubbleAnimation(string tip) 
+    { 
+        GestureTip.Text = tip;
+
+        GestureBubble.BeginAnimation(OpacityProperty, FadeOutAnimation);
     }
 }

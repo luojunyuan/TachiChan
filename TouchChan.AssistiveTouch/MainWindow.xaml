@@ -10,5 +10,9 @@
     <Grid>
         <local:TouchButton x:Name="Touch" />
         <local:TouchMenu x:Name="Menu" />
+
+        <Border x:Name="GestureBubble" Opacity="0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="140" Height="60" Background="#262626" CornerRadius="{DynamicResource AssistiveTouchCornerRadius}">
+            <TextBlock x:Name="GestureTip" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Border>
     </Grid>
 </Window>

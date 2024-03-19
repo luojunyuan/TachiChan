@@ -17,8 +17,10 @@ namespace TouchChan.AssistiveTouch
             _serverIn = serverIn;
             DictionaryOfEvents.Add(ChannelName.TwoFingerTap, TouchGestureHooker.SendRightClick);
             DictionaryOfEvents.Add(ChannelName.ThreeFingerTap, _ => TouchGestureHooker.SendSpaceKey());
-            DictionaryOfEvents.Add(ChannelName.PointDown, _ => Simulate.Scroll(Simulate.ButtonCode.VScroll, Simulate.ButtonScrollDirection.Up));
-            DictionaryOfEvents.Add(ChannelName.PointUp, _ => Simulate.Scroll(Simulate.ButtonCode.VScroll, Simulate.ButtonScrollDirection.Down));
+            DictionaryOfEvents.Add(ChannelName.PointDown, 
+                _ => Simulate.Scroll(Simulate.ButtonCode.VScroll, Simulate.ButtonScrollDirection.Up));
+            DictionaryOfEvents.Add(ChannelName.PointUp, 
+                _ => Simulate.Scroll(Simulate.ButtonCode.VScroll, Simulate.ButtonScrollDirection.Down));
             Start();
         }
 
@@ -31,25 +33,30 @@ namespace TouchChan.AssistiveTouch
                 while (true)
                 {
                     var rawInput = sr.ReadLine();
-                    // GamePad
-                    if (rawInput == "OpenMenu")
+                    
+                    switch(rawInput)
                     {
-                        GameController.InteractTip();
-                        continue;
-                    }
+                        // GamePad
+                        case "OpenMenu":
+                            GameController.InteractTip();
+                            break;
 
-                    // Gesture
-                    var input = (rawInput ?? "Undefine {X=0,Y=0}").Split(' ');
+                        // Gesture
+                        default:
+                            var input = (rawInput ?? "Undefine {X=0,Y=0}").Split(' ');
 #if !NET472
-                    var channel = Enum.Parse<ChannelName>(input[0]);
+                            var channel = Enum.Parse<ChannelName>(input[0]);
 #else
-                    var channel = (ChannelName)Enum.Parse(typeof(ChannelName), input[0]);
+                            var channel = (ChannelName)Enum.Parse(typeof(ChannelName), input[0]);
 #endif
-                    var point = ExtractPoint(input[1]);
-                    if (channel == ChannelName.Undefine)
-                        continue;
+                            var point = ExtractPoint(input[1]);
+                            if (channel == ChannelName.Undefine)
+                                continue;
 
-                    DictionaryOfEvents[channel].Invoke(point);
+                            TouchGestureHooker.ShowTipAnimation(channel);
+                            DictionaryOfEvents[channel].Invoke(point);
+                            break;
+                    }
                 }
             }, TaskCreationOptions.LongRunning);
         }
@@ -58,11 +65,11 @@ namespace TouchChan.AssistiveTouch
 
         public enum ChannelName
         {
+            Undefine,
             TwoFingerTap,
             ThreeFingerTap,
             PointDown,
             PointUp,
-            Undefine
         }
 
         static Point ExtractPoint(string input)

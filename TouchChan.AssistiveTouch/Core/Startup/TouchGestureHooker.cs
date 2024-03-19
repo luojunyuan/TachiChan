@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using TouchChan.AssistiveTouch.NativeMethods;
 
 namespace TouchChan.AssistiveTouch.Core.Startup;
@@ -48,5 +49,19 @@ internal static class TouchGestureHooker
             return;
 
         Simulate.Pretend(Simulate.KeyCode.Space);
+    }
+
+    public static void ShowTipAnimation(IpcMain.ChannelName channel)
+    {
+        var tip = channel switch
+        {
+            IpcMain.ChannelName.TwoFingerTap => "Right Click",
+            IpcMain.ChannelName.ThreeFingerTap => "Space",
+            IpcMain.ChannelName.PointDown => "Scroll Up",
+            IpcMain.ChannelName.PointUp => "Scroll Down",
+            _ => "Unknown",
+        };
+
+        Application.Current.Dispatcher.InvokeAsync(() => ((MainWindow)Application.Current.MainWindow).StartBubbleAnimation(tip));
     }
 }
