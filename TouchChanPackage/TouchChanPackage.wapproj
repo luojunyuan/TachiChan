@@ -154,6 +154,9 @@
     <Content Include="Images\Wide310x150Logo.scale-150.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
+    <PRIResource Include="Strings\ja-JP\Resources.resw" />
     <Content Include="TouchChan.ShellMenuHandler.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
