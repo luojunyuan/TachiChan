@@ -1,7 +1,9 @@
 Code Name: TouchChan
 表紙ネーム：TachiChan - タッチちゃん - 触控酱
 
-———— TachiChan，一个为Galgame触控生态而生的辅助软件，专为平板电脑，串流，掌机设备以及手柄操控而打造。
+———— 触控酱，一款为Galgame触控生态而生的辅助软件，专为平板电脑，掌机设备打造。
+
+introducing
 
 ### build (Visual Studio Installer)
 Workload
@@ -27,6 +29,8 @@ Debug -> x64 -> Package -> "Run"
 
 ### publish
 Release -> Package -> "Publish Application"
+
+
 
 ##### Find My Future
 More test on different devices
