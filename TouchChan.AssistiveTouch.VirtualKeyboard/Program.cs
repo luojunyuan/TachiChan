@@ -7,7 +7,9 @@ var parent = Process.GetProcessById(int.Parse(args[1]));
 parent.EnableRaisingEvents = true;
 parent.Exited += (s, e) => Environment.Exit(0);
 
+#if !NET472
 ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
+#endif
 
 Application.EnableVisualStyles();
 Application.SetCompatibleTextRenderingDefault(false);
