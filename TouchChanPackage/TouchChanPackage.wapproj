@@ -177,6 +177,10 @@
       <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-native.pubxml</PublishProfile>
     </ProjectReference>
     <ProjectReference Include="..\Preference\Preference.csproj" />
+    <ProjectReference Include="..\TouchChan.AssistiveTouch.VirtualKeyboard\TouchChan.AssistiveTouch.VirtualKeyboard.csproj">
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Properties\PublishProfiles\FolderProfile-arm64-native.pubxml</PublishProfile>
+      <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-native.pubxml</PublishProfile>
+    </ProjectReference>
     <ProjectReference Include="..\TouchChan.AssistiveTouch\TouchChan.AssistiveTouch.csproj">
       <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Properties\PublishProfiles\FolderProfile-x64-framework.pubxml</PublishProfile>
       <PublishProfile Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Properties\PublishProfiles\FolderProfile-arm64-framework.pubxml</PublishProfile>

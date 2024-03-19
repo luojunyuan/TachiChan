@@ -1,11 +1,12 @@
-﻿using TouchChan.AssistiveTouch.Helper;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using TouchChan.AssistiveTouch.Core.Extend;
-using System.Globalization;
-using System.Diagnostics;
+using TouchChan.AssistiveTouch.Core.Startup;
+using TouchChan.AssistiveTouch.Helper;
 
 namespace TouchChan.AssistiveTouch.Menu
 {
@@ -18,29 +19,11 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            // if keyboard is a process
-            //var keyboardPath = Path.Combine(Directory.GetCurrentDirectory(), "TouchChan.VirtualKeyboard.exe");
-            //if (File.Exists(keyboardPath))
-            //{
-            //    VirtualKeyboard.Visibility = Visibility.Visible;
-            //    Process? keyboard = null;
-            //    Application.Current.Exit += (_, _) => keyboard?.Kill();
-            //    VirtualKeyboard.Toggled += (_, _) =>
-            //    {
-            //        if (VirtualKeyboard.IsOn) keyboard = Process.Start(keyboardPath, App.GameWindowHandle.ToString());
-            //        else keyboard?.Kill();
-            //    };
-            //}
+            Process? keyboard = null;
             VirtualKeyboard.Toggled += (_, _) =>
             {
-                if (VirtualKeyboard.IsOn)
-                {
-
-                }
-                else
-                {
-
-                }
+                if (VirtualKeyboard.IsOn) keyboard = KeyboardProcess.Start();
+                else keyboard?.Kill();
             };
 
             Stretch.Toggled += (_, _) =>

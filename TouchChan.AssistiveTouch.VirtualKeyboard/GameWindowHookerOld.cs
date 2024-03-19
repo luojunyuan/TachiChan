@@ -1,8 +1,6 @@
-﻿using TouchChan.AssistiveTouch.NativeMethods;
-using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace TouchChan.AssistiveTouch.Helper;
+namespace TouchChan.AssistiveTouch.NativeMethods;
 
 internal class GameWindowHookerOld : IDisposable
 {
@@ -16,10 +14,13 @@ internal class GameWindowHookerOld : IDisposable
 
     private readonly Action WinClose;
 
-    public GameWindowHookerOld(Action closeCallback)
+    private readonly IntPtr GameHandle;
+
+    public GameWindowHookerOld(IntPtr gameHandle, Action closeCallback)
     {
+        GameHandle = gameHandle;
         WinClose = closeCallback;
-        var targetThreadId = User32.GetWindowThreadProcessId(App.GameWindowHandle, out var pid);
+        var targetThreadId = User32.GetWindowThreadProcessId(GameHandle, out var pid);
 
         User32.WinEventProc winEventDelegate = WinEventCallback;
         _gcSafetyHandle = GCHandle.Alloc(winEventDelegate);
@@ -52,14 +53,14 @@ internal class GameWindowHookerOld : IDisposable
         uint dwmsEventTime)
     {
         if (eventType == EventObjectLocationChange &&
-            hWnd == App.GameWindowHandle &&
+            hWnd == GameHandle &&
             idObject == OBJID_WINDOW && idChild == SWEH_CHILDID_SELF)
         {
             UpdatePosition(hWnd);
         }
 
         if (eventType == EventObjectDestroy &&
-            hWnd == App.GameWindowHandle &&
+            hWnd == GameHandle &&
             idObject == OBJID_WINDOW && idChild == SWEH_CHILDID_SELF)
         {
             WinClose();
