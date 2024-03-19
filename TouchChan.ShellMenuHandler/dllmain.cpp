@@ -9,6 +9,7 @@
 #include <string>
 #include <sysinfoapi.h>
 #include <vector>
+#include <shlwapi.h>
 
 using namespace Microsoft::WRL;
 
@@ -208,7 +209,27 @@ private:
     std::vector<ComPtr<IExplorerCommand>>::const_iterator m_current;
 };
 
+inline std::wstring get_module_folderpath(HMODULE mod = nullptr, const bool removeFilename = true)
+{
+    wchar_t buffer[MAX_PATH + 1];
+    DWORD actual_length = GetModuleFileNameW(mod, buffer, MAX_PATH);
+    if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+    {
+        const DWORD long_path_length = 0xFFFF; // should be always enough
+        std::wstring long_filename(long_path_length, L'\0');
+        actual_length = GetModuleFileNameW(mod, const_cast<LPWSTR>(long_filename.data()), long_path_length);
+        PathRemoveFileSpecW(const_cast<LPWSTR>(long_filename.data()));
+        long_filename.resize(std::wcslen(long_filename.data()));
+        long_filename.shrink_to_fit();
+        return long_filename;
+    }
 
+    if (removeFilename)
+    {
+        PathRemoveFileSpecW(buffer);
+    }
+    return { buffer, static_cast<uint64_t>(lstrlenW(buffer)) };
+}
 
 class HelloWorldCommand : public RuntimeClass<RuntimeClassFlags<ClassicCom>, IExplorerCommand, IObjectWithSite>
 {
@@ -225,13 +246,10 @@ public:
 
     IFACEMETHODIMP GetIcon(_In_opt_ IShellItemArray* items, _Outptr_result_nullonfailure_ PWSTR* iconPath)
     {
-        *iconPath = nullptr;
-        PWSTR itemPath = nullptr;
-
-        return E_FAIL; // x S_NORMAL S_OK
+        std::wstring iconResourcePath = get_module_folderpath(g_hModule);
+        iconResourcePath += L"\\icon.png";
+        return SHStrDupW(iconResourcePath.c_str(), iconPath);
     }
-
-
 
 
     IFACEMETHODIMP GetToolTip(_In_opt_ IShellItemArray*, _Outptr_result_nullonfailure_ PWSTR* infoTip) { *infoTip = nullptr; return E_NOTIMPL; }
