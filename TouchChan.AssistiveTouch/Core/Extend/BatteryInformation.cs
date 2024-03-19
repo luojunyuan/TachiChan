@@ -15,6 +15,21 @@ public class BatteryInformation
 
 public static class BatteryInfo
 {
+    public static bool IsBatteryAvaliable()
+    {
+        IntPtr deviceHandle = SetupDiGetClassDevs(
+        Win32.GUID_DEVCLASS_BATTERY, Win32.DEVICE_GET_CLASS_FLAGS.DIGCF_PRESENT | Win32.DEVICE_GET_CLASS_FLAGS.DIGCF_DEVICEINTERFACE);
+
+        Win32.SP_DEVICE_INTERFACE_DATA deviceInterfaceData = new Win32.SP_DEVICE_INTERFACE_DATA();
+        deviceInterfaceData.CbSize = Marshal.SizeOf(deviceInterfaceData);
+
+        var guid = Win32.GUID_DEVCLASS_BATTERY;
+        bool retval = Win32.SetupDiEnumDeviceInterfaces(
+            deviceHandle, IntPtr.Zero, ref guid, 0, ref deviceInterfaceData);
+
+        return retval;
+    }
+
     public static BatteryInformation GetBatteryInformation()
     {
         IntPtr deviceDataPointer = IntPtr.Zero;

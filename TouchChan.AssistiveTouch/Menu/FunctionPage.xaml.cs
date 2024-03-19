@@ -17,11 +17,8 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            // TODO: NET472 improvement. Check the value on AC device, maybe empty?
-#if !NET472            
-            if (Windows.Devices.Power.Battery.AggregateBattery.DeviceId != "AggregateBattery")
+            if (!BatteryInfo.IsBatteryAvaliable())
                 Battery.Disable();
-#endif
         }
 
         public void Show(double moveDistance)
