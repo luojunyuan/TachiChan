@@ -8,6 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>Preference</AssemblyName>
     <Version>1.2.1.0</Version>
+    <Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
 
   <Import Project="..\net472.props" />
