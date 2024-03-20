@@ -16,7 +16,7 @@
     Version="2.1.4.0" />
 
   <Properties>
-    <DisplayName>タッチちゃん</DisplayName>
+    <DisplayName>ms-resource:DisplayName</DisplayName>
     <PublisherDisplayName>k1mlka</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
