@@ -7,7 +7,6 @@ using TouchChan.AssistiveTouch.Core;
 using TouchChan.AssistiveTouch.Core.Extend;
 using TouchChan.AssistiveTouch.Helper;
 using TouchChan.AssistiveTouch.NativeMethods;
-using Windows.Services.Maps;
 
 namespace TouchChan.AssistiveTouch;
 
