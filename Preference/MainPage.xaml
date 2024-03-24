@@ -10,10 +10,15 @@
     Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <StackPanel Margin="20 10">
-        <TextBlock x:Uid="SelectProcess" Margin="0 20 0 0" />
+    <StackPanel Margin="20 10" Spacing="20">
 
-        <StackPanel Margin="0 20 0 0" Spacing="10">
+        <TextBlock Text="TachiChan didn't show in context menu? try restart explorer" />
+
+        <Button x:Name="ExplorerButton" Content="Restart explorer" Click="ExplorerButtonOnClick" />
+
+        <TextBlock x:Uid="SelectProcess"/>
+
+        <StackPanel Spacing="10">
             <StackPanel Orientation="Horizontal" Spacing="10">
                 <ComboBox x:Name="ProcessComboBox"
                     Width="240"

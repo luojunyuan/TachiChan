@@ -45,7 +45,12 @@ public partial class MainWindow : Window
             User32.SetWindowPos(Handle, IntPtr.Zero, 0, 0, rectClient.Width, rectClient.Height, User32.SetWindowPosFlags.SWP_NOZORDER);
 
             var hooker = new GameWindowHooker(Handle);
-            hooker.SizeChanged += (_, _) => FullScreen.UpdateFullscreenStatus();
+            hooker.SizeChanged += async (_, _) =>
+            {
+                // HACK: rect.left rect.top changes only a few milliseconds slower than size.
+                await Task.Delay(10).ConfigureAwait(true);
+                FullScreen.UpdateFullscreenStatus();
+            };
             hooker.GameWindowLostFocus += (_, _) => { if (Menu.IsOpened) Menu.ManualClose(); };
         }
         else
@@ -54,7 +59,11 @@ public partial class MainWindow : Window
             ShowInTaskbar = false;
             HwndTools.HideWindowInAltTab(Handle);
             var hooker = new GameWindowHookerOld(Close);
-            hooker.SizeChanged += (_, _) => FullScreen.UpdateFullscreenStatus();
+            hooker.SizeChanged += async (_, _) =>
+            {
+                await Task.Delay(10).ConfigureAwait(true);
+                FullScreen.UpdateFullscreenStatus();
+            };
             hooker.WindowPositionChanged += (_, pos) =>
             {
                 Height = pos.Height / Dpi;

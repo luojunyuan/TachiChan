@@ -18,16 +18,12 @@
             <CheckBox x:Name="EnterKeyMapping" Click="EnterKeyMapping_Click" >
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Padding="0 3 3 0" Text="Make the"/>
-                    <ComboBox x:Name="KeyComboBox">
-                        <ComboBoxItem Content="Z" />
-                        <ComboBoxItem Content="Q" />
-                    </ComboBox>
-                    <TextBlock Padding="3 3 0 0" Text="key map to the Enter key"/>
+                    <ComboBox  />
+                    <TextBlock Padding="3 3 0 0" Text="key on the keyboard map to the enter key"/>
                 </StackPanel>
             </CheckBox>
-            <CheckBox x:Name="ModernSleep" Click="ModernSleep_Click" Content="Forces the system into sleep mode if there is no input for 5 minutes" />
-            <CheckBox x:Name="OutterWindow" Click="OutterWindow_Click" Content="Make the white point act as an external window instead of being embedded in the game" />
-            <CheckBox x:Name="AntiTouch" Click="AntiTouch_Click" Content="Add a mask around the window to prevent accidental touches when playing in full screen" />
+            <CheckBox x:Name="OutterWindow" Content="Make the white point's window act as an external window instead of being embedded in the game" />
+            <CheckBox x:Name="AntiTouch" Content="Add a mask around the window to prevent accidental touches when playing in full screen" />
         </StackPanel>
     </Grid>
 </Page>

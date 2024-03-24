@@ -3,6 +3,7 @@
 #include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.ApplicationModel.AppService.h>
 #include <winrt/Windows.Foundation.Collections.h>
+#include <cstdlib>
 
 #include<windows.h>
 
@@ -43,8 +44,13 @@ int __stdcall wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
         return 0;
     }
 
+    if (commandLine.find(L"--explorer") != std::wstring::npos)
+    {
+        system("taskkill /f /im explorer.exe");
+        system("start explorer.exe");
+    }
     // UWP-SelectProcess: Enumerate processes
-    if (commandLine.find(L"--channel") != std::wstring::npos)
+    else if (commandLine.find(L"--channel") != std::wstring::npos)
     {
         auto sss = FilterProcessService::Filter();
 

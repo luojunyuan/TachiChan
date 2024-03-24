@@ -20,12 +20,12 @@ namespace TouchChan.AssistiveTouch.Menu
             InitializeComponent();
             InitializeAnimation();
 
-            void SetFullScreenSwitcher(bool inFullScreen) =>
+            void SetFullScreenSwitcherIcon(bool inFullScreen) =>
                 (FullScreenSwitcher.Symbol, FullScreenSwitcher.Text) = inFullScreen ?
                     (Symbol.BackToWindow, XamlResource.GetString("AssistiveTouch_Window")) :
                     (Symbol.FullScreen, XamlResource.GetString("AssistiveTouch_FullScreen"));
-            SetFullScreenSwitcher(FullScreen.UpdateFullscreenStatus());
-            FullScreen.FullscreenChanged += (_, isFullScreen) => SetFullScreenSwitcher(isFullScreen);
+            SetFullScreenSwitcherIcon(FullScreen.UpdateFullscreenStatus());
+            FullScreen.FullscreenChanged += (_, isFullScreen) => SetFullScreenSwitcherIcon(isFullScreen);
 
             BrightnessUp.IsEnabledEx = false;
 

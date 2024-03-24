@@ -17,8 +17,8 @@ Application.SetCompatibleTextRenderingDefault(false);
 var ctrlButton = new Button
 {
     Text = "Ctrl",
-    Width = 75,
-    Height = 75,
+    Width = 120,
+    Height = 120,
     BackColor = Color.White
 };
 ctrlButton.MouseDown += (_, args) => Simulate.Down(Simulate.KeyCode.Control);

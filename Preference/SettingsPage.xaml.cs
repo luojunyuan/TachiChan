@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using IniParser;
 using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -18,6 +19,7 @@ namespace Preference
         {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Required;
+            KeyComboBox.SelectedIndex = 0;
 
             Loaded += async (_, _) =>
             {
@@ -26,7 +28,7 @@ namespace Preference
 
                 if (item is not StorageFile iniFile)
                     return;
-                
+
                 string fileContent = await FileIO.ReadTextAsync(iniFile);
 
                 var parser = new FileIniDataParser();
@@ -34,15 +36,22 @@ namespace Preference
 
                 string value = data["TouchChan"]["ScreenShotTradition"] ?? "false";
                 string value2 = data["TouchChan"]["UseEnterKeyMapping"] ?? "false";
-                //string value = data["TouchChan"]["MappingKey"];
-                //string value = data["TouchChan"]["ModernSleep"]; 
+                string value3 = data["TouchChan"]["MappingKey"] ?? "Z";
+                string value4 = data["TouchChan"]["UseModernSleep"] ?? "false";
+                string value5 = data["TouchChan"]["EnforceOldTouchStyle"] ?? "false";
+                string value6 = data["TouchChan"]["UseEdgeTouchMask"] ?? "false";
 
                 Screenshot.IsChecked = bool.Parse(value);
+                ModernSleep.IsChecked = bool.Parse(value4);
                 EnterKeyMapping.IsChecked = bool.Parse(value2);
+                KeyComboBox.SelectedIndex = value3 == "Z" ? 0 : 1;
+                KeyComboBox.SelectionChanged += KeyComboBoxOnSelectionChanged;
+                OutterWindow.IsChecked = bool.Parse(value5);
+                AntiTouch.IsChecked = bool.Parse(value6);
             };
         }
 
-        private async void Screenshot_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async static Task WritePropertyToIniFile(string section, string value)
         {
             StorageFolder roamingFolder = ApplicationData.Current.RoamingFolder;
             var iniFile = await roamingFolder.CreateFileAsync("Config.ini", CreationCollisionOption.OpenIfExists);
@@ -52,24 +61,27 @@ namespace Preference
             var parser = new FileIniDataParser();
             var data = parser.Parser.Parse(fileContent);
 
-            data["TouchChan"]["ScreenShotTradition"] = Screenshot.IsChecked.ToString();
+            data["TouchChan"][section] = value;
             string newFileContent = data.ToString();
             await FileIO.WriteTextAsync(iniFile, newFileContent);
         }
 
-        private async void EnterKeyMapping_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            StorageFolder roamingFolder = ApplicationData.Current.RoamingFolder;
-            var iniFile = await roamingFolder.CreateFileAsync("Config.ini", CreationCollisionOption.OpenIfExists);
+        private async void Screenshot_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) =>
+            await WritePropertyToIniFile("ScreenShotTradition", Screenshot.IsChecked.ToString());
 
-            string fileContent = await FileIO.ReadTextAsync(iniFile);
+        private async void EnterKeyMapping_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) =>
+            await WritePropertyToIniFile("UseEnterKeyMapping", EnterKeyMapping.IsChecked.ToString());
 
-            var parser = new FileIniDataParser();
-            var data = parser.Parser.Parse(fileContent);
+        private async void ModernSleep_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) =>
+            await WritePropertyToIniFile("UseModernSleep", ModernSleep.IsChecked.ToString());
 
-            data["TouchChan"]["UseEnterKeyMapping"] = EnterKeyMapping.IsChecked.ToString();
-            string newFileContent = data.ToString();
-            await FileIO.WriteTextAsync(iniFile, newFileContent);
-        }
+        private async void OutterWindow_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) =>
+            await WritePropertyToIniFile("EnforceOldTouchStyle", OutterWindow.IsChecked.ToString());
+
+        private async void AntiTouch_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) =>
+            await WritePropertyToIniFile("UseEdgeTouchMask", AntiTouch.IsChecked.ToString());
+
+        private async void KeyComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
+            await WritePropertyToIniFile("MappingKey", ((ComboBoxItem)KeyComboBox.SelectedItem).Content.ToString());
     }
 }

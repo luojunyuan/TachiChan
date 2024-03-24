@@ -76,6 +76,8 @@ public partial class App : Application
     {
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
             MessageBox.Show(args.ExceptionObject.ToString());
+        
+        Config.Load();
 
         if (!Config.DisableTouch)
             return; // normally return

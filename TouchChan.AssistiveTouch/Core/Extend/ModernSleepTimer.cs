@@ -7,8 +7,9 @@ internal class ModernSleepTimer
 {
     public static void Start()
     {
-        // Sleep delay 10 minutes
-        var sleep = new Throttle(10 * 60 * 1000, () =>
+        // Sleep delay 5 minutes
+        const int min = 5;
+        var sleep = new Throttle(min * 60 * 1000, () =>
         {
             var HWND_BROADCAST = 0xFFFF;
             var WM_SYSCOMMAND = 0x112;

@@ -56,7 +56,7 @@ namespace TouchChan.AssistiveTouch
             AssistiveTouchPosition = myIni.Read(nameof(AssistiveTouchPosition)) ?? string.Empty;
             UseEdgeTouchMask = bool.Parse(myIni.Read(nameof(UseEdgeTouchMask)) ?? "false");
             EnableMagTouchMapping = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
-            UseModernSleep = bool.Parse(myIni.Read(nameof(EnableMagTouchMapping)) ?? "false");
+            UseModernSleep = bool.Parse(myIni.Read(nameof(UseModernSleep)) ?? "false");
             DisableTouch = bool.Parse(myIni.Read(nameof(DisableTouch)) ?? "false");
             EnforceOldTouchStyle = bool.Parse(myIni.Read(nameof(EnforceOldTouchStyle)) ?? "false");
         }

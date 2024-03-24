@@ -32,9 +32,6 @@ public sealed partial class MainPage : Page
         this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
 
         ProcessComboBox.ItemsSource = ProcessItems;
-        var appView = ApplicationView.GetForCurrentView();
-        var resourceLoader = ResourceLoader.GetForCurrentView();
-        appView.Title = resourceLoader.GetString("ProcessSelector");
 
         App.ProcessUpdated += async (_, newItems) =>
         {
@@ -103,6 +100,9 @@ public sealed partial class MainPage : Page
 
     private void ProcessComboBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
         InjectButton.IsEnabled = ProcessComboBox.SelectedItem is not null && !((ProcessDataModel)ProcessComboBox.SelectedItem).Injected;
+
+    private async void ExplorerButtonOnClick(object sender, RoutedEventArgs e) => 
+        await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppWithArgumentsAsync($"--explorer");
 }
 
 public static class Ext

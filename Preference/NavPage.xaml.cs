@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.ViewManagement;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234238 を参照してください
 
@@ -35,22 +37,16 @@ namespace Preference
             NavView.SelectedItem = NavView.MenuItems[0];
         }
 
-        private void NavView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.IsSettingsSelected == true)
-            {
-                NavView_Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
-            }
-            else if (args.SelectedItemContainer != null)
+            if (args.SelectedItemContainer != null)
             {
                 Type navPageType = Type.GetType(args.SelectedItemContainer.Tag.ToString());
                 NavView_Navigate(navPageType, args.RecommendedNavigationTransitionInfo);
             }
         }
 
-        private void NavView_Navigate(
-    Type navPageType,
-    NavigationTransitionInfo transitionInfo)
+        private void NavView_Navigate(Type navPageType, NavigationTransitionInfo transitionInfo)
         {
             // Get the page type before navigation so you can prevent duplicate
             // entries in the backstack.
@@ -67,14 +63,7 @@ namespace Preference
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
 
-            if (ContentFrame.SourcePageType == typeof(SettingsPage))
-            {
-                // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
-                NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
-
-                NavView.Header = ((NavigationViewItem)NavView.SettingsItem).Content;
-            }
-            else if (ContentFrame.SourcePageType != null)
+            if (ContentFrame.SourcePageType != null)
             {
                 // Select the nav view item that corresponds to the page being navigated to.
                 NavView.SelectedItem = NavView.MenuItems
@@ -83,6 +72,10 @@ namespace Preference
 
                 NavView.Header =
                     ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
+
+                var appView = ApplicationView.GetForCurrentView();
+                var resourceLoader = ResourceLoader.GetForCurrentView();
+                appView.Title = NavView.Header.ToString();
             }
         }
     }
