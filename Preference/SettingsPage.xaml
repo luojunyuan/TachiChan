@@ -14,20 +14,20 @@
         Margin="20 10"
         HorizontalAlignment="Left" VerticalAlignment="Top">
         <StackPanel Spacing="10">
-            <CheckBox x:Name="Screenshot" Click="Screenshot_Click" Content="Make TachiChan use Alt+PrintScreen instead of Win+Shift+S for built-in screenshot" />
+            <CheckBox x:Uid="Screenshot" x:Name="Screenshot" Click="Screenshot_Click" />
             <CheckBox x:Name="EnterKeyMapping" Click="EnterKeyMapping_Click" >
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Padding="0 3 3 0" Text="Make the"/>
+                    <TextBlock x:Uid="EnterKeyMapping1"  Padding="0 3 3 0" Text="" />
                     <ComboBox x:Name="KeyComboBox">
                         <ComboBoxItem Content="Z" />
                         <ComboBoxItem Content="Q" />
                     </ComboBox>
-                    <TextBlock Padding="3 3 0 0" Text="key map to the Enter key"/>
+                    <TextBlock x:Uid="EnterKeyMapping2" Padding="3 3 0 0" />
                 </StackPanel>
             </CheckBox>
-            <CheckBox x:Name="ModernSleep" Click="ModernSleep_Click" Content="Forces the system into sleep mode if there is no input for 5 minutes" />
-            <CheckBox x:Name="OutterWindow" Click="OutterWindow_Click" Content="Make the white point act as an external window instead of being embedded in the game" />
-            <CheckBox x:Name="AntiTouch" Click="AntiTouch_Click" Content="Add a mask around the window to prevent accidental touches when playing in full screen" />
+            <CheckBox x:Uid="ModernSleep" x:Name="ModernSleep" Click="ModernSleep_Click" />
+            <CheckBox x:Uid="OutterWindow" x:Name="OutterWindow" Click="OutterWindow_Click" />
+            <CheckBox x:Uid="AntiTouch" x:Name="AntiTouch" Click="AntiTouch_Click" />
         </StackPanel>
     </Grid>
 </Page>

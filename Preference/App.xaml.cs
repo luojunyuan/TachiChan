@@ -89,7 +89,7 @@ sealed partial class App : Application
                     rootFrame.Navigate(typeof(NavPage), e.Arguments);
             }
 
-            ApplicationView.PreferredLaunchViewSize = new Size(500, 360); // minimal height 320
+            ApplicationView.PreferredLaunchViewSize = new Size(500, 400); // minimal height 320
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             // 現在のウィンドウがアクティブであることを確認します

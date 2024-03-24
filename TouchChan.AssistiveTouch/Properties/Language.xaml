@@ -28,4 +28,9 @@
     <system:String x:Key="AssistiveTouch_BackToDesktop">デスクトップに戻る</system:String>
 
     <system:String x:Key="AssistiveTouch_Battery">バッテリー</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Enable">ジェスチャー (有効)</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Disable">ジェスチャー (無効)</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Enable">ハンドラ (有効)</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Disable">ハンドラ (無効)</system:String>
+    <system:String x:Key="AssistiveTouch_Stretch">ストレッチウィンドウ</system:String>
 </ResourceDictionary>

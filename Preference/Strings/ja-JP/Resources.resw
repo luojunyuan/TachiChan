@@ -123,9 +123,6 @@
   <data name="ButtonInject.Content" xml:space="preserve">
     <value>スタート</value>
   </data>
-  <data name="ButtonInject.Width" xml:space="preserve">
-    <value>240</value>
-  </data>
   <data name="MainPage.Content" xml:space="preserve">
     <value>プロセスセレクタ</value>
   </data>
@@ -138,13 +135,34 @@
   <data name="ProcessSelector" xml:space="preserve">
     <value>プロセスセレクタ</value>
   </data>
-  <data name="SelectProcess.FontSize" xml:space="preserve">
-    <value>22</value>
-  </data>
   <data name="SelectProcess.Text" xml:space="preserve">
     <value>ゲームを選択してください</value>
   </data>
   <data name="SettingsPage.Content" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="AntiTouch.Content" xml:space="preserve">
+    <value>フルスクリーンでプレーする際、誤ってタッチしてしまうのを防ぐため、ウィンドウの周囲にマスクを追加する</value>
+  </data>
+  <data name="Screenshot.Content" xml:space="preserve">
+    <value>タッチちゃんの内蔵スクリーンショットに、Win+Shift+Sの代わりにAlt+PrintScreenを使うようにします</value>
+  </data>
+  <data name="EnterKeyMapping2.Text" xml:space="preserve">
+    <value>キーを Enter キーにマッピングする</value>
+  </data>
+  <data name="ModernSleep.Content" xml:space="preserve">
+    <value>5分間入力がない場合、システムを強制的にスリープモードにします</value>
+  </data>
+  <data name="OutterWindow.Content" xml:space="preserve">
+    <value>ホワイトポイントをゲームに埋め込むのではなく、外部ウィンドウとして機能させます</value>
+  </data>
+  <data name="ContextMenuTip.Text" xml:space="preserve">
+    <value>タッチちゃんがコンテキストメニューに表示されない場合は、エクスプローラーを再起動してください</value>
+  </data>
+  <data name="ExplorerButton.Content" xml:space="preserve">
+    <value>エクスプローラーを再起動する</value>
+  </data>
+  <data name="EnterKeyMapping1.Text" xml:space="preserve">
+    <value>​</value>
   </data>
 </root>

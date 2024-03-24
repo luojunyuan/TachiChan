@@ -28,4 +28,9 @@
     <system:String x:Key="AssistiveTouch_BackToDesktop">Back to Desktop</system:String>
 
     <system:String x:Key="AssistiveTouch_Battery">Battery</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Enable">Gesture (Enable)</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Disable">Gesture (Disable)</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Enable">Handler (Enable)</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Disable">Handler (Disable)</system:String>
+    <system:String x:Key="AssistiveTouch_Stretch">Stretch Window</system:String>
 </ResourceDictionary>

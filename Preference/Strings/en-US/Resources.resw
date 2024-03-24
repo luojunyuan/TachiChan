@@ -141,4 +141,28 @@
   <data name="SettingsPage.Content" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="AntiTouch.Content" xml:space="preserve">
+    <value>Add a mask around the window to prevent accidental touches when playing in full screen</value>
+  </data>
+  <data name="Screenshot.Content" xml:space="preserve">
+    <value>Make TachiChan use Alt+PrintScreen instead of Win+Shift+S for built-in screenshot</value>
+  </data>
+  <data name="EnterKeyMapping1.Text" xml:space="preserve">
+    <value>Make the</value>
+  </data>
+  <data name="EnterKeyMapping2.Text" xml:space="preserve">
+    <value>key map to the Enter key</value>
+  </data>
+  <data name="OutterWindow.Content" xml:space="preserve">
+    <value>Make the white point act as an external window instead of being embedded in the game</value>
+  </data>
+  <data name="ModernSleep.Content" xml:space="preserve">
+    <value>Forces the system into sleep mode if there is no input for 5 minutes</value>
+  </data>
+  <data name="ContextMenuTip.Text" xml:space="preserve">
+    <value>TachiChan didn't show in context menu? try restart explorer</value>
+  </data>
+  <data name="ExplorerButton.Content" xml:space="preserve">
+    <value>Restart explorer</value>
+  </data>
 </root>

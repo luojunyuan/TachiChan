@@ -28,4 +28,9 @@
     <system:String x:Key="AssistiveTouch_BackToDesktop">返回桌面</system:String>
 
     <system:String x:Key="AssistiveTouch_Battery">电池</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Enable">手势（启用）</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Disable">手势（停用）</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Enable">手柄（启用）</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Disable">手柄（停用）</system:String>
+    <system:String x:Key="AssistiveTouch_Stretch">拉伸窗口</system:String>
 </ResourceDictionary>

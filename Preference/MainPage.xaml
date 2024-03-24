@@ -12,11 +12,11 @@
 
     <StackPanel Margin="20 10" Spacing="20">
 
-        <TextBlock Text="TachiChan didn't show in context menu? try restart explorer" />
+        <TextBlock x:Uid="ContextMenuTip" Margin="0 10 0 0" TextWrapping="Wrap" />
 
-        <Button x:Name="ExplorerButton" Content="Restart explorer" Click="ExplorerButtonOnClick" />
+        <Button x:Uid="ExplorerButton" x:Name="ExplorerButton" Click="ExplorerButtonOnClick" />
 
-        <TextBlock x:Uid="SelectProcess"/>
+        <TextBlock x:Uid="SelectProcess" FontSize="22" />
 
         <StackPanel Spacing="10">
             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -41,7 +41,7 @@
 
             <Button x:Uid="ButtonInject" x:Name="InjectButton"
                 Click="InjectButtonOnClick" IsEnabled="False"
-                Style="{StaticResource AccentButtonStyle}" />
+                Style="{StaticResource AccentButtonStyle}" Width="240" />
         </StackPanel>
     </StackPanel>
 </Page>

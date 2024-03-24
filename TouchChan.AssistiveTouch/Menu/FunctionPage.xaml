@@ -28,7 +28,7 @@
 
         <help:ToggleTouchMenuItem x:Name="Stretch"
             Grid.Row="0" Grid.Column="2"
-            Symbol="AspectRatio" Text="Stretch Window" />
+            Symbol="AspectRatio" Text="{DynamicResource AssistiveTouch_Stretch}" />
         
         <help:ToggleTouchMenuItem x:Name="TouchToMouse"
             Grid.Row="1" Grid.Column="0"
@@ -47,10 +47,10 @@
 
         <help:TouchMenuItem x:Name="Gesture"
             Grid.Row="2" Grid.Column="1" Symbol="FingerInking"
-            Text="Gesture (Enable)" />
+            Text="{DynamicResource AssistiveTouch_Gesture_Enable}" />
 
         <help:TouchMenuItem x:Name="GameHandler"
             Grid.Row="2" Grid.Column="2" Symbol="Game"
-            Text="Handler (Enable)" />
+            Text="{DynamicResource AssistiveTouch_GameHandler_Enable}" />
     </Grid>
 </Page>

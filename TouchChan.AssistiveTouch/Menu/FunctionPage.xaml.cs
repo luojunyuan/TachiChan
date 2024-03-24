@@ -43,11 +43,11 @@ namespace TouchChan.AssistiveTouch.Menu
 
             Gesture.Disable();
             if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gesture").Length == 0)
-                Gesture.Text = "Gesture (Disable)";
+                Gesture.Text = XamlResource.GetString("AssistiveTouch_Gesture_Disable");
 
             GameHandler.Disable();
             if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gamepad").Length == 0)
-                GameHandler.Text = "Handler (Disable)";
+                GameHandler.Text = XamlResource.GetString("AssistiveTouch_GameHandler_Disable");
 
             // Open another menu to check status
         }

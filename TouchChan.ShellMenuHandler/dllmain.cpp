@@ -131,7 +131,7 @@ public:
 class SubExplorerCommandHandler2 final : public TestExplorerCommandBase
 {
 public:
-    const wchar_t* Title() override { return L"Start with..."; }
+    const wchar_t* Title() override { return L"Start by..."; }
     const IFACEMETHODIMP InvokeMe(IShellItemArray* selection) override
     {
         if (selection)

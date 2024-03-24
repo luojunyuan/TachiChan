@@ -141,4 +141,28 @@
   <data name="SettingsPage.Content" xml:space="preserve">
     <value>偏好设置</value>
   </data>
+  <data name="AntiTouch.Content" xml:space="preserve">
+    <value>在窗口周围添加遮罩，防止全屏游戏时误触碰边缘</value>
+  </data>
+  <data name="Screenshot.Content" xml:space="preserve">
+    <value>让触控酱使用 Alt+PrintScreen 而不是 Win+Shift+S 进行内置屏幕截图</value>
+  </data>
+  <data name="EnterKeyMapping2.Text" xml:space="preserve">
+    <value>键映射到回车键</value>
+  </data>
+  <data name="EnterKeyMapping1.Text" xml:space="preserve">
+    <value>使</value>
+  </data>
+  <data name="ModernSleep.Content" xml:space="preserve">
+    <value>如果 5 分钟内没有输入，则强制系统进入睡眠模式</value>
+  </data>
+  <data name="OutterWindow.Content" xml:space="preserve">
+    <value>将小白点作为外部窗口显示，而不是嵌入到游戏中</value>
+  </data>
+  <data name="ContextMenuTip.Text" xml:space="preserve">
+    <value>触控酱没有显示在右键菜单中？ 尝试重启资源管理器</value>
+  </data>
+  <data name="ExplorerButton.Content" xml:space="preserve">
+    <value>重启文件管理器</value>
+  </data>
 </root>
