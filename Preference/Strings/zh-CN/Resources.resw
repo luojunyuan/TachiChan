@@ -154,7 +154,7 @@
     <value>使</value>
   </data>
   <data name="ModernSleep.Content" xml:space="preserve">
-    <value>如果 5 分钟内没有输入，则强制系统进入睡眠模式</value>
+    <value>如果 3 分钟内没有输入，则强制系统进入睡眠模式</value>
   </data>
   <data name="OutterWindow.Content" xml:space="preserve">
     <value>将小白点作为外部窗口显示，而不是嵌入到游戏中</value>

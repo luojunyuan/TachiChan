@@ -7,9 +7,9 @@ internal class ModernSleepTimer
 {
     public static void Start()
     {
-        // Sleep delay 5 minutes
-        const int min = 5;
-        var sleep = new Throttle(min * 60 * 1000, () =>
+        const int min = 3;
+        const int advanceSeconds = 5000;
+        var sleep = new Throttle(min * 60 * 1000 - advanceSeconds, () =>
         {
             var HWND_BROADCAST = 0xFFFF;
             var WM_SYSCOMMAND = 0x112;
@@ -21,13 +21,13 @@ internal class ModernSleepTimer
         sleep.Signal();
 
 
-        // Check input per minutes
+        // Check input per seconds
         var newInputInfo = User32.LASTINPUTINFO.Default;
         User32.GetLastInputInfo(ref newInputInfo);
         var count = newInputInfo.dwTime;
 
         var modernSleepTimer = new System.Timers.Timer();
-        modernSleepTimer.Interval = 1 * 60 * 1000;
+        modernSleepTimer.Interval = 1000;// 1 * 60 * 1000;
         modernSleepTimer.Elapsed += (_, _) =>
         {
             User32.GetLastInputInfo(ref newInputInfo);

@@ -157,7 +157,7 @@
     <value>Make the white point act as an external window instead of being embedded in the game</value>
   </data>
   <data name="ModernSleep.Content" xml:space="preserve">
-    <value>Forces the system into sleep mode if there is no input for 5 minutes</value>
+    <value>Forces the system into sleep mode if there is no input for 3 minutes</value>
   </data>
   <data name="ContextMenuTip.Text" xml:space="preserve">
     <value>TachiChan didn't show in context menu? try restart explorer</value>

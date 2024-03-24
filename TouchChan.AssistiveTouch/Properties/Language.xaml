@@ -33,4 +33,9 @@
     <system:String x:Key="AssistiveTouch_GameHandler_Enable">ハンドラ (有効)</system:String>
     <system:String x:Key="AssistiveTouch_GameHandler_Disable">ハンドラ (無効)</system:String>
     <system:String x:Key="AssistiveTouch_Stretch">ストレッチウィンドウ</system:String>
+
+    <system:String x:Key="Gesture_RightClick">右クリック</system:String>
+    <system:String x:Key="Gesture_Space">スペース</system:String>
+    <system:String x:Key="Gesture_ScrollUp">スクロールアップ</system:String>
+    <system:String x:Key="Gesture_ScrollDown">スクロールダウン</system:String>
 </ResourceDictionary>

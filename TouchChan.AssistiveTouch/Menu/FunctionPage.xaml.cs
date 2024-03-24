@@ -22,6 +22,7 @@ namespace TouchChan.AssistiveTouch.Menu
             Process? keyboard = null;
             VirtualKeyboard.Toggled += async (_, _) =>
             {
+                // FIXME: Bug があります
                 if (VirtualKeyboard.IsOn) keyboard = await KeyboardProcess.StartAsync();
                 else keyboard?.Kill();
             };

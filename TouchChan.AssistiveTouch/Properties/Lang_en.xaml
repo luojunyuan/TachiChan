@@ -33,4 +33,9 @@
     <system:String x:Key="AssistiveTouch_GameHandler_Enable">Handler (Enable)</system:String>
     <system:String x:Key="AssistiveTouch_GameHandler_Disable">Handler (Disable)</system:String>
     <system:String x:Key="AssistiveTouch_Stretch">Stretch Window</system:String>
+
+    <system:String x:Key="Gesture_RightClick">Right Click</system:String>
+    <system:String x:Key="Gesture_Space">Space</system:String>
+    <system:String x:Key="Gesture_ScrollUp">Scroll Up</system:String>
+    <system:String x:Key="Gesture_ScrollDown">Scroll Down</system:String>
 </ResourceDictionary>

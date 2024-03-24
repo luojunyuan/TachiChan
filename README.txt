@@ -1,14 +1,6 @@
 Code Name: TouchChan
 表紙ネーム：TachiChan - タッチちゃん - 触控酱
 
-一款为美少女游戏触控生态而生的辅助软件，专为平板电脑打造。
-
- 
-2024年3月19日
-1. 
-2. 
-3. 
-
 ### build (Visual Studio Installer)
 
 Workload
@@ -70,4 +62,3 @@ FIXME
 2. krkr 的游戏普通触控会顶替触控手势的模拟，并且触控没有办法屏蔽，应该是对触摸自带处理支持
 4. fix some warnings of handle
 5. 游戏分辨率切换或系统分辨率、dpi切换导致的大小不合适问题
-2. Disable battery item if there is no battery.

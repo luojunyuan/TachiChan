@@ -151,7 +151,7 @@
     <value>キーを Enter キーにマッピングする</value>
   </data>
   <data name="ModernSleep.Content" xml:space="preserve">
-    <value>5分間入力がない場合、システムを強制的にスリープモードにします</value>
+    <value>3分間入力がない場合、システムを強制的にスリープモードにします</value>
   </data>
   <data name="OutterWindow.Content" xml:space="preserve">
     <value>ホワイトポイントをゲームに埋め込むのではなく、外部ウィンドウとして機能させます</value>

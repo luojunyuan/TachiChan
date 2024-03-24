@@ -34,7 +34,7 @@ namespace TouchChan.AssistiveTouch
         {
 #if !NET472
             Windows.Storage.StorageFolder roamingFolder = Windows.Storage.ApplicationData.Current.RoamingFolder;
-            var item = roamingFolder.TryGetItemAsync("Config.ini").GetResults();// recommend not await for winrt async function
+            var item = roamingFolder.TryGetItemAsync("Config.ini").GetAwaiter().GetResult();// recommend not await for winrt async function
             ConfigFilePath = item?.Path ?? string.Empty;
 #else
             string RoamingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

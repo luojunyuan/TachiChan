@@ -28,9 +28,14 @@
     <system:String x:Key="AssistiveTouch_BackToDesktop">返回桌面</system:String>
 
     <system:String x:Key="AssistiveTouch_Battery">电池</system:String>
-    <system:String x:Key="AssistiveTouch_Gesture_Enable">手势（启用）</system:String>
-    <system:String x:Key="AssistiveTouch_Gesture_Disable">手势（停用）</system:String>
-    <system:String x:Key="AssistiveTouch_GameHandler_Enable">手柄（启用）</system:String>
-    <system:String x:Key="AssistiveTouch_GameHandler_Disable">手柄（停用）</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Enable">触摸手势（启用）</system:String>
+    <system:String x:Key="AssistiveTouch_Gesture_Disable">触摸手势（停用）</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Enable">手柄映射（启用）</system:String>
+    <system:String x:Key="AssistiveTouch_GameHandler_Disable">手柄映射（停用）</system:String>
     <system:String x:Key="AssistiveTouch_Stretch">拉伸窗口</system:String>
+
+    <system:String x:Key="Gesture_RightClick">右键</system:String>
+    <system:String x:Key="Gesture_Space">空格</system:String>
+    <system:String x:Key="Gesture_ScrollUp">滚轮上滑</system:String>
+    <system:String x:Key="Gesture_ScrollDown">滚轮下滑</system:String>
 </ResourceDictionary>

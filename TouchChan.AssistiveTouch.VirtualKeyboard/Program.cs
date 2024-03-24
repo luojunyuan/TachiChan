@@ -32,8 +32,8 @@ var form = new ParamForm
     FormBorderStyle = FormBorderStyle.None,
     TopMost = true,
     ShowInTaskbar = false,
-    Height = 100,
-    Width = 100,
+    Height = 85,
+    Width = 85,
 };
 form.Controls.Add(ctrlButton);
 
