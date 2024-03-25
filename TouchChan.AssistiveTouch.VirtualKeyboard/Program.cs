@@ -14,11 +14,12 @@ ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instan
 Application.EnableVisualStyles();
 Application.SetCompatibleTextRenderingDefault(false);
 
+var ctrlButtonSize = 120;
 var ctrlButton = new Button
 {
     Text = "Ctrl",
-    Width = 120,
-    Height = 120,
+    Width = ctrlButtonSize,
+    Height = ctrlButtonSize,
     BackColor = Color.White
 };
 ctrlButton.MouseDown += (_, args) => Simulate.Down(Simulate.KeyCode.Control);
@@ -32,8 +33,8 @@ var form = new ParamForm
     FormBorderStyle = FormBorderStyle.None,
     TopMost = true,
     ShowInTaskbar = false,
-    Height = 85,
-    Width = 85,
+    Height = ctrlButtonSize,
+    Width = ctrlButtonSize,
 };
 form.Controls.Add(ctrlButton);
 

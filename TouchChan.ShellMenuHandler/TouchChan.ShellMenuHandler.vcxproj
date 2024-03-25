@@ -107,13 +107,13 @@
     <OutDir>$(SolutionDir)\TouchChanPackage</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <OutDir>$(SolutionDir)\TouchChanPackage</OutDir>
+    <OutDir>$(SolutionDir)\TouchChanPackage\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\TouchChanPackage</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)\TouchChanPackage</OutDir>
+    <OutDir>$(SolutionDir)\TouchChanPackage\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
