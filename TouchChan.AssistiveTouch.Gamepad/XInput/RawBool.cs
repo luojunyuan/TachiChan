@@ -20,7 +20,7 @@ public struct RawBool : IEquatable<RawBool>
         return boolValue == other.boolValue;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj == null)
         {

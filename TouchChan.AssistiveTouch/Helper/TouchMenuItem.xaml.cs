@@ -61,6 +61,8 @@ namespace TouchChan.AssistiveTouch.Helper
             ItemPanel.PreviewMouseLeftButtonUp -= ItemOnPreviewMouseLeftButtonUp;
         }
 
+        public void SetColor(bool green) => ItemIcon.Foreground = green ? Brushes.DarkGreen : Brushes.DarkRed;
+
         public TouchMenuItem()
         {
             InitializeComponent();

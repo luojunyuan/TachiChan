@@ -40,13 +40,13 @@ form.Controls.Add(ctrlButton);
 
 var hooker = new GameWindowHookerOld(gameHandle, form.Close);
 hooker.SetFormHandle(form.Handle);
-var dpi = form.CreateGraphics().DpiX / 96.0;
+//var dpi = form.CreateGraphics().DpiX / 96.0;
 void SizeDelegate(object? sender, GameWindowHookerOld.WindowPosition pos)
 {
     //form.Height = (int)(pos.Height / dpi);
     //form.Width = (int)(pos.Width / dpi);
-    form.Left = (int)(pos.Left / dpi);            
-    form.Top = (int)(pos.Top / dpi);
+    form.Left = (int)pos.Left; // (int)(pos.Left / dpi);            
+    form.Top = (int)pos.Top; // (pos.Top / dpi);
 }
 hooker.WindowPositionChanged += SizeDelegate;
 hooker.UpdatePosition(gameHandle);

@@ -268,6 +268,7 @@ public:
                 return S_OK;
             }
             *cmdState = ECS_HIDDEN;
+            // return S_OK;
         }
         else
         {

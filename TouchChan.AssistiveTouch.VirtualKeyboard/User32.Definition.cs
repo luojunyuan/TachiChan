@@ -53,8 +53,11 @@ internal partial class User32
         public uint cbSize;
 
         public uint dwTime;
-
+#if !NET472
+        public static readonly LASTINPUTINFO Default = new() { cbSize = (uint)Marshal.SizeOf<LASTINPUTINFO>() };
+#else
         public static readonly LASTINPUTINFO Default = new() { cbSize = (uint)Marshal.SizeOf(typeof(LASTINPUTINFO)) };
+#endif
     }
 
     [StructLayout(LayoutKind.Sequential)]

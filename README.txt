@@ -62,3 +62,16 @@ FIXME
 2. krkr 的游戏普通触控会顶替触控手势的模拟，并且触控没有办法屏蔽，应该是对触摸自带处理支持
 4. fix some warnings of handle
 5. 游戏分辨率切换或系统分辨率、dpi切换导致的大小不合适问题
+
+
+Package的编译顺次
+1. ShellMenuHandler
+2. 不包括AssistiveTouch在内的几个net项目编译（非AOT）
+3. Prefernce
+4. winrt (已编译)
+5. Gamepad(AOT)
+6. Gesture(AOT)
+7. VirtualKeyboard(AOT)
+8. AssistiveTouch
+9. SplashScreenAndTouchChan(AOT)
+10. Preference (可能需要重新编译)

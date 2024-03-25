@@ -190,6 +190,9 @@
       <ModuleDefinitionFile>Source.def</ModuleDefinitionFile>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);runtimeobject.lib;Shlwapi.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>del "$(SolutionDir)TouchChanPackage\TouchChan.ShellMenuHandler.dll"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -228,6 +231,9 @@
       <ModuleDefinitionFile>Source.def</ModuleDefinitionFile>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);runtimeobject.lib;Shlwapi.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>del "$(SolutionDir)TouchChanPackage\TouchChan.ShellMenuHandler.dll"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />

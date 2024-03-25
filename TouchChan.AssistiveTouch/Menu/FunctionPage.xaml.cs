@@ -43,12 +43,22 @@ namespace TouchChan.AssistiveTouch.Menu
                 Battery.Disable();
 
             Gesture.Disable();
+            Gesture.SetColor(true);
             if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gesture").Length == 0)
+            { 
                 Gesture.Text = XamlResource.GetString("AssistiveTouch_Gesture_Disable");
+                Gesture.Foreground = Brushes.DarkRed;
+                Gesture.SetColor(false);
+            }
 
             GameHandler.Disable();
+            GameHandler.SetColor(true);
             if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gamepad").Length == 0)
+            {
                 GameHandler.Text = XamlResource.GetString("AssistiveTouch_GameHandler_Disable");
+                GameHandler.Foreground = Brushes.DarkRed;
+                GameHandler.SetColor(false);
+            }
 
             // Open another menu to check status
         }
