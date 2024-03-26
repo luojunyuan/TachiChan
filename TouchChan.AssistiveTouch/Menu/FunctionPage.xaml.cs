@@ -42,23 +42,14 @@ namespace TouchChan.AssistiveTouch.Menu
             if (!BatteryInfo.IsBatteryAvaliable())
                 Battery.Disable();
 
+            //TODO: 用一个浅蓝色表示启用
             Gesture.Disable();
-            Gesture.SetColor(true);
-            if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gesture").Length == 0)
-            { 
-                Gesture.Text = XamlResource.GetString("AssistiveTouch_Gesture_Disable");
-                Gesture.Foreground = Brushes.DarkRed;
-                Gesture.SetColor(false);
-            }
+            if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gesture").Length == 0) Gesture.Text = XamlResource.GetString("AssistiveTouch_Gesture_Disable");
+            else Gesture.SetEnableColor();
 
             GameHandler.Disable();
-            GameHandler.SetColor(true);
-            if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gamepad").Length == 0)
-            {
-                GameHandler.Text = XamlResource.GetString("AssistiveTouch_GameHandler_Disable");
-                GameHandler.Foreground = Brushes.DarkRed;
-                GameHandler.SetColor(false);
-            }
+            if (Process.GetProcessesByName("TouchChan.AssistiveTouch.Gamepad").Length == 0) GameHandler.Text = XamlResource.GetString("AssistiveTouch_GameHandler_Disable");
+            else GameHandler.SetEnableColor();
 
             // Open another menu to check status
         }

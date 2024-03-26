@@ -14,7 +14,17 @@ ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instan
 Application.EnableVisualStyles();
 Application.SetCompatibleTextRenderingDefault(false);
 
-var ctrlButtonSize = 120;
+var form = new ParamForm
+{
+    AllowTransparency = true,
+    TransparencyKey = Color.Green,
+    BackColor = Color.Green,
+    FormBorderStyle = FormBorderStyle.None,
+    TopMost = true,
+    ShowInTaskbar = false,
+};
+var dpi = form.CreateGraphics().DpiX / 96.0;
+var ctrlButtonSize = (int)(100 * dpi);
 var ctrlButton = new Button
 {
     Text = "Ctrl",
@@ -25,26 +35,14 @@ var ctrlButton = new Button
 ctrlButton.MouseDown += (_, args) => Simulate.Down(Simulate.KeyCode.Control);
 ctrlButton.MouseUp += (_, _) => Simulate.Up(Simulate.KeyCode.Control);
 
-var form = new ParamForm
-{
-    AllowTransparency = true,
-    TransparencyKey = Color.Green,
-    BackColor = Color.Green,
-    FormBorderStyle = FormBorderStyle.None,
-    TopMost = true,
-    ShowInTaskbar = false,
-    Height = ctrlButtonSize,
-    Width = ctrlButtonSize,
-};
 form.Controls.Add(ctrlButton);
 
 var hooker = new GameWindowHookerOld(gameHandle, form.Close);
 hooker.SetFormHandle(form.Handle);
-//var dpi = form.CreateGraphics().DpiX / 96.0;
 void SizeDelegate(object? sender, GameWindowHookerOld.WindowPosition pos)
 {
-    //form.Height = (int)(pos.Height / dpi);
-    //form.Width = (int)(pos.Width / dpi);
+    form.Height = (int)pos.Height; // / dpi);
+    form.Width = (int)pos.Width; // / dpi);
     form.Left = (int)pos.Left; // (int)(pos.Left / dpi);            
     form.Top = (int)pos.Top; // (pos.Top / dpi);
 }

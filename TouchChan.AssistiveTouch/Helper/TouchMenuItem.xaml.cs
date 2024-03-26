@@ -61,7 +61,8 @@ namespace TouchChan.AssistiveTouch.Helper
             ItemPanel.PreviewMouseLeftButtonUp -= ItemOnPreviewMouseLeftButtonUp;
         }
 
-        public void SetColor(bool green) => ItemIcon.Foreground = green ? Brushes.DarkGreen : Brushes.DarkRed;
+        // TODO： Add a new Statues MenuItem
+        public void SetEnableColor() => ItemIcon.Foreground = Brushes.DarkGreen;
 
         public TouchMenuItem()
         {
