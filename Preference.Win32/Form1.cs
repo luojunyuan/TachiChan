@@ -200,11 +200,6 @@ public partial class Form1 : Form
         config.Write("UseEnterKeyMapping", KeytwoEnter.Checked.ToString());
     }
 
-    private void ModernSleep_CheckedChanged(object sender, EventArgs e)
-    {
-        var config = new IniFile();
-        config.Write("ModernSleep", ModernSleepCheckBox.Checked.ToString());
-    }
 
 
     private string DefaultLEPath = string.Empty;
