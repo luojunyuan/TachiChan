@@ -1,3 +1,5 @@
+2023年6月-2024年5月
+
 Code Name: TouchChan
 表紙ネーム：TachiChan - タッチちゃん - 触控酱
 
