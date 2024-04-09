@@ -5,12 +5,6 @@ Code Name: TouchChan
 
 一款为美少女游戏触控生态而生的辅助软件，专为平板电脑打造。
 
- 
-2024年3月19日
-1. 
-2. 
-3. 
-
 ### build (Visual Studio Installer)
 
 Workload
