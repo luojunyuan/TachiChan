@@ -51,13 +51,17 @@ Extensions
 6. GameController lifetime with AssistiveTouch 所有功能独立，仅接入断开由AssistiveTouch提示。(不要SharpDX太重了) 也许需要XInput1_4.dll 所以不要支持win7
 
 > TachiChan使用到的winrt服务，旨在简化开发，不再兼容，抛弃win8前旧平台。（考虑Store应用会导致命令行更难与第三方应用交互）
+
+
 （c++/winrt Launcher）
 
-1.Appservice与UWP交互
+1. Appservice与UWP交互
+
 （TouchChan.AssistiveTouch）
-2.Toast用来提示是否是管理员模式
-3.Battery模块用来检查设备是否带电池（考虑将来替换原生实现）
-4.StorageFolder搭配UWP获取程序配置路径
+
+2. Toast用来提示是否是管理员模式
+3. Battery模块用来检查设备是否带电池（考虑将来替换原生实现）
+4. StorageFolder搭配UWP获取程序配置路径
 
 
 
@@ -66,4 +70,3 @@ FIXME
 2. krkr 的游戏普通触控会顶替触控手势的模拟，并且触控没有办法屏蔽，应该是对触摸自带处理支持
 4. fix some warnings of handle
 5. 游戏分辨率切换或系统分辨率、dpi切换导致的大小不合适问题
-2. Disable battery item if there is no battery.
