@@ -7,6 +7,8 @@ Code Name: TouchChan
 
 ### build (Visual Studio Installer)
 
+你可以使用 dotnet-cli 来编译支援到 win7 的 tachichan，只需运行 build472.bat 即可生成到 bin/ 目录下
+
 Workload
 
 * .Net Desktop Devolopment
