@@ -2,17 +2,17 @@
 using SplashScreenGdip;
 using System.Diagnostics;
 using System.IO.Pipes;
+using System.Runtime.InteropServices;
 using System.Text;
 using TouchChan;
 
-
+#region Arguments Check
 if (args.Length == 1 && int.TryParse(args[0], out var pid))
 {
     Run(Process.GetProcessById(pid));
     return;
 }
 
-#region Arguments Check
 if (args.Length == 0)
 {
 #if RELEASE
@@ -38,9 +38,10 @@ if (!File.Exists(gamePath))
 
 var stream = typeof(Program).Assembly.GetManifestResourceStream("TouchChan.assets.klee.png")!;
 var splash = new SplashScreen(
-    args.Contains("--small-device") ? 144 : 
+    args.Contains("--small-device") ? 144 :
     RegistryModifier.IsSmallDevice() ? 144 : 96, stream);
-new Thread(() => PreProcessing(args.Contains("-le"), gamePath, splash)).Start();
+new Thread(() =>
+    PreProcessing(args.Contains("-le"), gamePath, splash)).Start();
 
 splash.Run();
 
@@ -136,6 +137,9 @@ static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
         MessageBox.Show(Strings.App_Timeout);
         return;
     }
+
+    ForceSetForegroundWindow(game.MainWindowHandle);
+
     leProc?.Kill();
 
     try
@@ -209,3 +213,25 @@ static void Run(Process game, SplashScreen? splash = null)
         touch.WaitForExit();
     }
 }
+
+static void ForceSetForegroundWindow(IntPtr hWnd)
+{
+    // Must use foreground window thread, whatever who is it.(expect task manager, almost explorer predictable:)
+    uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), out _);
+    uint appThread = GetCurrentThreadId();
+
+    AttachThreadInput(foreThread, appThread, true);
+    BringWindowToTop(hWnd);
+    AttachThreadInput(foreThread, appThread, false);
+}
+
+[DllImport("kernel32")]
+static extern uint GetCurrentThreadId();
+[DllImport("user32")]
+static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+[DllImport("user32")]
+static extern IntPtr GetForegroundWindow();
+[DllImport("user32")]
+static extern bool BringWindowToTop(IntPtr hWnd);
+[DllImport("user32")]
+static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);

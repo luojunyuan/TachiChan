@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -147,8 +147,9 @@ internal static class AppLauncher
     // private const int VNRWindowWidth = 160;
     // private const int VNRWindowHeight = 120;
     // private const int MinWindowSize = 12;
-    private const int GoodWindowWidth = 500;
-    private const int GoodWindowHeight = 320;
+    // 800*600 game in 200% scale is 400*300 menu会挤在一起(Touch的大小应该依据monitor分辨率来定)
+    private const int GoodWindowWidth = 320;
+    private const int GoodWindowHeight = 240;
 
     private static IEnumerable<IntPtr> GetRootWindowsOfProcess(int pid)
     {
