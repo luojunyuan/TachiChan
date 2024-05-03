@@ -31,9 +31,6 @@ public partial class App : Application
 
         GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
-        if (e.Args.Contains("--small-device"))
-            TouchButton.TouchSize = 120;
-
         // I18N
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 

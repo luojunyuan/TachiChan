@@ -171,7 +171,9 @@ static void Run(Process game, SplashScreen? splash = null)
         splash = null;
     });
 
-    var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? " --small-device" : string.Empty;
+    // The small device means dpi settings did not make the item large enough for the device
+    var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? 
+        " --small-device" : string.Empty;
 
     Environment.CurrentDirectory = AppContext.BaseDirectory;
     while (!game.HasExited)
