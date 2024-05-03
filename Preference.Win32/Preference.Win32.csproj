@@ -7,21 +7,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>Preference</AssemblyName>
-    <Version>1.2.1.0</Version>
+    <Version>1.2.23.0</Version>
     <Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
 
   <Import Project="..\net472.props" />
-
-  <ItemGroup>
-    <None Remove="SettingsPage.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Include="SettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 
 </Project>
