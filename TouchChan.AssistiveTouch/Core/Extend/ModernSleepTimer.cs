@@ -7,6 +7,7 @@ internal class ModernSleepTimer
 {
     public static void Start()
     {
+        // 系统屏幕关闭时间必须大于3
         const int min = 3;
         var sleep = new Throttle(min * 60 * 1000, () =>
         {
