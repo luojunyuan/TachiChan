@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
@@ -23,6 +24,8 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        SystemEvents.DisplaySettingsChanged += (_, _) => Environment.Exit(0);
+
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
         _ = new IpcRenderer(_pipeClient);
 
@@ -77,7 +80,7 @@ public partial class App : Application
         Config.Load();
 
         if (!Config.DisableTouch)
-            return; // normally return
+            return; // normally return here
 
         // Do not display AssistiveTouch still enable these functions
         // TouchConversion, Gesture, Gamepad, KeyMapping
