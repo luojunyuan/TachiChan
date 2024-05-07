@@ -8,7 +8,7 @@ static class MessageBox
 {
     public static void Show(string text, string title = "TachiChan", IntPtr parent = default) => _ = _MessageBox(parent, text, title, MB_TOPMOST | MB_SETFOREGROUND);
 
-    [DllImport("user32")]
+    [DllImport("user32", EntryPoint = "MessageBoxA")]
     private static extern int _MessageBox(IntPtr hWnd, string lpText, string lpCaption, int uType);
 
     // Not work if the process had win handle
