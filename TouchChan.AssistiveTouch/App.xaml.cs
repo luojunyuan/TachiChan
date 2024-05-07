@@ -24,8 +24,6 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        SystemEvents.DisplaySettingsChanged += (_, _) => Environment.Exit(0);
-
         var _pipeClient = new AnonymousPipeClientStream(PipeDirection.Out, e.Args[0]);
         _ = new IpcRenderer(_pipeClient);
 

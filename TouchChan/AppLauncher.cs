@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SplashScreenGdip;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -6,6 +7,87 @@ namespace TouchChan;
 
 internal static class AppLauncher
 {
+    public static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
+    {
+        #region Start Game
+        Process? leProc;
+        try
+        {
+            leProc = AppLauncher.RunGame(gamePath, leEnable);
+        }
+        catch (ArgumentException ex) when (ex.Message == string.Empty)
+        {
+            splash.Close();
+            MessageBox.Show(Strings.App_LENotSetup);
+            return;
+        }
+        catch (ArgumentException ex) when (ex.Message != string.Empty)
+        {
+            splash.Close();
+            MessageBox.Show(Strings.App_LENotFound + ex.Message);
+            return;
+        }
+        catch (InvalidOperationException)
+        {
+            splash.Close();
+            MessageBox.Show(Strings.App_LENotSupport);
+            return;
+        }
+
+        var (game, pids) = AppLauncher.ProcessCollect(Path.GetFileNameWithoutExtension(gamePath));
+        if (game is null)
+        {
+            splash.Close();
+            MessageBox.Show(Strings.App_Timeout);
+            return;
+        }
+
+        ForceSetForegroundWindow(game.MainWindowHandle);
+
+        leProc?.Kill();
+
+        try
+        {
+            _ = game.HasExited;
+        }
+        catch (System.ComponentModel.Win32Exception)
+        {
+            splash.Close();
+            MessageBox.Show(Strings.App_ElevatedError);
+            return;
+        }
+        #endregion
+
+        TouchLauncher.Run(game, splash);
+
+        // prevent exception when startup
+        splash.Close();
+    }
+
+
+    static void ForceSetForegroundWindow(IntPtr hWnd)
+    {
+        // Must use foreground window thread, whatever who is it.(expect task manager, almost explorer predictable:)
+        uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), out _);
+        uint appThread = GetCurrentThreadId();
+
+        AttachThreadInput(foreThread, appThread, true);
+        BringWindowToTop(hWnd);
+        AttachThreadInput(foreThread, appThread, false);
+    }
+
+    [DllImport("kernel32")]
+    static extern uint GetCurrentThreadId();
+    [DllImport("user32")]
+    static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+    [DllImport("user32")]
+    static extern IntPtr GetForegroundWindow();
+    [DllImport("user32")]
+    static extern bool BringWindowToTop(IntPtr hWnd);
+    [DllImport("user32")]
+    static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+
     public static Process? RunGame(string gamePath, bool leEnable)
     {
         var gameAlreadyStart = GetProcessesByFriendlyName(Path.GetFileNameWithoutExtension(gamePath)).Any();
@@ -16,13 +98,13 @@ internal static class AppLauncher
 
         if (leEnable)
         {
-            var lePath = RegistryModifier.LEPathInRegistry();
+            var lePath = RegistryModifier.LEPathFromRegistry();
             if (lePath == string.Empty)
                 throw new ArgumentException(lePath);
             if (!File.Exists(lePath))
                 throw new ArgumentException(lePath);
             if (Path.GetFileNameWithoutExtension(lePath).ToLower() == "leproc"
-                && PEFileReader.GetPEType(gamePath) != PEType.X32)
+                && Utils.GetPEType(gamePath) != PEType.X32)
                 throw new InvalidOperationException();
 
             // NOTE: LE may throw AccessViolationException which can not be caught

@@ -1,6 +1,6 @@
 ﻿namespace TouchChan;
 
-internal class Strings
+class Strings
 {
     public const string App_StartNoParameter = "Can't open TachiChan directly ";
     public const string App_StartInvalidPath = "Invalid game path ";

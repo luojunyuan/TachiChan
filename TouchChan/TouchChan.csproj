@@ -12,9 +12,10 @@
   <Import Condition="'$(targetframework)' == 'net472'" Project="..\net472.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\TouchChan.SplashScreen\TouchChan.SplashScreen.csproj" />
+    <Using Include="TouchChan"/>
     <!--  Splash screen  -->
     <EmbeddedResource Include="assets\klee.png" />
+    <ProjectReference Include="..\TouchChan.SplashScreen\TouchChan.SplashScreen.csproj" />
   </ItemGroup>
 	
 </Project>
