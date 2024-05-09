@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TouchChan.AssistiveTouch"
         mc:Ignorable="d"
         Title="MainWindow"
-        AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+        ShowActivated="False">
     <Grid>
         <local:TouchButton x:Name="Touch" />
         <local:TouchMenu x:Name="Menu" />
