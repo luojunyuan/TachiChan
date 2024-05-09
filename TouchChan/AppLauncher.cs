@@ -7,7 +7,7 @@ namespace TouchChan;
 
 internal static class AppLauncher
 {
-    public static void PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
+    public static Process? PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
     {
         #region Start Game
         Process? leProc;
@@ -19,19 +19,19 @@ internal static class AppLauncher
         {
             splash.Close();
             MessageBox.Show(Strings.App_LENotSetup);
-            return;
+            return null;
         }
         catch (ArgumentException ex) when (ex.Message != string.Empty)
         {
             splash.Close();
             MessageBox.Show(Strings.App_LENotFound + ex.Message);
-            return;
+            return null;
         }
         catch (InvalidOperationException)
         {
             splash.Close();
             MessageBox.Show(Strings.App_LENotSupport);
-            return;
+            return null;
         }
 
         var (game, pids) = AppLauncher.ProcessCollect(Path.GetFileNameWithoutExtension(gamePath));
@@ -39,7 +39,7 @@ internal static class AppLauncher
         {
             splash.Close();
             MessageBox.Show(Strings.App_Timeout);
-            return;
+            return null;
         }
 
         ForceSetForegroundWindow(game.MainWindowHandle);
@@ -54,14 +54,11 @@ internal static class AppLauncher
         {
             splash.Close();
             MessageBox.Show(Strings.App_ElevatedError);
-            return;
+            return null;
         }
         #endregion
 
-        TouchLauncher.Run(game, splash);
-
-        // prevent exception when startup
-        splash.Close();
+        return game;
     }
 
 

@@ -33,6 +33,10 @@ var splash = new SplashScreenGdip.SplashScreen(
 
 // Host thread
 new Thread(() =>
-    AppLauncher.PreProcessing(args.Contains("-le"), gamePath, splash)).Start();
+{
+    var game = AppLauncher.PreProcessing(args.Contains("-le"), gamePath, splash);
+    if (game is not null)
+        TouchLauncher.Run(game, splash);
+}).Start();
 
 splash.Run();

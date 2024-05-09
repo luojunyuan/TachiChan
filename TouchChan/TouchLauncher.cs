@@ -64,5 +64,8 @@ static class TouchLauncher
             touch.WaitForExit();
             touch = null;
         }
+
+        // prevent exception when startup
+        splash?.Close();
     }
 }
