@@ -39,12 +39,10 @@ public partial class App : Application
         GameEngine = DetermineEngine(dir);
         switch (GameEngine)
         {
-            case Engine.Kirikiri:
-                break;
             case Engine.RenPy: // Gesture not for RenPy
                 Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
                 break;
-            case Engine.TBD:
+            default:
                 Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
                 Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
                 break;

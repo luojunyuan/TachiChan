@@ -42,7 +42,8 @@ public partial class TouchButton
 
         TouchPosition = string.IsNullOrWhiteSpace(Config.AssistiveTouchPosition) ? AssistiveTouchPosition.Default :
             Config.XmlDeserializer<AssistiveTouchPosition>(Config.AssistiveTouchPosition);
-        Application.Current.Exit += (_, _) => { if (TouchPosition != AssistiveTouchPosition.Default) SaveTouchPosition(); };
+        //Application.Current.Exit += (_, _) => { if (TouchPosition != AssistiveTouchPosition.Default) SaveTouchPosition(); };
+        TranslateTouchStoryboard.Completed += async (_, _) => await Task.Run(() => SaveTouchPosition());
 
         SetAssistiveTouchProperties();
 
