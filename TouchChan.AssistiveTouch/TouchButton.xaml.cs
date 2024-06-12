@@ -27,12 +27,14 @@ public partial class TouchButton
     private const double OpacityFull = 1;
     private const double ButtonSpace = 2;
 
-    // The diameter of button use for mouse releasing
-    public static double TouchSize = 80; // used 60, 100, 75
+    // Also the diameter of button use for mouse releasing
+    public readonly static double TouchSize; // used 60, 100, 75
     private double _distance;
     private double _halfDistance;
     private double _oneThirdDistance;
     private double _twoThirdDistance;
+
+    static TouchButton() { TouchSize = Environment.GetCommandLineArgs().Contains("--small-device") ? 120 : 80; }
 
     public TouchButton()
     {
@@ -40,7 +42,8 @@ public partial class TouchButton
 
         TouchPosition = string.IsNullOrWhiteSpace(Config.AssistiveTouchPosition) ? AssistiveTouchPosition.Default :
             Config.XmlDeserializer<AssistiveTouchPosition>(Config.AssistiveTouchPosition);
-        Application.Current.Exit += (_, _) => { if (TouchPosition != AssistiveTouchPosition.Default) SaveTouchPosition(); };
+        //Application.Current.Exit += (_, _) => { if (TouchPosition != AssistiveTouchPosition.Default) SaveTouchPosition(); };
+        TranslateTouchStoryboard.Completed += async (_, _) => await Task.Run(() => SaveTouchPosition());
 
         SetAssistiveTouchProperties();
 

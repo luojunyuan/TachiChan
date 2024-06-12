@@ -2,6 +2,9 @@
 
 namespace TouchChan;
 
+/// <summary>
+/// For listen to splash close signal
+/// </summary>
 internal class IpcMain
 {
     private readonly AnonymousPipeServerStream _serverIn;
@@ -25,14 +28,14 @@ internal class IpcMain
                 {
                     DictionaryOfEvents["Loaded"].Invoke();
                     DictionaryOfEvents.Remove("Loaded");
-                    break; // Im not use any other signals
+                    break;
                 }
             }
         }, TaskCreationOptions.LongRunning);
     }
 
 
-    private static readonly Dictionary<string, Action> DictionaryOfEvents = new();
+    private static readonly Dictionary<string, Action> DictionaryOfEvents = [];
 
     public static void Once(string channel, Action callback)
     {

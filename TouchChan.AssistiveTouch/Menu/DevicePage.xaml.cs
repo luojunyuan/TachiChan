@@ -141,7 +141,7 @@ namespace TouchChan.AssistiveTouch.Menu
             ((MainWindow)Application.Current.MainWindow).Menu.ManualClose();
             if (Config.ScreenShotTradition)
             {
-                await Task.Delay(WaitForScreenShot);
+                await Task.Delay(WaitForScreenShot).ConfigureAwait(true);
                 Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.PrintScreen);
                 await Task.Delay(WaitForScreenShot).ConfigureAwait(true);
                 ((Grid)(Application.Current.MainWindow.Content)).Children.Add(_screenMask);

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
@@ -31,9 +32,6 @@ public partial class App : Application
 
         GameWindowHandle = (IntPtr)int.Parse(e.Args[1]);
 
-        if (e.Args.Contains("--small-device"))
-            TouchButton.TouchSize = 120;
-
         // I18N
         Resources.MergedDictionaries.Add(Helper.XamlResource.GetI18nDictionary());
 
@@ -41,12 +39,10 @@ public partial class App : Application
         GameEngine = DetermineEngine(dir);
         switch (GameEngine)
         {
-            case Engine.Kirikiri:
-                break;
             case Engine.RenPy: // Gesture not for RenPy
                 Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
                 break;
-            case Engine.TBD:
+            default:
                 Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
                 Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
                 break;
@@ -65,9 +61,8 @@ public partial class App : Application
         if (IsDpiUnware()
             // Can not be normally tapped after menu opened
             || GameEngine == Engine.Shinario
-            // The hole window or part content would be blocked
+            // The hole window or part content would be blocked (maybe some newly game)
             || GameEngine == Engine.RenPy
-            || GameEngine == Engine.Kirikiri
             || Config.EnforceOldTouchStyle)
             TouchStyle = TouchStyle.Old;
     }
@@ -80,7 +75,7 @@ public partial class App : Application
         Config.Load();
 
         if (!Config.DisableTouch)
-            return; // normally return
+            return; // normally return here
 
         // Do not display AssistiveTouch still enable these functions
         // TouchConversion, Gesture, Gamepad, KeyMapping
