@@ -7,62 +7,7 @@ namespace TouchChan;
 
 internal static class AppLauncher
 {
-    public static Process? PreProcessing(bool leEnable, string gamePath, SplashScreen splash)
-    {
-        #region Start Game
-        Process? leProc;
-        try
-        {
-            leProc = AppLauncher.RunGame(gamePath, leEnable);
-        }
-        catch (ArgumentException ex) when (ex.Message == string.Empty)
-        {
-            splash.Close();
-            MessageBox.Show(Strings.App_LENotSetup);
-            return null;
-        }
-        catch (ArgumentException ex) when (ex.Message != string.Empty)
-        {
-            splash.Close();
-            MessageBox.Show(Strings.App_LENotFound + ex.Message);
-            return null;
-        }
-        catch (InvalidOperationException)
-        {
-            splash.Close();
-            MessageBox.Show(Strings.App_LENotSupport);
-            return null;
-        }
-
-        var (game, pids) = AppLauncher.ProcessCollect(Path.GetFileNameWithoutExtension(gamePath));
-        if (game is null)
-        {
-            splash.Close();
-            MessageBox.Show(Strings.App_Timeout);
-            return null;
-        }
-
-        ForceSetForegroundWindow(game.MainWindowHandle);
-
-        leProc?.Kill();
-
-        try
-        {
-            _ = game.HasExited;
-        }
-        catch (System.ComponentModel.Win32Exception)
-        {
-            splash.Close();
-            MessageBox.Show(Strings.App_ElevatedError);
-            return null;
-        }
-        #endregion
-
-        return game;
-    }
-
-
-    static void ForceSetForegroundWindow(IntPtr hWnd)
+    public static void ForceSetForegroundWindow(IntPtr hWnd)
     {
         // Must use foreground window thread, whatever who is it.(expect task manager, almost explorer predictable:)
         uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), out _);
@@ -83,7 +28,6 @@ internal static class AppLauncher
     static extern bool BringWindowToTop(IntPtr hWnd);
     [DllImport("user32")]
     static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
-
 
     public static Process? RunGame(string gamePath, bool leEnable)
     {

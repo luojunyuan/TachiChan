@@ -34,9 +34,56 @@ var splash = new SplashScreenGdip.SplashScreen(
 // Host thread
 new Thread(() =>
 {
-    var game = AppLauncher.PreProcessing(args.Contains("-le"), gamePath, splash);
-    if (game is not null)
-        TouchLauncher.Run(game, splash);
+    System.Diagnostics.Process? leProc;
+    try
+    {
+        leProc = AppLauncher.RunGame(gamePath, args.Contains("-le"));
+    }
+    catch (ArgumentException ex) when (ex.Message == string.Empty)
+    {
+        splash.Close();
+        MessageBox.Show(Strings.App_LENotSetup);
+        return;
+    }
+    catch (ArgumentException ex) when (ex.Message != string.Empty)
+    {
+        splash.Close();
+        MessageBox.Show(Strings.App_LENotFound + ex.Message);
+        return;
+    }
+    catch (InvalidOperationException)
+    {
+        splash.Close();
+        MessageBox.Show(Strings.App_LENotSupport);
+        return;
+    }
+
+    // Wait for MainHandle and contain .log main.bin process
+    var (game, _) = AppLauncher.ProcessCollect(Path.GetFileNameWithoutExtension(gamePath));
+    if (game is null)
+    {
+        splash.Close();
+        MessageBox.Show(Strings.App_Timeout);
+        return;
+    }
+
+    // Kill LE process after collect game process
+    leProc?.Kill();
+
+    AppLauncher.ForceSetForegroundWindow(game.MainWindowHandle);
+
+    try
+    {
+        _ = game.HasExited;
+    }
+    catch (System.ComponentModel.Win32Exception)
+    {
+        splash.Close();
+        MessageBox.Show(Strings.App_ElevatedError);
+        return;
+    }
+
+    TouchLauncher.Run(game, splash);
 }).Start();
 
 splash.Run();

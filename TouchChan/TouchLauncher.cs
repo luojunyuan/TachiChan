@@ -19,12 +19,12 @@ static class TouchLauncher
         });
 
         // The small device means dpi settings did not make the item large enough for the device
-        var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ?
-            " --small-device" : string.Empty;
+        var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device");// || RegistryModifier.IsSmallDevice();
 
         Environment.CurrentDirectory = AppContext.BaseDirectory;
         Process? touch = null;
-        SystemEvents.DisplaySettingsChanged += (_, _) => touch?.Kill();
+        // SystemEvents.DisplaySettingsChanged += (_, _) => touch?.Kill();
+
         while (!game.HasExited)
         {
             var gameWindowHandle = AppLauncher.FindMainWindowHandle(game);
@@ -44,7 +44,7 @@ static class TouchLauncher
                 break;
             }
 
-            // Tip: Make sure AssistiveTouch exist when you debug
+            // Tip: Make sure AssistiveTouch exist when you debuging
             touch = new Process()
             {
                 StartInfo = new ProcessStartInfo
@@ -54,7 +54,7 @@ static class TouchLauncher
 #else
                     FileName = "TouchChan.AssistiveTouch.exe",
 #endif
-                    Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + smallDevice,
+                    Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle,
                     UseShellExecute = false,
                 }
             };
