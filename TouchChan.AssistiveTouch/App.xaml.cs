@@ -37,17 +37,9 @@ public partial class App : Application
 
         string dir = GetGameDirByHwnd();
         GameEngine = DetermineEngine(dir);
-        switch (GameEngine)
-        {
-            case Engine.RenPy: // Gesture not for RenPy
-                Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
-                break;
-            default:
-                Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
-                Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
-                break;
-        }
-
+        Core.Startup.TouchGestureHooker.Start(pipeServer.GetClientHandleAsString());
+        Core.Startup.GameController.Start(pipeServer.GetClientHandleAsString());
+           
         AdminNotification();
 
         if (Config.UseEnterKeyMapping)
@@ -64,11 +56,12 @@ public partial class App : Application
             // The hole window or part content would be blocked (maybe some newly game)
             || GameEngine == Engine.RenPy
             || Config.EnforceOldTouchStyle)
-            TouchStyle = TouchStyle.Old;
+            TouchStyle = TouchStyle.External;
     }
 
     public App()
     {
+        AppDomain.CurrentDomain.ProcessExit += (_, _) => Debug.WriteLine("exit");
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
             MessageBox.Show(args.ExceptionObject.ToString());
         
@@ -212,6 +205,6 @@ public enum Engine
 
 public enum TouchStyle
 {
-    New,
-    Old
+    Inside,
+    External
 }

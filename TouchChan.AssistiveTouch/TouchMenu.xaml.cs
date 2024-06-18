@@ -89,7 +89,7 @@ namespace TouchChan.AssistiveTouch
                 }
             };
 
-            if (App.TouchStyle == TouchStyle.Old)
+            if (App.TouchStyle == TouchStyle.External)
                 mainWindow.Deactivated += (_, _) => { if (_isOpened == true) _closeMenuInternal(); };
             PreviewMouseLeftButtonUp += (_, e) => { if (e.OriginalSource is TouchMenu && !TouchMenuItem.ClickLocked) _closeMenuInternal(); };
 

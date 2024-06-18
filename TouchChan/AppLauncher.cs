@@ -84,6 +84,7 @@ internal static class AppLauncher
     /// <param name="friendlyName">aka <see cref="Process.ProcessName"/>, the process name equal filename</param>
     public static (Process?, int[]) ProcessCollect(string friendlyName)
     {
+        // 这个函数涵盖了多进程，MainHandle不存在于首先启动的游戏父进程的情形
         var spendTime = new Stopwatch();
         spendTime.Start();
         var procList = GetProcessesByFriendlyName(friendlyName);

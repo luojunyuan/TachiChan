@@ -37,7 +37,7 @@ public partial class MainWindow : Window
             IpcRenderer.Send("Loaded");
         };
 
-        if (App.TouchStyle == TouchStyle.New)
+        if (App.TouchStyle == TouchStyle.Inside)
         {
             HwndTools.RemovePopupAddChildStyle(Handle);
             User32.SetParent(Handle, App.GameWindowHandle);

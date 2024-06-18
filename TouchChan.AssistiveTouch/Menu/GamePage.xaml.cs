@@ -29,7 +29,7 @@ namespace TouchChan.AssistiveTouch.Menu
 
             BrightnessUp.IsEnabledEx = false;
 
-            if (App.TouchStyle == TouchStyle.Old)
+            if (App.TouchStyle == TouchStyle.External)
                 MoveGame.Disable();
             // For sub inside menu
             _fadeOutAnimation.Completed += (_, _) =>
@@ -132,7 +132,7 @@ namespace TouchChan.AssistiveTouch.Menu
         private const int UIMinimumResponseTime = 50;
         private async void FullScreenSwitcherOnClickEvent(object sender, EventArgs e)
         {
-            if (TouchStyle.New == App.TouchStyle)
+            if (TouchStyle.Inside == App.TouchStyle)
             {
                 switch (App.GameEngine)
                 {
@@ -181,12 +181,12 @@ namespace TouchChan.AssistiveTouch.Menu
         {
             var CloseGameImplementation = new Dictionary<TouchStyle, Action>
             {
-                { TouchStyle.New, async () =>
+                { TouchStyle.Inside, async () =>
                 {
                     await Task.Delay(MenuTransitsDuration);
                     Simulate.Pretend(Simulate.KeyCode.Alt, Simulate.KeyCode.F4);
                 } },
-                { TouchStyle.Old, () =>
+                { TouchStyle.External, () =>
                 {
                     User32.PostMessage(App.GameWindowHandle, User32.WindowMessage.WM_SYSCOMMAND,
                     // ReSharper disable once RedundantArgumentDefaultValue

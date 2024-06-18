@@ -26,10 +26,10 @@ if (!File.Exists(gamePath))
     return;
 }
 
+// The small device means dpi settings did not make the item large enough for the device
+var smallDevice = args.Contains("--small-device") || RegistryModifier.IsSmallDevice();
 var image = typeof(Program).Assembly.GetManifestResourceStream("TouchChan.assets.klee.png")!;
-var splash = new SplashScreenGdip.SplashScreen(
-    args.Contains("--small-device") ? 144 :
-    RegistryModifier.IsSmallDevice() ? 144 : 96, image);
+var splash = new SplashScreenGdip.SplashScreen(smallDevice? 144 : 96, image);
 
 // Host thread
 new Thread(() =>

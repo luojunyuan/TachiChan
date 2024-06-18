@@ -18,9 +18,6 @@ static class TouchLauncher
             splash = null;
         });
 
-        // The small device means dpi settings did not make the item large enough for the device
-        var smallDevice = Environment.GetCommandLineArgs().Contains("--small-device");// || RegistryModifier.IsSmallDevice();
-
         Environment.CurrentDirectory = AppContext.BaseDirectory;
         Process? touch = null;
         // SystemEvents.DisplaySettingsChanged += (_, _) => touch?.Kill();
