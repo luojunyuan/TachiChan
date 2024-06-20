@@ -25,8 +25,6 @@ public partial class MainWindow : Window
         InitializeComponent();
         Handle = new WindowInteropHelper(this).EnsureHandle();
         Dpi = VisualTreeHelper.GetDpi(this).DpiScaleX;
-        // the dpi set of game may take effect of touch child window 
-        // depends on if the game do the scale
 
         Loaded += (_, _) => ForceSetForegroundWindow(App.GameWindowHandle);
         ContentRendered += (_, _) =>
@@ -98,8 +96,7 @@ public partial class MainWindow : Window
 
         FadeOutAnimation.Duration = TimeSpan.FromSeconds(2);
         FadeOutAnimation.EasingFunction = new QuinticEase() { EasingMode = EasingMode.EaseIn };
-        FadeOutAnimation.Completed += (_, _) => GestureBubble.Opacity = 0;
-        FadeOutAnimation.Freeze();
+        FadeOutAnimation.FillBehavior = FillBehavior.HoldEnd;
     }
 
     private static void ForceSetForegroundWindow(IntPtr hWnd)
@@ -118,6 +115,13 @@ public partial class MainWindow : Window
     { 
         GestureTip.Text = tip;
 
+        GestureBubble.BeginAnimation(OpacityProperty, null);
+
+        void completedEvent(object sender, EventArgs e) => GestureBubble.Visibility = Visibility.Collapsed;
+        FadeOutAnimation.Completed -= completedEvent;
+
+        GestureBubble.Visibility = Visibility.Visible;
+        FadeOutAnimation.Completed += completedEvent;
         GestureBubble.BeginAnimation(OpacityProperty, FadeOutAnimation);
     }
 }
