@@ -238,9 +238,12 @@ public class SplashScreen
 
         if (dpi == 0)
         {
+            // Note: Not for netfx
             var osVersion = Environment.OSVersion.Version;
-            if (osVersion > new Version(10, 0, 1607))
+            if (osVersion >= new Version(10, 0, 14393))
+            {
                 dpi = (int)User32.GetDpiForWindow(_window);
+            }
             else
             {
                 dpi = Gdi32.GetDeviceCaps(_windowDC, Gdi32.DeviceCap_LOGPIXELSX);
