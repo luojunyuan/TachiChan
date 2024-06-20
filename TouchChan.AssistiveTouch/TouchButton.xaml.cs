@@ -34,7 +34,7 @@ public partial class TouchButton
     private double _oneThirdDistance;
     private double _twoThirdDistance;
 
-    static TouchButton() { TouchSize = Environment.GetCommandLineArgs().Contains("--small-device") ? 120 : 80; }
+    static TouchButton() { TouchSize = Environment.GetCommandLineArgs().Contains("--small-device") ? 100 : 80; }
 
     public TouchButton()
     {
@@ -42,8 +42,8 @@ public partial class TouchButton
 
         TouchPosition = string.IsNullOrWhiteSpace(Config.AssistiveTouchPosition) ? AssistiveTouchPosition.Default :
             Config.XmlDeserializer<AssistiveTouchPosition>(Config.AssistiveTouchPosition);
-        //Application.Current.Exit += (_, _) => { if (TouchPosition != AssistiveTouchPosition.Default) SaveTouchPosition(); };
-        TranslateTouchStoryboard.Completed += async (_, _) => await Task.Run(() => SaveTouchPosition());
+        Application.Current.Exit += (_, _) => { if (TouchPosition != AssistiveTouchPosition.Default) SaveTouchPosition(); };
+        // TranslateTouchStoryboard.Completed += async (_, _) => await Task.Run(() => SaveTouchPosition());
 
         SetAssistiveTouchProperties();
 

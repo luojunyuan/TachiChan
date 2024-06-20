@@ -53,8 +53,7 @@ public partial class App : Application
         if (IsDpiUnware()
             // Can not be normally tapped after menu opened
             || GameEngine == Engine.Shinario
-            // The hole window or part content would be blocked (maybe some newly game)
-            || GameEngine == Engine.RenPy
+            // || GameEngine == Engine.RenPy // The hole window or part content would be blocked (maybe some newly game)
             || Config.EnforceOldTouchStyle)
             TouchStyle = TouchStyle.External;
     }
