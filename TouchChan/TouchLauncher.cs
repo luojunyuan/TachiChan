@@ -20,7 +20,6 @@ static class TouchLauncher
 
         Environment.CurrentDirectory = AppContext.BaseDirectory;
         Process? touch = null;
-        // SystemEvents.DisplaySettingsChanged += (_, _) => touch?.Kill();
 
         while (!game.HasExited)
         {
@@ -51,7 +50,7 @@ static class TouchLauncher
 #else
                     FileName = "TouchChan.AssistiveTouch.exe",
 #endif
-                    Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle,
+                    Arguments = pipeServer.GetClientHandleAsString() + ' ' + gameWindowHandle + (Environment.GetCommandLineArgs().Contains("--small-device") || RegistryModifier.IsSmallDevice() ? " --small-device" : string.Empty),
                     UseShellExecute = false,
                 }
             };
