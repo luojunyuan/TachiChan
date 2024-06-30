@@ -206,7 +206,7 @@ public class MessageWindow : NativeWindow
 
     protected override void WndProc(ref Message message)
     {
-        // Console.WriteLine(message); // Output: TouchChan.AssistiveTouch.Gesture.WinForms.Message
+        // Output: TouchChan.AssistiveTouch.Gesture.WinForms.Message
         switch (message.Msg)
         {
             case NativeMethods.WM_INPUT:
@@ -323,7 +323,6 @@ public class MessageWindow : NativeWindow
             if (_requiringContactCount == 0 && PointsIntercepted != null)
             {
                 // Output 1
-                //Console.WriteLine("Output 1");
                 PointsIntercepted(this, new RawPointsDataMessageEventArgs(_outputTouchs, _sourceDevice));
                 if (_outputTouchs.TrueForAll(rd => rd.State == DeviceStates.None))
                 {

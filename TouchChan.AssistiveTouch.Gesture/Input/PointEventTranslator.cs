@@ -49,20 +49,16 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
 
         private void TranslateTouchEvent(object sender, RawPointsDataMessageEventArgs e)
         {
-            // Console.WriteLine(e.SourceDevice); // Output TouchScreen
+            // Output TouchScreen
 
             if ((e.SourceDevice & Devices.TouchDevice) != 0)
             {
-                //Console.WriteLine("1");
                 int releaseCount = e.RawData.Count(rtd => rtd.State == 0);
 
                 if (e.RawData.Count == _lastPointsCount) // Normal process
                 {
-                    //Console.WriteLine($"2 {releaseCount}");
-
                     if (releaseCount != 0)
                     {
-                        //Console.WriteLine("3");
                         OnPointUp(new InputPointsEventArgs(e.RawData, e.SourceDevice));
                         _lastPointsCount -= releaseCount;
                         return;
@@ -71,7 +67,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                 }
                 else if (e.RawData.Count > _lastPointsCount) // exception: always 1 4 1 4 
                 {
-                    //Console.WriteLine($"4");
                     if (releaseCount != 0)
                         return;
                     if (PointCapture.Instance.InputPoints.Any(p => p.Count > 10))
@@ -84,7 +79,6 @@ namespace TouchChan.AssistiveTouch.Gesture.Input
                 }
                 else
                 {
-                    //Console.WriteLine($"5");
                     OnPointUp(new InputPointsEventArgs(e.RawData, e.SourceDevice));
                     _lastPointsCount = _lastPointsCount - e.RawData.Count > releaseCount ? e.RawData.Count : _lastPointsCount - releaseCount;
                 }
