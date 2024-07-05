@@ -121,6 +121,10 @@ public partial class App : Application
 
     private static bool IsDpiUnware()
     {
+        var windows81 = new Version(6, 3);
+        if (Environment.OSVersion.Version < windows81)
+            return true;
+            
         User32.GetWindowThreadProcessId(GameWindowHandle, out var pid);
         var handle = Process.GetProcessById(pid).Handle;
         var result = ShCore.GetProcessDpiAwareness(handle, out var v);
